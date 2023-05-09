@@ -1,0 +1,10 @@
+.nav_link{
+	font-weight: 700;
+    transition: 0.3s;
+	&:hover{
+		background: linear-gradient(to right, #e3c71d 0%, #ae3056 100%);
+		background-clip: text;
+		color: transparent;
+		letter-spacing: 0.125rem;
+	}
+}
