@@ -111,7 +111,7 @@ const Home = (): JSX.Element => {
                 </div>
             </div>
             <ParallaxBanner
-                layers={[{ image: require('../Assets/Images/HomeBg/bg_2.jpg'), speed: -20 }]}
+                layers={[{ image: require('../assets/images/HomeBg/bg_2.jpg'), speed: -20 }]}
                 className="aspect-[2/1]" style={{height: '600px'}}>
                 <div className='w-full flex justify-center h-full'>
                     <div className='container grid grid-cols-3 gap-10 h-full items-center'>

@@ -9,7 +9,7 @@ const Footer = (): JSX.Element => {
             <footer className='container p-4 bg-white md:px-6 md:py-8'>
                 <div className="flex items-center justify-between">
                     <Link href='/' className="mb-4 sm:mb-0">
-                        <Image src={require('../../Assets/Images/Logo/XPLORE_logo_dark.png')} className="h-12 mr-3 w-fit" alt="" />
+                        <Image src={require('../../assets/images/Logo/XPLORE_logo_dark.png')} className="h-12 mr-3 w-fit" alt="" />
                     </Link>
                     <ul className="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
                         <li className='px-4'>

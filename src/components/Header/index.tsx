@@ -32,7 +32,7 @@ const Header = ({outterRef} : headerProps): JSX.Element => {
             style={isTop ? {backgroundColor: 'transparent'} : {backgroundColor: 'black'}}>
             <header className='container flex align-middle justify-between'>
                 <Link className='flex' href='/'>
-                    <Image className='py-4 w-fit' alt='' src={require('../../Assets/Images/Logo/XPLORE_logo.png')}/>
+                    <Image className='py-4 w-fit' alt='' src={require('../../assets/images/Logo/XPLORE_logo.png')}/>
                 </Link>
                 <ul className='flex py-7' style={isTop ? {color: 'black'} : {color: 'white'}}>
                     <li className='px-4'>
