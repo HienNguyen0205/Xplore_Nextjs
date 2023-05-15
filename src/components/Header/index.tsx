@@ -1,6 +1,6 @@
 import React, { useState, useEffect, RefObject } from 'react'
 import Button from '../Button'
-import styles from '../../styles/Header.module.scss'
+import styles from '@/styles/Header.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
 

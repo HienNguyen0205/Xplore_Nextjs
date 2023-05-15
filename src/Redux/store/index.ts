@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { tour, tourStatistic } from '../reducers'
+import { tour, toast } from '../reducers'
 
 export const store = configureStore({
     reducer: {
         tour,
-        tourStatistic,
+        toast,
     }
 })
 

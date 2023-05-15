@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react"
 import { StarRate } from '@mui/icons-material'
 import { Pagination } from "@mui/material"
 import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl } from '@mui/material'
-import { useAppDispatch } from "../../hooks"
+import { useAppDispatch } from "@/hooks"
 import Image from "next/image"
-import styles from '../../styles/TourList.module.scss'
+import styles from '@/styles/TourList.module.scss'
 
 interface tourProps{
     image: string,

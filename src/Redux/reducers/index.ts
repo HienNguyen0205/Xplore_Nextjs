@@ -1,4 +1,4 @@
 import tour from './tour'
-import tourStatistic from './tourStatistic'
+import toast from './toast'
 
-export { tour, tourStatistic }
+export { tour, toast }

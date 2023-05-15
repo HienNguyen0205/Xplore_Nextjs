@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../../store'
 
 export interface tourDataDef {
@@ -26,5 +26,6 @@ const tour = createSlice({
     },
 })
 
+export const { setTourData, resetTourData } = tour.actions
 export const tourState = (state: RootState) => state.tour.value
 export default tour.reducer

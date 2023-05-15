@@ -1,28 +1,12 @@
-import React, { useEffect } from 'react'
-import MainLayout from '../Layouts/MainLayout'
-import styles from '../styles/Home.module.scss'
-import { Carousel, TourList } from '../components'
+import React from 'react'
+import styles from '@/styles/Home.module.scss'
+import db from '@/utils/database'
+import Image from "next/image"
+import { tour, tourStatistic } from '@/models'
+import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
-import { ParallaxBanner } from 'react-scroll-parallax'
-import { useAppDispatch, useAppSelector } from '../hooks'
-
-interface countryDetail {
-    country: string,
-    destination: string,
-    source: string
-}
-
-interface statistic {
-    name: string,
-    quantity: number,
-    icon: JSX.Element
-}
-
-interface featureItem {
-    title: string,
-    description: string,
-    icon: JSX.Element
-}
+import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
+import { countryDetail, statistic, featureItem, tourDef, tourStatisticDef } from '@/utils/types'
 
 const courouselData: countryDetail[] = [
     {
@@ -52,6 +36,12 @@ const courouselData: countryDetail[] = [
     },
 ]
 
+const hotelDescription = [
+    'Epitomize excellence in service, providing a meticulously curated and luxurious experience for guests.',
+    'Defined by exceptional attention to detail, personalized care, and an unwavering commitment to exceeding customer expectations',
+    "Ensures that customers receive the most competitive prices available, backed by a commitment to match or beat any competitor's offer."
+]
+
 const Statistic = (props: statistic): JSX.Element => {
     return (
         <div className='flex flex-col align-middle text-center'>
@@ -72,28 +62,21 @@ const FeatureItem = (props: featureItem): JSX.Element => {
     )
 }
 
-const Home = (): JSX.Element => {
+const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): JSX.Element => {
 
-    const tourStatistic = useAppSelector(state => state.tourStatistic.value)
-    const tourList = useAppSelector(state => state.tour.value)
-    const dispatch = useAppDispatch()
-
-    // useEffect(() => {
-    //     dispatch(fetchTourStatistics())
-    //     dispatch(fetchTour())
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [])
+    const { tourList, tourStatistic } = props
 
     return (
-        <MainLayout>
+        <>
             <Carousel content={courouselData}/>
             <div className='w-full flex-col bg-white flex items-center pb-5' style={{backgroundColor: '#f7f3fb'}}>
                 <TourList data={tourList}/>
             </div>
-            <ParallaxBanner
-                layers={[{ image: require('../assets/images/HomeBg/bg_1.jpg'), speed: -20 }]}
-                className="aspect-[2/1]" style={{height: '600px'}}
-            />
+            <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
+                <ParallaxBannerLayer speed={-30}>
+                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/HomeBg/bg_1.jpg')} alt=''/>
+                </ParallaxBannerLayer>
+            </ParallaxBanner>
             <div className='w-full bg-white flex justify-center'>
                 <div className='container flex justify-around mt-10 mb-14'>
                     <Statistic name='Happy customer' quantity={tourStatistic.customers} icon={
@@ -110,25 +93,47 @@ const Home = (): JSX.Element => {
                     }/>
                 </div>
             </div>
-            <ParallaxBanner
-                layers={[{ image: require('../assets/images/HomeBg/bg_2.jpg'), speed: -20 }]}
-                className="aspect-[2/1]" style={{height: '600px'}}>
+            <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
+                <ParallaxBannerLayer speed={-30}>
+                    <Image className='w-full h-full select-none object-cover' src={require('../assets/images/HomeBg/bg_2.jpg')} alt=''/>
+                </ParallaxBannerLayer>
                 <div className='w-full flex justify-center h-full'>
                     <div className='container grid grid-cols-3 gap-10 h-full items-center'>
-                        <FeatureItem title='Handlepicked Hotels' description='lorem' icon={
+                        <FeatureItem title='Handlepicked Hotels' description={hotelDescription[0]} icon={
                             <Hotel sx={{fontSize: 32}}/>
                         }/>
-                        <FeatureItem title='World Class Service' description='lorem' icon={
+                        <FeatureItem title='World Class Service' description={hotelDescription[1]} icon={
                             <Public sx={{fontSize: 32}}/>
                         }/>
-                        <FeatureItem title='Best Price Guarantee' description='lorem' icon={
+                        <FeatureItem title='Best Price Guarantee' description={hotelDescription[2]} icon={
                             <AttachMoney sx={{fontSize: 32}}/>
                         }/>
                     </div>
                 </div>
             </ParallaxBanner>
-        </MainLayout>
+        </>
     )
 }
 
 export default Home
+
+export const getStaticProps = async () => {
+    try{
+        await db()
+        const tourData = await tour.find()
+        const tourStatisticData = await tourStatistic.find()
+        return {
+            props: {
+                tourList: JSON.parse(JSON.stringify(tourData)),
+                tourStatistic: JSON.parse(JSON.stringify(tourStatisticData[0]))
+            },
+        }
+    }catch(err){
+        console.error(err)
+        return {
+            props: {
+                notFound: true
+            }
+        }
+    }
+}
