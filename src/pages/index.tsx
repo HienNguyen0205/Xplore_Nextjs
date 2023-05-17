@@ -127,6 +127,7 @@ export const getStaticProps = async () => {
                 tourList: JSON.parse(JSON.stringify(tourData)),
                 tourStatistic: JSON.parse(JSON.stringify(tourStatisticData[0]))
             },
+            revalidate: 10,
         }
     }catch(err){
         console.error(err)

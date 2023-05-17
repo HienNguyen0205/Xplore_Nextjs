@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.nav_link{
+	font-weight: 700;
+	text-shadow: 0px 0px 12px rgba(255,255,255,0.8);
+	min-width: 120px;
+	flex: 1;
+	text-align: center;
+	cursor: pointer;
+	a{
+		transition: 0.3s;
+	}
+	&:hover a{
+		background: linear-gradient(to right, #e3c71d 0%, #ae3056 100%);
+		background-clip: text;
+		color: transparent;
+		letter-spacing: 0.125rem;
+	}
+}

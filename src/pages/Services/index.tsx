@@ -40,6 +40,7 @@ export const getStaticProps = async () => {
           props: {
               tourList: JSON.parse(JSON.stringify(tourData)),
           },
+          revalidate: 10,
       };
   }catch(err){
       console.error(err)

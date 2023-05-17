@@ -1,8 +1,8 @@
 import React, { useState, useEffect, RefObject } from 'react'
 import Button from '../Button'
-import styles from '@/styles/Header.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 interface headerProps {
     outterRef: RefObject<HTMLDivElement>
@@ -11,6 +11,7 @@ interface headerProps {
 const Header = ({outterRef} : headerProps): JSX.Element => {
 
     const [isTop, setIsTop] = useState<boolean>(true)
+    const router = useRouter()
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
@@ -28,24 +29,24 @@ const Header = ({outterRef} : headerProps): JSX.Element => {
     }
 
     return (
-        <div className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-90' 
+        <header className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-90' 
             style={isTop ? {backgroundColor: 'transparent'} : {backgroundColor: 'black'}}>
-            <header className='container flex align-middle justify-between'>
-                <Link className='flex' href='/'>
-                    <Image className='py-4 w-fit' alt='' src={require('../../assets/images/Logo/XPLORE_logo.png')}/>
+            <div className='container flex items-center justify-between'>
+                <Link className='h-full' href='/'>
+                    <Image className='h-full py-5 object-contain' alt='' src={require('../../assets/images/Logo/XPLORE_logo.png')}/>
                 </Link>
-                <ul className='flex py-7' style={isTop ? {color: 'black'} : {color: 'white'}}>
-                    <li className='px-4'>
-                        <Link className={styles.nav_link} href='/'>HOME</Link>
+                <ul className='flex justify-center items-center' style={isTop ? {color: 'black'} : {color: 'white'}}>
+                    <li className='nav_link' style={router.pathname === '/' ? {color: '#ae3056'} : {}}>
+                        <Link href='/'>HOME</Link>
                     </li>
-                    <li className='px-4'>
-                        <Link className={styles.nav_link} href='/Services'>SERVICES</Link>
+                    <li className='nav_link' style={router.pathname === '/services' ? {color: '#ae3056'} : {}}>
+                        <Link  href='/services'>SERVICES</Link>
                     </li>
-                    <li className='px-4'>
-                        <Link className={styles.nav_link} href=''>DISCOVER</Link>
+                    <li className='nav_link' style={router.pathname === '/discover' ? {color: '#ae3056'} : {}}>
+                        <Link  href=''>DISCOVER</Link>
                     </li>
-                    <li className='px-4'>
-                        <Link className={styles.nav_link} href=''>ABOUT US</Link>
+                    <li className='nav_link' style={router.pathname === '/about' ? {color: '#ae3056'} : {}}>
+                        <Link href=''>ABOUT US</Link>
                     </li>
                 </ul>
                 <div>
@@ -58,8 +59,8 @@ const Header = ({outterRef} : headerProps): JSX.Element => {
                         bgColor='#008000'
                     />
                 </div>
-            </header>
-        </div>
+            </div>
+        </header>
     )
 }
 
