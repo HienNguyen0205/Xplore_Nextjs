@@ -57,9 +57,9 @@ const Carousel = ({content, duration = 6000}: carouselProps): JSX.Element => {
                 {content.map((item, imgIndex) => (
                     <div key={imgIndex} className={styles.carousel_item}>
                         <Image className='w-full h-full select-none object-cover' src={require(`../../assets/images/Carousel/${item.source}`)} alt=''/>
-                        <div className='absolute bottom-8 w-full text-center'>
-                            <h1 id={`${index === imgIndex ? styles.carousel_heading1 : ''}`} className="invisible text-white text-5xl my-5 tracking-wider select-none text-shadow">{item.country}</h1>
-                            <h3 id={`${index === imgIndex ? styles.carousel_heading2 : ''}`} className="invisible text-white text-3xl my-5 select-none text-shadow">{item.destination}</h3>
+                        <div className='absolute bottom-8 w-full flex flex-collumn'>
+                            <h1 id={`${index === imgIndex ? styles.carousel_heading1 : ''}`} className={styles.carousel_heading1}>{item.country}</h1>
+                            <h3 id={`${index === imgIndex ? styles.carousel_heading2 : ''}`} className={styles.carousel_heading2}>{item.destination}</h3>
                         </div>
                     </div>
                 ))}

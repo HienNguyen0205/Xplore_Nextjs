@@ -4,6 +4,7 @@ import { tour } from '@/models'
 import { tourDef } from '@/utils/types'
 import db from '@/utils/database'
 import styles from '@/styles/Sevices.module.scss'
+import Meta from '@/components/Layout/meta'
 import 'dayjs/locale/en-gb';
 
 const Services = (props : {tourList: tourDef[]}): JSX.Element => {
@@ -12,6 +13,10 @@ const Services = (props : {tourList: tourDef[]}): JSX.Element => {
 
   return (
     <>
+      <Meta props={{
+        title: 'Xplore | Services',
+        description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure."
+      }}/>
       <div className={styles.search_container}>
         <div className="container flex flex-col justify-center">
           <h1 className="text-shadow mb-12">

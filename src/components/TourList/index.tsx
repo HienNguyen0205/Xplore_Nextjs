@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { StarRate } from '@mui/icons-material'
-import { Pagination } from "@mui/material"
-import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl } from '@mui/material'
-import { useAppDispatch } from "@/hooks"
+import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl, Pagination } from '@mui/material'
 import Image from "next/image"
 import styles from '@/styles/TourList.module.scss'
+import axios from "axios"
 
 interface tourProps{
     image: string,
@@ -51,8 +50,7 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
 
     const [index, setIndex] = useState<number>(0)
     const [tourList, setTourList] = useState<tourProps[]>(data.slice(0, 8))
-    const [sortType, setSortType] = useState<string>('')
-    const dispatch = useAppDispatch()
+    const [sortType, setSortType] = useState<string>('name')
 
     useEffect(() => {
         const space = 8
@@ -60,23 +58,18 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
         setTourList(list)
     }, [index, data])
 
-    // useEffect(() => {
-    //     switch(sortType){
-    //         case 'Name':
-    //             dispatch(fetchTourByName())
-    //             break
-    //         case 'Price':
-    //             dispatch(fetchTourByPrice())
-    //             break
-    //         case 'Time':
-    //             dispatch(fetchTourByTime())
-    //             break
-    //         case 'Rate':
-    //             dispatch(fetchTourByRate())
-    //             break
-    //     }
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [sortType])
+    useEffect(() => {
+        axios.get('/api/services/get-tour-by-order', {
+            params: {
+                attr: sortType
+            }
+        }).then(res => {
+            console.log(res);
+            setTourList(res.data.tourOrder)
+        }).catch(err => {
+            console.error(err);
+        })
+    }, [sortType])
 
     const handlePagination = (e: React.ChangeEvent<unknown>, value: number): void => {
         setIndex(value - 1)
@@ -104,10 +97,10 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
                         onChange={handleSortType}
                         sx={{ minWidth: 120 }}
                     >
-                        <MenuItem value='Name'>Name</MenuItem>
-                        <MenuItem value='Price'>Price</MenuItem>
-                        <MenuItem value='Time'>Time</MenuItem>
-                        <MenuItem value='Rating'>Rating</MenuItem>
+                        <MenuItem value='destination'>Name</MenuItem>
+                        <MenuItem value='price'>Price</MenuItem>
+                        <MenuItem value='time'>Time</MenuItem>
+                        <MenuItem value='rating'>Rating</MenuItem>
                     </Select>
                 </FormControl>}
             </div>

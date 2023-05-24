@@ -1,0 +1,152 @@
+$background_color: #353b48;
+$font: "Fira Sans", sans-serif;
+$white: #f5f6fa;
+$black: #0c0e10;
+$gray: #202425;
+$blue: #446182;
+
+@mixin smallscreens {
+  @media (max-width: 770px) {
+    @content;
+  }
+}
+
+%Ycenter {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient($black, $blue);
+  .ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25vh;
+    background: $black;
+    @include smallscreens {
+      height: 0vh;
+    }
+  }
+}
+.container {
+  position: relative;
+  margin: 0 auto;
+  width: 85%;
+  height: 100vh;
+  padding-bottom: 25vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  @include smallscreens {
+    flex-direction: column;
+    padding-bottom: 0vh;
+  }
+}
+.left_section,
+.right_section {
+  position: relative;
+}
+.left_section {
+  width: 40%;
+  @include smallscreens {
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    top: 0;
+  }
+  .inner_content {
+    @extend %Ycenter;
+    @include smallscreens {
+      position: relative;
+      padding: 1rem 0;
+    }
+  }
+}
+.heading {
+  text-align: center;
+  font-size: 9em;
+  line-height: 1.3em;
+  margin: 2rem 0 0.5rem 0;
+  padding: 0;
+  text-shadow: 0 0 1rem #fefefe;
+  @include smallscreens {
+    font-size: 7em;
+    line-height: 1.15;
+    margin: 0;
+  }
+}
+.subheading {
+  text-align: center;
+  max-width: 480px;
+  font-size: 1.5em;
+  line-height: 1.15em;
+  padding: 0 1rem;
+  margin: 0 auto;
+  @include smallscreens {
+    font-size: 1.3em;
+    line-height: 1.15;
+    max-width: 100%;
+  }
+}
+.right_section {
+  width: 50%;
+  @include smallscreens {
+    width: 100%;
+    height: 60%;
+    position: absolute;
+    bottom: 0;
+  }
+}
+.svgimg {
+  position: absolute;
+  bottom: 0;
+  padding-top: 10vh;
+  padding-left: 1vh;
+  max-width: 100%;
+  max-height: 100%;
+  @include smallscreens {
+    padding: 0;
+  }
+  .bench_legs {
+    fill: $black;
+  }
+  .top_bench,
+  .bottom_bench {
+    stroke: $black;
+    stroke-width: 1px;
+    fill: #5b3e2b;
+  }
+  .bottom_bench path:nth-child(1) {
+    fill: darken(#5b3e2b, 7%);
+  }
+  .lamp_details {
+    fill: $gray;
+  }
+  .lamp_accent {
+    fill: lighten($gray, 5%);
+  }
+  .lamp_bottom {
+    fill: linear-gradient($gray, $black);
+  }
+  .lamp_light {
+    fill: #efefef;
+  }
+}
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 1rem #fefefe;
+  }
+  50% {
+    text-shadow: 0 0 1.85rem #ededed;
+  }
+  100% {
+    text-shadow: 0 0 1rem #fefefe;
+  }
+}

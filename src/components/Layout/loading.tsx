@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/styles/Loading.module.scss";
 
-const Loading = (): JSX.Element => {
+const LoadingSkeleton = (): JSX.Element => {
   return (
     <div className={styles.loading_bg}>
       <svg
@@ -96,4 +96,4 @@ const Loading = (): JSX.Element => {
   );
 };
 
-export default Loading;
+export default LoadingSkeleton;

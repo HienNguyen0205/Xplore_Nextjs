@@ -1,11 +1,11 @@
-import React, { useRef, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { MetaProps } from "@/utils/types";
 import { useRouter } from 'next/router';
 import Header from '../Header';
 import Footer from '../Footer';
 import Meta from './meta'
 import Toast from './toast'
-import Loading from './loading';
+import LoadingSkeleton from './loading'
 
 interface layoutProps {
     meta: MetaProps,
@@ -16,26 +16,25 @@ const Layout = ({
     meta, children
 } : layoutProps) => {
 
-    const outterRef = useRef<HTMLDivElement>(null)
     const router = useRouter()
 
     if (router.isFallback) {
         return (
-          <div className="h-screen w-screen flex justify-center items-center bg-black">
-            <Loading />
+          <div className="h-screen w-screen flex justify-center items-center bg-slate-200">
+            <LoadingSkeleton />
           </div>
         );
     }
 
     return (
-        <div ref={outterRef} className="relative">
+        <div className="relative">
             <Meta props={meta} />
             <Toast/>
-            <Header outterRef={outterRef}/>
+            {router.pathname !== '/404' && <Header/>}
             <div className="w-full">
                 {children}
             </div>
-            <Footer/>
+            {router.pathname !== '/404' && <Footer/>}
         </div>
     )
 }
