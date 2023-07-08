@@ -7,6 +7,7 @@ import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
 import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
 import { countryDetail, statistic, featureItem, tourDef, tourStatisticDef } from '@/utils/types'
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const courouselData: countryDetail[] = [
     {
@@ -74,7 +75,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
-                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/HomeBg/bg_1.jpg')} alt=''/>
+                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_1.jpg')} alt=''/>
                 </ParallaxBannerLayer>
             </ParallaxBanner>
             <div className='w-full bg-white flex justify-center'>
@@ -95,7 +96,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
-                    <Image className='w-full h-full select-none object-cover' src={require('../assets/images/HomeBg/bg_2.jpg')} alt=''/>
+                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_2.jpg')} alt=''/>
                 </ParallaxBannerLayer>
                 <div className='w-full flex justify-center h-full'>
                     <div className='container grid grid-cols-3 gap-10 h-full items-center'>
@@ -117,7 +118,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
 
 export default Home
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
     try{
         await db()
         const tourData = await tour.find()
@@ -127,7 +128,6 @@ export const getStaticProps = async () => {
                 tourList: JSON.parse(JSON.stringify(tourData)),
                 tourStatistic: JSON.parse(JSON.stringify(tourStatisticData[0]))
             },
-            revalidate: 10,
         }
     }catch(err){
         console.error(err)

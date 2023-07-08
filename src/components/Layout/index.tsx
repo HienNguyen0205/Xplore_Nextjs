@@ -12,6 +12,8 @@ interface layoutProps {
     children: ReactNode
 }
 
+const nonHeaderRoute = ['/_error','/signIn','/sign-out']
+
 const Layout = ({
     meta, children
 } : layoutProps) => {
@@ -30,11 +32,11 @@ const Layout = ({
         <div className="relative">
             <Meta props={meta} />
             <Toast/>
-            {router.pathname !== '/404' && <Header/>}
+            {!nonHeaderRoute.includes(router.pathname) && <Header/>}
             <div className="w-full">
                 {children}
             </div>
-            {router.pathname !== '/404' && <Footer/>}
+            {!nonHeaderRoute.includes(router.pathname) && <Footer/>}
         </div>
     )
 }

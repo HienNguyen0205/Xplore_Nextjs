@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+#log_bg{
+	background-image: url(../assets/images/Background/logbg.jpg);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
 .nav_link{
 	font-weight: 700;
 	min-width: 120px;

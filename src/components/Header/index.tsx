@@ -3,6 +3,7 @@ import Button from '../Button'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const Header = (): JSX.Element => {
 
@@ -33,10 +34,12 @@ const Header = (): JSX.Element => {
                     <Button
                         content='Sign In'
                         bgColor='#5a66ff'
+                        onClick={() => signIn()}
                     />
                     <Button
                         content='Sign Up'
                         bgColor='#008000'
+                        onClick={() => router.push('/sign-in')}
                     />
                 </div>
             </div>

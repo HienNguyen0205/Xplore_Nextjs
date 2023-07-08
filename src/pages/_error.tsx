@@ -1,8 +1,8 @@
 import React from "react";
-import styles from '@/styles/404.module.scss';
+import styles from '@/styles/Error.module.scss';
 import Meta from '@/components/Layout/meta'
 
-const custom404 = (): JSX.Element => {
+const Error = (): JSX.Element => {
   return (
     <>
       <Meta props={{
@@ -110,4 +110,4 @@ const custom404 = (): JSX.Element => {
   );
 };
 
-export default custom404;
+export default Error;
