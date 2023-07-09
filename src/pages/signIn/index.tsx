@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Meta from '@/components/Layout/meta'
 import { TextField, Button } from '@mui/material';
 import { useSession, signIn, signOut } from "next-auth/react"
-import { redirect } from 'next/dist/server/api-utils';
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/

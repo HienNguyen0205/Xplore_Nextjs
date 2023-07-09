@@ -66,6 +66,7 @@ const FeatureItem = (props: featureItem): JSX.Element => {
 const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): JSX.Element => {
 
     const { tourList, tourStatistic } = props
+    const { data: session } = useSession()
 
     return (
         <>
