@@ -7,6 +7,7 @@ import { SessionProvider } from 'next-auth/react'
 import '@/styles/Global.scss'
 
 export default function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  console.log(session)
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
