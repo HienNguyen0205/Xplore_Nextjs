@@ -12,7 +12,7 @@ interface layoutProps {
     children: ReactNode
 }
 
-const nonHeaderRoute = ['/_error','/signIn','/sign-out']
+const nonHeaderRoute = ['/_error','/signIn','/signUp']
 
 const Layout = ({
     meta, children
