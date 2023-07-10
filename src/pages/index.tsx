@@ -119,7 +119,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
 
 export default Home
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     try{
         await db()
         const tourData = await tour.find()
@@ -129,6 +129,7 @@ export const getServerSideProps = async () => {
                 tourList: JSON.parse(JSON.stringify(tourData)),
                 tourStatistic: JSON.parse(JSON.stringify(tourStatisticData[0]))
             },
+            revalidate: 10
         }
     }catch(err){
         console.error(err)

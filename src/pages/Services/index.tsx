@@ -1,4 +1,5 @@
 import React from "react";
+import db from '@/utils/database'
 import { TourList, FindTour } from "@/components";
 import { tour } from '@/models'
 import { tourDef } from '@/utils/types'
@@ -36,14 +37,15 @@ const Services = (props : {tourList: tourDef[]}): JSX.Element => {
 
 export default Services;
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   try{
-      // await db()
+      await db()
       const tourData = await tour.find()
       return {
           props: {
               tourList: JSON.parse(JSON.stringify(tourData)),
           },
+          revalidate: 10,
       };
   }catch(err){
       console.error(err)

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Meta from '@/components/Layout/meta'
 import { TextField, Button } from '@mui/material';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signIn } from "next-auth/react"
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
@@ -39,7 +39,6 @@ const SignIn  = () : JSX.Element => {
                 signIn('credentials', {
                     email: email,
                     password: password,
-                    redirect: true
                 })
             }
         }
