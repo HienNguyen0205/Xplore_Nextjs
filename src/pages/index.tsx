@@ -7,7 +7,7 @@ import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
 import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
 import { countryDetail, statistic, featureItem, tourDef, tourStatisticDef } from '@/utils/types'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 
 const courouselData: countryDetail[] = [
     {
