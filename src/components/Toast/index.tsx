@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useAppSelector } from "@/hooks";
 import { Snackbar, Slide, SlideProps, Alert } from '@mui/material';
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { removeToast } from '@/Redux/reducers/toast'
 
 type TransitionProps = Omit<SlideProps, 'direction'>;
 
@@ -11,19 +10,25 @@ const Transition = (props : TransitionProps) => {
 
 const Toast = () => {
 
+    const [ open, setOpen ] = useState<boolean>(false)
     const { message, status } = useAppSelector(state => state.toast)
-    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if(message !== ''){
+            setOpen(true)
+        }
+    }, [message, status])
 
     const handleClose = () => {
-        dispatch(removeToast())
+        setOpen(false)
     }
 
     return (
         <Snackbar
-            open={message !== ''}
+            open={open}
             onClose={handleClose}
             TransitionComponent={Transition}
-            autoHideDuration={6000}
+            autoHideDuration={5000}
             anchorOrigin={{ vertical:'bottom', horizontal: 'right' }}
         >
             <Alert severity={status} sx={{maxWidth: '200px'}}>

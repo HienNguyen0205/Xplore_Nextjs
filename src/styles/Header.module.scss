@@ -1,0 +1,88 @@
+.avatar_container{
+    cursor: pointer;
+    position: relative;
+    &::before{
+        content: "";
+        position: absolute;
+        width: 140px;
+        height: 32px;
+        top: calc(100% - 8px);
+        right: -30px;
+    }
+    &:hover{
+        .avatar_dropdown{
+            display: block;
+            animation: dropdown .2s ease-in forwards;
+        }
+    }
+    .avatar{
+        border-radius: 50%;
+        object-fit: cover;
+        aspect-ratio: 1;
+        width: 48px;
+        &:hover{
+            animation: avatar .2s ease-in forwards;
+        }
+    }
+    .avatar_dropdown{
+        display: none;
+        position: absolute;
+        top: 66px;
+        right: 0;
+        max-width: 240px;
+        min-width: 160px;
+        border-radius: 4px;
+        background-color: #eee;
+        overflow: hidden;
+        box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+        &::before{
+            content: "";
+            position: absolute;
+            border: 8px solid;
+            border-color: transparent transparent #eee transparent;
+            top: -16px;
+            right: 16px;
+        }
+        .dropdown_item{
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-bottom: 1px solid #666;
+            color: black;
+            cursor: pointer;
+            user-select: none;
+            .dropdown_text{
+                display: inline-block;
+                transition: all .3s ease-in;
+                margin-left: 12px;
+                font-weight: 500;
+            }
+            &:hover{
+                background-color: #666;
+                color: white;
+                .dropdown_text{
+                    transform: translateX(8px);
+                }
+            }
+        }
+    }
+}
+
+@keyframes avatar {
+    to{
+        box-shadow: 0px 0px 12px 0px rgba(70, 206, 20, 0.75);
+    }
+}
+
+@keyframes dropdown {
+    from{
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

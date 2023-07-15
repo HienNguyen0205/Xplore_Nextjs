@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { tour } from '@/models';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const getTourByOrder = async (req: NextApiRequest, res: NextApiResponse) => {
     try{
         const { attr } = req.query
         const tourOrder = await tour.find().sort(attr as string)
@@ -11,4 +11,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 }
 
-export default handler
+export default getTourByOrder

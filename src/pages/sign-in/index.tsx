@@ -21,6 +21,12 @@ const SignIn  = () : JSX.Element => {
             const email = emailRef.current.value.trim()
             const password = passwordRef.current.value.trim()
             let flag = true
+            if(emailMes !== '') {
+                setEmailMes('')
+            }
+            if(passMes !== ''){
+                setPassMes('')
+            }
             if(email === ''){
                 flag = false
                 setEmailMes('Please enter your email')
@@ -51,7 +57,7 @@ const SignIn  = () : JSX.Element => {
                 description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure."
             }}/>
             <div id='log_bg' className='w-100 h-screen flex flex-col justify-around items-center'>
-                <Image className='w-[200px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt=''/>
+                <Image className='w-[180px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt=''/>
                 <div className='p-5 bg-gray-50 opacity-90 w-[440px] rounded-md'>
                     <h1 className='text-4xl font-bold text-center mb-5 mt-3'>Login</h1>
                     <TextField sx={{margin: '8px 0'}} label="Email" variant="outlined" fullWidth autoFocus 
@@ -64,7 +70,7 @@ const SignIn  = () : JSX.Element => {
                         <Link href='/forgot-password' className='text-red-500 hover:text-red-800'>Forgot your password?</Link>
                     </p>
                     <Button fullWidth variant="contained" sx={{margin: '0.5rem 0'}} size='large'
-                        onClick={validate}
+                        onClick={() => validate()}
                     >Log In</Button>
                     <div className='mt-4 mb-5  flex items-center'>
                         <hr className='flex-1 border-t-2 border-gray-800'></hr>
@@ -83,7 +89,7 @@ const SignIn  = () : JSX.Element => {
                         </Button>
                     </div>
                     <p className='mt-3 text-right'>Don't have an account?
-                        <Link className='ml-1 text-sky-500 hover:text-sky-800' href='/sign-up'>Sign in</Link>
+                        <Link className='ml-1 text-sky-500 hover:text-sky-800' href='/sign-up'>Sign up</Link>
                     </p>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import Header from '../Header';
 import Footer from '../Footer';
 import Meta from './meta'
-import Toast from './toast'
 import LoadingSkeleton from './loading'
 
 interface layoutProps {
@@ -12,7 +11,7 @@ interface layoutProps {
     children: ReactNode
 }
 
-const nonHeaderRoute = ['/_error','/signIn','/signUp']
+const nonHeaderRoute = ['/_error','/sign-in','/sign-up']
 
 const Layout = ({
     meta, children
@@ -31,7 +30,6 @@ const Layout = ({
     return (
         <div className="relative">
             <Meta props={meta} />
-            <Toast/>
             {!nonHeaderRoute.includes(router.pathname) && <Header/>}
             <div className="w-full">
                 {children}

@@ -64,7 +64,6 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
                 attr: sortType
             }
         }).then(res => {
-            console.log(res);
             setTourList(res.data.tourOrder)
         }).catch(err => {
             console.error(err);

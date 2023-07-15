@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { tour, toast } from '../reducers'
+import { toast } from '../reducers'
 
 export const store = configureStore({
     reducer: {
-        tour,
         toast,
     }
 })

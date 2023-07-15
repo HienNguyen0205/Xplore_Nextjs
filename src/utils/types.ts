@@ -42,3 +42,10 @@ export interface toastProps {
     message: string,
     status: AlertColor,
 }
+
+export interface UserDef {
+    name: string,
+    email: string,
+    password: string,
+    tel: string,
+}
