@@ -7,7 +7,6 @@ import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
 import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
 import { countryDetail, statistic, featureItem, tourDef, tourStatisticDef } from '@/utils/types'
-import { useSession } from "next-auth/react"
 
 const courouselData: countryDetail[] = [
     {
@@ -66,7 +65,6 @@ const FeatureItem = (props: featureItem): JSX.Element => {
 const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): JSX.Element => {
 
     const { tourList, tourStatistic } = props
-    const { data: session } = useSession()
 
     return (
         <>

@@ -10,30 +10,31 @@ import { History, Settings, Logout, Person } from '@mui/icons-material'
 const Header = (): JSX.Element => {
 
     const router = useRouter()
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
 
     return (
-        <header className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-70' 
+        <header className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-[.85]' 
             style={{backgroundColor: 'black'}}>
             <div className='container flex items-center justify-between'>
                 <Link className='h-full' href='/'>
-                    <Image className='h-full py-5 object-contain' alt='' src={require('../../assets/images/Logo/XPLORE_logo.png')}/>
+                    <Image className='h-full py-5 object-contain' alt='logo'
+                        src={require('../../assets/images/Logo/XPLORE_logo.png')} priority/>
                 </Link>
                 <ul className='flex justify-center items-center' style={{color: 'white'}}>
-                    <li className='nav_link' style={router.pathname === '/' ? {color: '#ae3056'} : {}}>
+                    <li className='nav_link' style={router.pathname === '/' ? {color: '#ff00a2'} : {}}>
                         <Link href='/'>HOME</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/services' ? {color: '#ae3056'} : {}}>
+                    <li className='nav_link' style={router.pathname === '/services' ? {color: '#ff00a2'} : {}}>
                         <Link  href='/services'>SERVICES</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/discover' ? {color: '#ae3056'} : {}}>
+                    <li className='nav_link' style={router.pathname === '/discover' ? {color: '#ff00a2'} : {}}>
                         <Link  href='/discover'>DISCOVER</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/about' ? {color: '#ae3056'} : {}}>
+                    <li className='nav_link' style={router.pathname === '/about' ? {color: '#ff00a2'} : {}}>
                         <Link href='/about'>ABOUT US</Link>
                     </li>
                 </ul>
-                {session ? <div className={styles.avatar_container}>
+                {status === 'authenticated' ? <div className={styles.avatar_container}>
                     <Image className={styles.avatar} src={require('@/assets/images/User/unknowUser.jpg')} alt='user-img'/>
                     <div className={styles.avatar_dropdown}>
                         <div className={styles.dropdown_item}>

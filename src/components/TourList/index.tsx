@@ -50,7 +50,7 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
 
     const [index, setIndex] = useState<number>(0)
     const [tourList, setTourList] = useState<tourProps[]>(data.slice(0, 8))
-    const [sortType, setSortType] = useState<string>('name')
+    const [sortType, setSortType] = useState<string>('destination')
 
     useEffect(() => {
         const space = 8
@@ -96,7 +96,7 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
                         onChange={handleSortType}
                         sx={{ minWidth: 120 }}
                     >
-                        <MenuItem value='destination'>Name</MenuItem>
+                        <MenuItem value='destination' selected>Name</MenuItem>
                         <MenuItem value='price'>Price</MenuItem>
                         <MenuItem value='time'>Time</MenuItem>
                         <MenuItem value='rating'>Rating</MenuItem>
