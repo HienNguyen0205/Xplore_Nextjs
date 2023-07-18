@@ -5,7 +5,6 @@ import Meta from '@/components/Layout/meta'
 import axios from 'axios';
 import { TextField, Button } from '@mui/material';
 import { signIn } from 'next-auth/react';
-import { useAppDispatch } from '@/hooks';
 import { toast } from 'react-toastify'
 
 const nameRegex = /^[a-zA-Z]{4,30}(?: [a-zA-Z]+){0,5}$/
@@ -25,8 +24,6 @@ const SignUp  = () : JSX.Element => {
     const passRef = useRef<HTMLInputElement>(null)
     const confirmPassRef = useRef<HTMLInputElement>(null)
     const telRef = useRef<HTMLInputElement>(null)
-
-    const dispatch = useAppDispatch()
 
     const resetErrMes = () => {
         if(nameMes !== ''){
