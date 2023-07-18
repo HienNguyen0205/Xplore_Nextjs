@@ -12,27 +12,27 @@ const courouselData: countryDetail[] = [
     {
         country: 'Chile',
         destination: 'Torres del Paine National Park',
-        source: 'Chile.jpg'
+        source: 'Chile.webp'
     },
     {
         country: 'Croatia',
         destination: 'Plitvice Lakes National Park',
-        source: 'Croatia.jpg'
+        source: 'Croatia.webp'
     },
     {
         country: 'New Zealand',
         destination: 'Lake Tekapo',
-        source: 'New-Zealand.jpg'
+        source: 'New-Zealand.webp'
     },
     {
         country: 'Japan',
         destination: 'Fuji Mount',
-        source: 'Japan.jpg'
+        source: 'Japan.webp'
     },
     {
         country: 'Viet Nam',
         destination: 'Ha Long Bay',
-        source: 'VietNam.jpg'
+        source: 'VietNam.webp'
     },
 ]
 
@@ -74,7 +74,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
-                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_1.jpg')} alt=''/>
+                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_1.webp')} alt=''/>
                 </ParallaxBannerLayer>
             </ParallaxBanner>
             <div className='w-full bg-white flex justify-center'>
@@ -95,7 +95,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
-                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_2.jpg')} alt=''/>
+                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_2.webp')} alt=''/>
                 </ParallaxBannerLayer>
                 <div className='w-full flex justify-center h-full'>
                     <div className='container grid grid-cols-3 gap-10 h-full items-center'>

@@ -24,7 +24,7 @@ const TourItem = ({data}: {data: tourProps}): JSX.Element => {
     return (
         <div className={styles.tour_item}>
             <div className="relative">
-                <Image className="rounded-t-lg" src={require(`../../assets/images/Tour/${data.image}.jpg`)} alt=''/>
+                <Image className="rounded-t-lg" src={require(`../../assets/images/Tour/${data.image}.webp`)} alt=''/>
                 <div className="absolute top-2 right-2 py-1 pr-2 pl-1 bg-slate-400 rounded-xl flex items-center">
                     <StarRate className="mx-1" sx={{color: 'yellow', fontSize: 20}}/>
                     <span className="text-white">{data.rating}</span>

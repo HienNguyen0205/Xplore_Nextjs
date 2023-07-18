@@ -114,7 +114,7 @@ const SignUp  = () : JSX.Element => {
                 description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure."
             }}/>
             <div id='log_bg' className='w-100 h-screen flex flex-col justify-around items-center'>
-                <Image className='w-[160px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt=''/>
+                <Image className='w-[160px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt='' priority/>
                 <div className='p-5 bg-gray-50 opacity-90 w-[440px] rounded-md'>
                     <h1 className='text-4xl font-bold text-center mb-5 mt-3'>Register</h1>
                     <TextField sx={{margin: '8px 0'}} label="Full name" variant="outlined" fullWidth autoFocus 
