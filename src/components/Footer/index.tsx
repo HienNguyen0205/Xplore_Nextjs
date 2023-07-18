@@ -8,7 +8,7 @@ const Footer = (): JSX.Element => {
     const router = useRouter()
 
     return (
-        <footer className='flex justify-center'>
+        <footer className='flex justify-center border-t-[1px] border-gray-600'>
             <div className='container p-4 bg-white md:px-6 md:py-8'>
                 <div className="flex items-center justify-between">
                     <Link href='/' className="mb-4 sm:mb-0">

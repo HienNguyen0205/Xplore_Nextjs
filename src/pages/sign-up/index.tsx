@@ -6,7 +6,7 @@ import axios from 'axios';
 import { TextField, Button } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useAppDispatch } from '@/hooks';
-import { setToast } from '@/Redux/reducers/toast';
+import { toast } from 'react-toastify'
 
 const nameRegex = /^[a-zA-Z]{4,30}(?: [a-zA-Z]+){0,5}$/
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -97,8 +97,12 @@ const SignUp  = () : JSX.Element => {
                     password: password,
                     tel: tel,
                 }).then(res => {
-                    signIn()
-                    dispatch(setToast(res.data))
+                    if(res.data.status === 'success'){
+                        toast.success('Register successful!')
+                        signIn()
+                    }else{
+                        toast.success('Register fail!')
+                    }
                 }).catch(err => {
                     console.error(err);
                 })

@@ -25,7 +25,7 @@ const TourItem = ({data}: {data: tourProps}): JSX.Element => {
         <div className={styles.tour_item}>
             <div className="relative">
                 <Image className="rounded-t-lg" src={require(`../../assets/images/Tour/${data.image}.jpg`)} alt=''/>
-                <div className="absolute top-2 right-2 py-1 px-2 bg-slate-400 rounded-xl flex items-center">
+                <div className="absolute top-2 right-2 py-1 pr-2 pl-1 bg-slate-400 rounded-xl flex items-center">
                     <StarRate className="mx-1" sx={{color: 'yellow', fontSize: 20}}/>
                     <span className="text-white">{data.rating}</span>
                 </div>
@@ -49,14 +49,15 @@ const TourItem = ({data}: {data: tourProps}): JSX.Element => {
 const TourList = ({data, option = false, pagination = false}: tourListProps): JSX.Element => {
 
     const [index, setIndex] = useState<number>(0)
-    const [tourList, setTourList] = useState<tourProps[]>(data.slice(0, 8))
+    const [tourData, setTourData] = useState<tourProps[]>(data)
+    const [tourList, setTourList] = useState<tourProps[]>(data.slice(0,8))
     const [sortType, setSortType] = useState<string>('destination')
 
     useEffect(() => {
         const space = 8
-        const list = data.slice(index * space, index * space + space)
+        const list = tourData.slice(index * space, (index + 1) * space)
         setTourList(list)
-    }, [index, data])
+    }, [index, tourData])
 
     useEffect(() => {
         axios.get('/api/services/get-tour-by-order', {
@@ -64,7 +65,8 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
                 attr: sortType
             }
         }).then(res => {
-            setTourList(res.data.tourOrder)
+            setIndex(0)
+            setTourData(res.data.tourOrder)
         }).catch(err => {
             console.error(err);
         })
@@ -112,7 +114,7 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
             </div>
             {pagination && <Pagination sx={{justifySelf: 'center'}}
                 size='large' variant="outlined" shape="rounded" 
-                count={data.length / 8} onChange={handlePagination}
+                count={Math.ceil(data.length / 8)} onChange={handlePagination}
             />}
         </>
     )

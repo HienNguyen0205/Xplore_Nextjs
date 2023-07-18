@@ -5,6 +5,5 @@ import TourList from "./TourList"
 import Footer from "./Footer"
 import FindTour from "./FindTour";
 import Layout from "./Layout";
-import Toast from "./Toast";
 
-export { Button, Carousel, Header, TourList, Footer, FindTour, Layout, Toast }
+export { Button, Carousel, Header, TourList, Footer, FindTour, Layout }

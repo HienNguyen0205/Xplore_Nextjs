@@ -6,6 +6,7 @@ import Meta from '@/components/Layout/meta'
 import { TextField, Button } from '@mui/material';
 import { signIn } from "next-auth/react"
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify'
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
@@ -45,12 +46,19 @@ const SignIn  = () : JSX.Element => {
                 setPassMes('Wrong password')
             }
             if(flag){
-                console.log(email)
-                console.log(password)
                 signIn('credentials', {
                     email: email,
                     password: password,
-                    callbackUrl: router.basePath,
+                    redirect: false,
+                }).then(res => {
+                    if(res?.ok){
+                        toast.success('Log in successful!')
+                        router.push('/')
+                    }else{
+                        toast.error('Log in failed!')
+                    }
+                }).catch(err => {
+                    console.error(err);
                 })
             }
         }
@@ -63,7 +71,7 @@ const SignIn  = () : JSX.Element => {
                 description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure."
             }}/>
             <div id='log_bg' className='w-100 h-screen flex flex-col justify-around items-center'>
-                <Image className='w-[160px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt=''/>
+                <Image className='w-[160px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt='' priority/>
                 <div className='p-5 bg-gray-50 opacity-90 w-[440px] rounded-md'>
                     <h1 className='text-4xl font-bold text-center mb-5 mt-3'>Login</h1>
                     <TextField sx={{margin: '8px 0'}} label="Email" variant="outlined" fullWidth autoFocus 

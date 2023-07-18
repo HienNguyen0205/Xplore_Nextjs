@@ -1,6 +1,7 @@
 .avatar_container{
     cursor: pointer;
     position: relative;
+    margin: 0 64px;
     &::before{
         content: "";
         position: absolute;
