@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import FacebookProvider from "next-auth/providers/facebook";
 import db from '@/utils/database'
 import { user } from '@/models'
 import { compare } from 'bcrypt'
@@ -26,6 +27,10 @@ export const authOptions = {
         }
         return null
       }
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string
     })
   ],
   pages: {

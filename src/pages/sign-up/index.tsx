@@ -18,12 +18,10 @@ const SignUp  = () : JSX.Element => {
     const [emailMes, setEmailMes] = useState<String>('')
     const [passMes, setPassMes] = useState<String>('')
     const [confirmPassMes, setConfirmPassMes] = useState<String>('')
-    const [telMes, setTelMes] = useState<String>('')
     const nameRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
     const passRef = useRef<HTMLInputElement>(null)
     const confirmPassRef = useRef<HTMLInputElement>(null)
-    const telRef = useRef<HTMLInputElement>(null)
 
     const resetErrMes = () => {
         if(nameMes !== ''){
@@ -38,18 +36,14 @@ const SignUp  = () : JSX.Element => {
         if(confirmPassMes !== ''){
             setConfirmPassMes('')
         }
-        if(telMes !== ''){
-            setTelMes('')
-        }
     }
 
     const validate = () => {
-        if(nameRef.current && emailRef.current && passRef.current && confirmPassRef.current && telRef.current) {
+        if(nameRef.current && emailRef.current && passRef.current && confirmPassRef.current) {
             const name = nameRef.current.value.trim()
             const email = emailRef.current.value.trim()
             const password = passRef.current.value.trim()
             const confirmPass = confirmPassRef.current.value.trim()
-            const tel = telRef.current.value.trim()
             let flag = true
             resetErrMes()
             if(name === ''){
@@ -80,19 +74,12 @@ const SignUp  = () : JSX.Element => {
                 flag = false
                 setConfirmPassMes('Wrong confirm password')
             }
-            if(tel === ''){
-                flag = false
-                setTelMes('Please enter your phone number')
-            }else if(!telRegex.test(tel)){
-                flag = false
-                setTelMes('Invalid phone number')
-            }
             if(flag){
                 axios.post('/api/signUp/sign-up', {
                     name: name,
                     email: email,
                     password: password,
-                    tel: tel,
+                    tel: '',
                 }).then(res => {
                     if(res.data.status === 'success'){
                         toast.success('Register successful!')
@@ -113,7 +100,8 @@ const SignUp  = () : JSX.Element => {
                 title: 'Xplore | Sign up',
                 description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure."
             }}/>
-            <div id='log_bg' className='w-100 h-screen flex flex-col justify-around items-center'>
+            <div className='w-100 h-screen flex flex-col justify-around items-center relative'>
+                <Image className='absolute h-[100%] object-cover z-[-1]' src={require('@/assets/images/Background/logbg.webp')} alt='' priority/>
                 <Image className='w-[160px]' src={require('@/assets/images/Logo/XPLORE_logo.png')} alt='' priority/>
                 <div className='p-5 bg-gray-50 opacity-90 w-[440px] rounded-md'>
                     <h1 className='text-4xl font-bold text-center mb-5 mt-3'>Register</h1>
@@ -129,14 +117,12 @@ const SignUp  = () : JSX.Element => {
                     <TextField sx={{margin: '8px 0'}} label="Confirm Password" variant="outlined" fullWidth 
                         type='password' inputRef={confirmPassRef} required
                         error={confirmPassMes !== ''} helperText={confirmPassMes}/>
-                    <TextField sx={{margin: '8px 0'}} label="Phone number" variant="outlined" fullWidth 
-                        placeholder='Enter your phone number' type='tel' inputRef={telRef} required
-                        error={telMes !== ''} helperText={telMes}/>
                     <Button fullWidth variant="contained" sx={{margin: '0.5rem 0'}} size='large'
                         onClick={() => validate()}
                     >Register</Button>
                     <p className='mt-3 text-right'>Already have an account?
-                        <span className='ml-1 text-sky-500 hover:text-sky-800' onClick={() => signIn()}>Sign in</span>
+                        <span className='ml-1 text-sky-500 hover:text-sky-800 cursor-pointer' 
+                            onClick={() => signIn()}>Sign in</span>
                     </p>
                 </div>
             </div>
@@ -145,3 +131,9 @@ const SignUp  = () : JSX.Element => {
 }
 
 export default SignUp
+
+export const getStaticProps = () => {
+    return {
+        props: {},
+    }
+}
