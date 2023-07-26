@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { MetaProps } from "@/utils/types";
 import { useRouter } from 'next/router';
 import Header from '../Header';
@@ -19,10 +19,30 @@ const Layout = ({
 
     const router = useRouter()
 
-    if (router.isFallback) {
+    const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        
+        const handleStart = () => setLoading(true);
+        const handleComplete = () => setLoading(false);
+
+        router.events.on('routeChangeStart', handleStart)
+        router.events.on('routeChangeComplete', handleComplete)
+        router.events.on('routeChangeError',  handleComplete)
+  
+        return () => {
+            router.events.off('routeChangeStart', handleStart)
+            router.events.off('routeChangeComplete', handleComplete)
+            router.events.off('routeChangeError', handleComplete)
+        }
+
+    }, [router])
+
+    if (loading || router.isFallback) {
         return (
-          <div className="h-screen w-screen flex justify-center items-center bg-slate-200">
+          <div className="h-screen w-screen flex flex-col justify-center items-center bg-slate-400">
             <LoadingSkeleton />
+            <p className='text-2xl font-semibold tracking-wide text-center text-black mt-4'>Loading...</p>
           </div>
         );
     }

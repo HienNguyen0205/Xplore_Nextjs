@@ -19,11 +19,28 @@ export interface featureItem {
 }
 
 export interface tourDef {
-    destination: string, 
     image: string,
     price: number,
+    destination: string,
+    date: {
+        from: Date,
+        to: Date,
+    },
     time: number,
+    departure: string,
+    slot: number[],
     rating: number,
+    title: string,
+    comment: {
+        content: string,
+        date: Date,
+    }[]
+}
+
+export interface tourListProps{
+    data: tourDef[],
+    option?: boolean,
+    pagination?: boolean
 }
 
 export interface tourStatisticDef {

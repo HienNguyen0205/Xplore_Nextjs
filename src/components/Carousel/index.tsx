@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect, useRef } from "react"
 import { ArrowBackIosNew , ArrowForwardIos } from '@mui/icons-material'
 import styles from '@/styles/Carousel.module.scss'

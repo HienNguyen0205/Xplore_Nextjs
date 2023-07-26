@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import dayjs from "dayjs";
 import { TextField, Autocomplete } from "@mui/material";
@@ -7,24 +8,22 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Button } from "@/components";
 
 const desOptions = [
-  "Austria",
-  "Czech",
-  "England",
-  "Hungary",
-  "Italy",
-  "Wales",
-  "Scotland",
-  "Slovenia",
-  "Switzerland",
-  "Spain",
-  "Turkey",
-];
+  "Australia",
+  "America",
+  "China",
+  "Japan",
+  "Korean",
+  "Thailand",
+  "Cambodia",
+  "Singapore",
+  "United Arab Emirates",
+].sort((a, b) => a.localeCompare(b));
 
-const numOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+const departureOptions = ["Ho Chi Minh"];
 
 const FindTour = (): JSX.Element => {
   const [destination, setDestination] = useState<string | null>(null);
-  const [person, setPerson] = useState<string | null>(null);
+  const [departure, setDeparture] = useState<string | null>(null);
   const [checkIn, setCheckIn] = useState<dayjs.Dayjs | null>(null);
 
   return (
@@ -39,11 +38,11 @@ const FindTour = (): JSX.Element => {
       />
       <Autocomplete
         disablePortal
-        options={numOptions}
+        options={departureOptions}
         sx={{ flex: 1, mx: 2 }}
-        value={person}
-        onChange={(e, value) => setPerson(value)}
-        renderInput={(params) => <TextField {...params} label="Total Person" />}
+        value={departure}
+        onChange={(e, value) => setDeparture(value)}
+        renderInput={(params) => <TextField {...params} label="Departure" />}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
         <DatePicker

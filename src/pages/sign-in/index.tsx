@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+'use client'
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -52,10 +53,10 @@ const SignIn  = () : JSX.Element => {
                     redirect: false,
                 }).then(res => {
                     if(res?.ok){
-                        toast.success('Log in successful!')
+                        toast.success('Log in successful!', {delay: 2000})
                         router.push('/')
                     }else{
-                        toast.error('Log in failed!')
+                        toast.error('Log in failed!', {delay: 2000})
                     }
                 }).catch(err => {
                     console.error(err);
@@ -113,9 +114,3 @@ const SignIn  = () : JSX.Element => {
 }
 
 export default SignIn
-
-export const getStaticProps = () => {
-    return {
-        props: {},
-    }
-}

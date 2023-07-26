@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+'use client'
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import Meta from '@/components/Layout/meta'
@@ -131,9 +132,3 @@ const SignUp  = () : JSX.Element => {
 }
 
 export default SignUp
-
-export const getStaticProps = () => {
-    return {
-        props: {},
-    }
-}

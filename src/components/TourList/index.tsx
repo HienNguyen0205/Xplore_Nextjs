@@ -1,45 +1,40 @@
+'use client'
 import React, { useState, useEffect } from "react"
-import { StarRate } from '@mui/icons-material'
 import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl, Pagination } from '@mui/material'
+import { tourDef, tourListProps } from "@/utils/types"
+import { LocationOn, AccessTime, StarRate } from "@mui/icons-material"
 import Image from "next/image"
 import styles from '@/styles/TourList.module.scss'
 import axios from "axios"
 
-interface tourProps{
-    image: string,
-    price: number,
-    destination: string,
-    time: number,
-    rating: number,
-    discount?: number,
-}
+const TourItem = ({data}: {data: tourDef}): JSX.Element => {
 
-interface tourListProps{
-    data: tourProps[],
-    option?: boolean,
-    pagination?: boolean
-}
+    const ratingTag = (rating: number) : string => {
+        if(rating >= 4) return 'Excellent'
+        else if(rating >= 3) return 'Great'
+        else return 'Good'
+    }
 
-const TourItem = ({data}: {data: tourProps}): JSX.Element => {
     return (
         <div className={styles.tour_item}>
             <div className="relative">
                 <Image className="rounded-t-lg" src={require(`../../assets/images/Tour/${data.image}.webp`)} alt=''/>
-                <div className="absolute top-2 right-2 py-1 pr-2 pl-1 bg-slate-400 rounded-xl flex items-center">
-                    <StarRate className="mx-1" sx={{color: 'yellow', fontSize: 20}}/>
-                    <span className="text-white">{data.rating}</span>
-                </div>
             </div>
             <div className="p-2">
-                <h1 className="font-bold text-lg">{data.destination}</h1>
-                <p>{data.time} days</p>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <div className="inline-block text-orange-600 font-bold text-lg">$</div>
-                        <div className="inline-block font-bold text-lg">{data.price}</div>
-                        <p className="inline-block text-md">/person</p>
-                    </div>
-                    <button className={styles.button}>Book</button>
+                <h1 className="font-bold text-lg h-[56px]">{data.title}</h1>
+                <div className="flex justify-start items-center my-2">
+                    <div className="py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit inline-block me-1">{data.rating}</div>
+                    <span className="text-emerald-500">{ratingTag(data.rating)}</span>
+                    <span className="mx-1">|</span>
+                    <span>{data.comment.length} comments</span>
+                </div>
+                <div className="flex justify-between items-center my-1">
+                    <p><LocationOn sx={{marginRight: '3px', marginLeft: '-5px'}}/>{data.departure}</p>
+                    <p><AccessTime sx={{marginRight: '3px'}}/>{data.time} days</p>
+                </div>
+                <div className="flex justify-end items-end">
+                    <div className="inline-block text-orange-600 font-bold text-lg">$</div>
+                    <div className="inline-block font-bold text-2xl">{data.price}</div>
                 </div>
             </div>
         </div>
@@ -49,8 +44,8 @@ const TourItem = ({data}: {data: tourProps}): JSX.Element => {
 const TourList = ({data, option = false, pagination = false}: tourListProps): JSX.Element => {
 
     const [index, setIndex] = useState<number>(0)
-    const [tourData, setTourData] = useState<tourProps[]>(data)
-    const [tourList, setTourList] = useState<tourProps[]>(data.slice(0,8))
+    const [tourData, setTourData] = useState<tourDef[]>(data)
+    const [tourList, setTourList] = useState<tourDef[]>(data.slice(0,8))
     const [sortType, setSortType] = useState<string>('destination')
 
     useEffect(() => {
