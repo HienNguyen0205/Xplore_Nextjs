@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import { TextField, Autocomplete } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Button } from "@/components";
+import { useRouter } from "next/router";
+import { findTourProps } from "@/utils/types";
 
 const desOptions = [
   "Australia",
@@ -21,16 +21,45 @@ const desOptions = [
 
 const departureOptions = ["Ho Chi Minh"];
 
-const FindTour = (): JSX.Element => {
-  const [destination, setDestination] = useState<string | null>(null);
-  const [departure, setDeparture] = useState<string | null>(null);
-  const [checkIn, setCheckIn] = useState<dayjs.Dayjs | null>(null);
+const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
+
+  console.log(defaultValue);
+
+  const [destination, setDestination] = useState<string | null>(
+    defaultValue ? defaultValue.destination : null
+  );
+  const [departure, setDeparture] = useState<string | null>(
+    defaultValue ? defaultValue.departure : null
+  );
+  const [checkIn, setCheckIn] = useState<dayjs.Dayjs | null>(
+    defaultValue ? dayjs(defaultValue.checkIn) : null
+  );
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(
+      `/tour?departure=${departure}&destination=${destination}&checkIn=${checkIn}`
+    );
+  };
 
   return (
-    <div className="bg-white rounded-2xl w-full h-32 flex justify-around items-center mb-16">
+    <div
+      className={`${
+        bg === "light" ? "bg-white" : "bg-slate-300"
+      } rounded-2xl w-full h-32 flex justify-around items-center mb-3`}
+    >
       <Autocomplete
         disablePortal
         options={desOptions}
+        style={
+          bg === "dark"
+            ? {
+                backgroundColor: "#ffffff14 !important",
+                color: "white !important",
+              }
+            : {}
+        }
         sx={{ flex: 1, mx: 2 }}
         value={destination}
         onChange={(e, value) => setDestination(value)}
@@ -44,21 +73,21 @@ const FindTour = (): JSX.Element => {
         onChange={(e, value) => setDeparture(value)}
         renderInput={(params) => <TextField {...params} label="Departure" />}
       />
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-        <DatePicker
-          label="Select check-in day"
-          value={checkIn}
-          onChange={(date) => {
-            setCheckIn(date);
-          }}
-        />
-      </LocalizationProvider>
+      <DatePicker
+        label="Select check-in day"
+        value={checkIn}
+        onChange={(date) => {
+          setCheckIn(date);
+        }}
+        disablePast
+      />
       <Button
         content="Search"
         bgColor="#1a1aff"
         width="136px"
         height="56px"
         textColor="white"
+        onClick={handleClick}
       />
     </div>
   );

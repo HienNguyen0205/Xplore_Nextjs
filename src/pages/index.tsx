@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '@/styles/Home.module.scss'
 import db from '@/utils/database'
 import Image from "next/image"
-import { tour, tourStatistic } from '@/models'
+import { tourStatistic, tourSchedule } from '@/models'
 import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
 import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
@@ -67,9 +67,9 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
     const { tourList, tourStatistic } = props
 
     return (
-        <>
+        <div className='bg-slate-200'>
             <Carousel content={courouselData}/>
-            <div className='w-full flex-col bg-white flex items-center pb-5' style={{backgroundColor: '#f7f3fb'}}>
+            <div className='w-full flex-col flex items-center pb-5'>
                 <TourList data={tourList}/>
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
@@ -77,7 +77,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
                     <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_1.webp')} alt=''/>
                 </ParallaxBannerLayer>
             </ParallaxBanner>
-            <div className='w-full bg-white flex justify-center'>
+            <div className='w-full flex justify-center'>
                 <div className='container flex justify-around mt-10 mb-14'>
                     <Statistic name='Happy customer' quantity={tourStatistic.customers} icon={
                         <SentimentSatisfiedAlt sx={{fontSize: 64, margin: 'auto'}}/>
@@ -111,7 +111,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
                     </div>
                 </div>
             </ParallaxBanner>
-        </>
+        </div>
     )
 }
 
@@ -120,17 +120,16 @@ export default Home
 export const getStaticProps = async () => {
     try{
         await db()
-        const tourData = await tour.find()
-        const tourStatisticData = await tourStatistic.find()
+        const tourData = await tourSchedule.find()
+        const tourStatisticData = await tourStatistic.findOne()
         return {
             props: {
                 tourList: JSON.parse(JSON.stringify(tourData)),
-                tourStatistic: JSON.parse(JSON.stringify(tourStatisticData[0]))
+                tourStatistic: JSON.parse(JSON.stringify(tourStatisticData))
             },
             revalidate: 10
         }
     }catch(err){
-        console.error(err)
         return {
             props: {
                 notFound: true

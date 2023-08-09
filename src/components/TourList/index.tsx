@@ -1,13 +1,15 @@
-'use client'
 import React, { useState, useEffect } from "react"
-import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl, Pagination } from '@mui/material'
+import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl, Pagination, Button } from '@mui/material'
 import { tourDef, tourListProps } from "@/utils/types"
-import { LocationOn, AccessTime, StarRate } from "@mui/icons-material"
+import { LocationOn, AccessTime } from "@mui/icons-material"
+import { useRouter } from "next/router"
 import Image from "next/image"
 import styles from '@/styles/TourList.module.scss'
 import axios from "axios"
 
 const TourItem = ({data}: {data: tourDef}): JSX.Element => {
+
+    const router = useRouter()
 
     const ratingTag = (rating: number) : string => {
         if(rating >= 4) return 'Excellent'
@@ -15,21 +17,25 @@ const TourItem = ({data}: {data: tourDef}): JSX.Element => {
         else return 'Good'
     }
 
+    const handleClick = () => {
+        router.push(`/tour?_id=${data._id}`)
+    }
+
     return (
-        <div className={styles.tour_item}>
+        <div className={styles.tour_item} onClick={handleClick}>
             <div className="relative">
                 <Image className="rounded-t-lg" src={require(`../../assets/images/Tour/${data.image}.webp`)} alt=''/>
             </div>
             <div className="p-2">
-                <h1 className="font-bold text-lg h-[56px]">{data.title}</h1>
+                <h1 className="font-bold text-lg h-[56px]">{`${data.destination} ${data.route}`}</h1>
                 <div className="flex justify-start items-center my-2">
                     <div className="py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit inline-block me-1">{data.rating}</div>
                     <span className="text-emerald-500">{ratingTag(data.rating)}</span>
                     <span className="mx-1">|</span>
-                    <span>{data.comment.length} comments</span>
+                    <span>{data.comments.length} comments</span>
                 </div>
-                <div className="flex justify-between items-center my-1">
-                    <p><LocationOn sx={{marginRight: '3px', marginLeft: '-5px'}}/>{data.departure}</p>
+                <div className="flex justify-between items-center my-2">
+                    <p><LocationOn sx={{marginRight: '3px', marginLeft: '-5px'}}/>{data.destination}</p>
                     <p><AccessTime sx={{marginRight: '3px'}}/>{data.time} days</p>
                 </div>
                 <div className="flex justify-end items-end">
@@ -41,18 +47,20 @@ const TourItem = ({data}: {data: tourDef}): JSX.Element => {
     )
 }
 
-const TourList = ({data, option = false, pagination = false}: tourListProps): JSX.Element => {
+const TourList = ({data, option = false, pagination = false, tourHeader = true, sortBar = false, isLimit = true}: tourListProps): JSX.Element => {
 
     const [index, setIndex] = useState<number>(0)
     const [tourData, setTourData] = useState<tourDef[]>(data)
-    const [tourList, setTourList] = useState<tourDef[]>(data.slice(0,8))
+    const [tourList, setTourList] = useState<tourDef[]>(isLimit ? data.slice(0,8) : data)
     const [sortType, setSortType] = useState<string>('destination')
 
     useEffect(() => {
-        const space = 8
-        const list = tourData.slice(index * space, (index + 1) * space)
-        setTourList(list)
-    }, [index, tourData])
+        if(isLimit){
+            const space = 8
+            const list = tourData.slice(index * space, (index + 1) * space)
+            setTourList(list)
+        }
+    }, [index, tourData, isLimit])
 
     useEffect(() => {
         axios.get('/api/services/get-tour-by-order', {
@@ -76,9 +84,9 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
     }
 
     return (
-        <>
-            <div className='container flex justify-between my-10'>
-                <div className='title_wrap'>
+        <div className="flex flex-col items-center">
+            {tourHeader && <div className='container flex justify-between my-10'>
+                <div>
                     <>
                         <h1 className='text-5xl font-bold inline-block pr-2'>Find</h1>
                         <span className={styles.type_text}></span>
@@ -99,19 +107,25 @@ const TourList = ({data, option = false, pagination = false}: tourListProps): JS
                         <MenuItem value='rating'>Rating</MenuItem>
                     </Select>
                 </FormControl>}
-            </div>
-            <div className="container grid grid-cols-4 gap-4 m-2 mb-5">
+            </div>}
+            {sortBar && <div className="container bg-slate-300 rounded-md flex justify-between items-center my-3">
+                <span className="flex flex-1 justify-center">Sort by:</span>
+                <Button sx={{flex: 1}} onClick={() => setSortType('destination')}>Name</Button>
+                <Button sx={{flex: 1}} onClick={() => setSortType('date.from')}>Date</Button>
+                <Button sx={{flex: 1}} onClick={() => setSortType('price')}>Price</Button>
+            </div>}
+            <div className="container grid grid-cols-4 gap-4 mb-5">
                 {tourList.map((item, index) => {
                     return (
                         <TourItem key={index} data={item} />
                     )
                 })}
             </div>
-            {pagination && <Pagination sx={{justifySelf: 'center'}}
+            {pagination && isLimit && <Pagination sx={{justifySelf: 'center', marginBottom: '12px'}}
                 size='large' variant="outlined" shape="rounded" 
                 count={Math.ceil(data.length / 8)} onChange={handlePagination}
             />}
-        </>
+        </div>
     )
 }
 

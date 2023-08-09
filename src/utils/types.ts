@@ -19,28 +19,27 @@ export interface featureItem {
 }
 
 export interface tourDef {
+    _id: string,
     image: string,
     price: number,
     destination: string,
-    date: {
-        from: Date,
-        to: Date,
-    },
     time: number,
-    departure: string,
-    slot: number[],
     rating: number,
-    title: string,
-    comment: {
+    comments: {
         content: string,
         date: Date,
-    }[]
+    }[],
+    route: string,
+    status: boolean,
 }
 
 export interface tourListProps{
     data: tourDef[],
     option?: boolean,
-    pagination?: boolean
+    pagination?: boolean,
+    tourHeader?: boolean,
+    sortBar?: boolean,
+    isLimit?: boolean,
 }
 
 export interface tourStatisticDef {
@@ -65,4 +64,27 @@ export interface UserDef {
     email: string,
     password: string,
     tel: string,
+}
+
+export interface tourDate {
+    from: Date, 
+    to: Date,
+}
+
+export interface findTourProps {
+    bg: 'light' | 'dark',
+    defaultValue?: {
+        destination: string,
+        departure: string,
+        checkIn: string,
+    }
+}
+
+export interface tourPageProps {
+    tourList: tourDef[],
+    defaultValue: {
+        destination: string,
+        departure: string,
+        checkIn: string
+    }
 }

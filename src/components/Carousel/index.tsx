@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect, useRef } from "react"
 import { ArrowBackIosNew , ArrowForwardIos } from '@mui/icons-material'
 import styles from '@/styles/Carousel.module.scss'
@@ -57,7 +56,7 @@ const Carousel = ({content, duration = 6000}: carouselProps): JSX.Element => {
             <div id={styles.carousel} ref={ref}>
                 {content.map((item, imgIndex) => (
                     <div key={imgIndex} className={styles.carousel_item}>
-                        <Image className='w-full h-full select-none object-cover' src={require(`../../assets/images/Carousel/${item.source}`)} alt='' priority/>
+                        <Image className='select-none' src={require(`../../assets/images/Carousel/${item.source}`)} alt='' priority fill/>
                         <div className='absolute bottom-8 w-full flex flex-col items-center'>
                             <h1 id={`${index === imgIndex ? styles.carousel_heading1 : ''}`} className={styles.carousel_heading1}>{item.country}</h1>
                             <h3 id={`${index === imgIndex ? styles.carousel_heading2 : ''}`} className={styles.carousel_heading2}>{item.destination}</h3>

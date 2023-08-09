@@ -1,5 +1,5 @@
-import tour from './tour'
 import tourStatistic from './tourStatistic'
 import user from './user'
+import tourSchedule from './tourSchedule'
 
-export { tour, tourStatistic, user }
+export { tourStatistic, user, tourSchedule }
