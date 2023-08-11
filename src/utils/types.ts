@@ -31,6 +31,11 @@ export interface tourDef {
     }[],
     route: string,
     status: boolean,
+    date: {
+        from: string,
+        to: string,
+    },
+    departure: string,
 }
 
 export interface tourListProps{
@@ -40,6 +45,7 @@ export interface tourListProps{
     tourHeader?: boolean,
     sortBar?: boolean,
     isLimit?: boolean,
+    showDate?: boolean,
 }
 
 export interface tourStatisticDef {

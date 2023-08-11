@@ -25,7 +25,7 @@ const Tour = (props : tourPageProps) => {
       <div className="flex justify-center">
         <div className='container mt-24'>
           <FindTour bg='dark' defaultValue={defaultValue}/>
-          <TourList data={tourList} pagination tourHeader={false} sortBar isLimit={false}/>
+          <TourList data={tourList} pagination tourHeader={false} sortBar isLimit={false} showDate/>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ export const getServerSideProps : GetServerSideProps<tourPageProps | { notFound 
       destination,
       departure,
       'date.from' : { $gte: new Date(checkIn as string) }
-    })
+    }, '-userRegisterId')
     return {
       props: {
         tourList: JSON.parse(JSON.stringify(tourScheduleList)),

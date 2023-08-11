@@ -23,8 +23,6 @@ const departureOptions = ["Ho Chi Minh"];
 
 const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
 
-  console.log(defaultValue);
-
   const [destination, setDestination] = useState<string | null>(
     defaultValue ? defaultValue.destination : null
   );

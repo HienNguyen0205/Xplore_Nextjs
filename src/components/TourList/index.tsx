@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { Select, SelectChangeEvent, MenuItem, InputLabel, FormControl, Pagination, Button } from '@mui/material'
 import { tourDef, tourListProps } from "@/utils/types"
-import { LocationOn, AccessTime } from "@mui/icons-material"
+import { LocationOn, AccessTime, CalendarMonth } from "@mui/icons-material"
 import { useRouter } from "next/router"
 import Image from "next/image"
 import styles from '@/styles/TourList.module.scss'
 import axios from "axios"
+import dayjs from "dayjs"
 
-const TourItem = ({data}: {data: tourDef}): JSX.Element => {
+const TourItem = ({data, showDate}: {data: tourDef, showDate: boolean}): JSX.Element => {
 
     const router = useRouter()
 
@@ -38,6 +39,12 @@ const TourItem = ({data}: {data: tourDef}): JSX.Element => {
                     <p><LocationOn sx={{marginRight: '3px', marginLeft: '-5px'}}/>{data.destination}</p>
                     <p><AccessTime sx={{marginRight: '3px'}}/>{data.time} days</p>
                 </div>
+                {showDate && <div className="my-2">
+                    <div className="flex items-center">
+                        <CalendarMonth sx={{marginRight: '3px', marginLeft: '-5px'}}/>
+                        <span>{dayjs(data.date.from).format('ddd, DD-MM-YYYY').toString()}</span>
+                    </div>
+                </div>}
                 <div className="flex justify-end items-end">
                     <div className="inline-block text-orange-600 font-bold text-lg">$</div>
                     <div className="inline-block font-bold text-2xl">{data.price}</div>
@@ -47,7 +54,7 @@ const TourItem = ({data}: {data: tourDef}): JSX.Element => {
     )
 }
 
-const TourList = ({data, option = false, pagination = false, tourHeader = true, sortBar = false, isLimit = true}: tourListProps): JSX.Element => {
+const TourList = ({data, option = false, pagination = false, tourHeader = true, sortBar = false, isLimit = true, showDate = false}: tourListProps): JSX.Element => {
 
     const [index, setIndex] = useState<number>(0)
     const [tourData, setTourData] = useState<tourDef[]>(data)
@@ -117,7 +124,7 @@ const TourList = ({data, option = false, pagination = false, tourHeader = true, 
             <div className="container grid grid-cols-4 gap-4 mb-5">
                 {tourList.map((item, index) => {
                     return (
-                        <TourItem key={index} data={item} />
+                        <TourItem key={index} data={item} showDate={showDate}/>
                     )
                 })}
             </div>
