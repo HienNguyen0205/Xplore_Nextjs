@@ -7,8 +7,8 @@ import styles from "@/styles/Sevices.module.scss";
 import Meta from "@/components/Layout/meta";
 import "dayjs/locale/en-gb";
 
-const Services = (props: { tourList: tourDef[] }): JSX.Element => {
-  
+const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
+
   const { tourList } = props;
 
   return (
@@ -29,7 +29,7 @@ const Services = (props: { tourList: tourDef[] }): JSX.Element => {
         </div>
       </div>
       <div className="w-full flex-col flex items-center pb-5 pt-10">
-        <TourList data={tourList} pagination option />
+        {tourList.map((tours, index) => <TourList key={index} data={tours} pagination title titleContent={tours[0].region + ' Tour'} />)}
       </div>
     </div>
   );
@@ -37,15 +37,41 @@ const Services = (props: { tourList: tourDef[] }): JSX.Element => {
 
 export default Services;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   try {
     await db();
-    const tourData = await tourSchedule.find();
+    let tourData = await tourSchedule.aggregate([
+      {
+        $match: {
+          status: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$tourId",
+          tourId: { $first: "$_id" },
+          image: { $first: "$image" },
+          route: { $first: "$route" },
+          comments: { $first: "$comments" },
+          price: { $first: "$price" },
+          rating: { $first: "$rating" },
+          time: { $first: "$time" },
+          destination: { $first: "$destination" },
+          region: { $first: "$region" },
+        },
+      },
+      {
+        $group: {
+          _id: '$region',
+          tourRegion: { $push: '$$ROOT'}
+        }
+      }
+    ]);
+    tourData = tourData.map(tour => tour.tourRegion)
     return {
       props: {
         tourList: JSON.parse(JSON.stringify(tourData)),
       },
-      revalidate: 10,
     };
   } catch (err) {
     console.error(err);

@@ -36,16 +36,19 @@ export interface tourDef {
         to: string,
     },
     departure: string,
+    region: string,
 }
 
 export interface tourListProps{
     data: tourDef[],
-    option?: boolean,
+    key?: number,
     pagination?: boolean,
     tourHeader?: boolean,
     sortBar?: boolean,
     isLimit?: boolean,
     showDate?: boolean,
+    title?: boolean,
+    titleContent?: string,
 }
 
 export interface tourStatisticDef {

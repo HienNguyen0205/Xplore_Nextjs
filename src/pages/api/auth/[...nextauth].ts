@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, { SessionStrategy } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import FacebookProvider from "next-auth/providers/facebook";
 import db from '@/utils/database'
@@ -35,6 +35,14 @@ export const authOptions = {
   ],
   pages: {
     signIn: '/sign-in',
+  },
+  session: {
+    strategy: "jwt" as SessionStrategy,
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
+  },
+  jwt: {
+    maxAge: 3 * 24 * 60 * 60,
   },
 }
 

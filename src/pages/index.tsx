@@ -66,11 +66,13 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
 
     const { tourList, tourStatistic } = props
 
+    console.log(tourList)
+
     return (
         <div className='bg-slate-200'>
             <Carousel content={courouselData}/>
             <div className='w-full flex-col flex items-center pb-5'>
-                <TourList data={tourList}/>
+                <TourList data={tourList} titleContent='Destination'/>
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
@@ -117,17 +119,32 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
 
 export default Home
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
     try{
         await db()
-        const tourData = await tourSchedule.find()
+        let tourData = await tourSchedule.aggregate([
+            {
+                $match: { 
+                    status: true,
+                }
+            },
+            {
+                $group: {
+                    _id: '$tourId',
+                    tourData: { $push: '$$ROOT' }
+                }
+            },
+            {
+                $limit: 8
+            }
+        ])
+        tourData = tourData.map(tour => tour.tourData[0])
         const tourStatisticData = await tourStatistic.findOne()
         return {
             props: {
                 tourList: JSON.parse(JSON.stringify(tourData)),
                 tourStatistic: JSON.parse(JSON.stringify(tourStatisticData))
             },
-            revalidate: 10
         }
     }catch(err){
         return {
