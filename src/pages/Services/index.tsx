@@ -37,7 +37,7 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
 
 export default Services;
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   try {
     await db();
     let tourData = await tourSchedule.aggregate([
@@ -72,6 +72,7 @@ export const getServerSideProps = async () => {
       props: {
         tourList: JSON.parse(JSON.stringify(tourData)),
       },
+      revalidate: 10,
     };
   } catch (err) {
     console.error(err);
