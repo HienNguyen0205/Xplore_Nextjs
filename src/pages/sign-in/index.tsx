@@ -77,6 +77,7 @@ const SignIn = (): JSX.Element => {
           title: "Xplore | Sign in",
           description:
             "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
+          robots: 'noindex'
         }}
       />
       <div className="w-100 h-screen flex flex-col justify-around items-center relative">

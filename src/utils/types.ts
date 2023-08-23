@@ -60,7 +60,8 @@ export interface tourStatisticDef {
 
 export interface MetaProps {
     title: string,
-    description: string
+    description: string,
+    robots?: string,
 }
 
 export interface toastProps {

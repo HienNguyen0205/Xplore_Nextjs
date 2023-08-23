@@ -47,7 +47,7 @@ const Statistic = (props: statistic): JSX.Element => {
         <div className='flex flex-col align-middle text-center'>
             {props.icon}
             <div className='text-black text-center text-5xl font-bold'>{props.quantity}</div>
-            <h5 className='text-red-500 text-center text-xl'>{props.name}</h5>
+            <p className='text-red-500 text-center text-xl'>{props.name}</p>
         </div>
     )
 }

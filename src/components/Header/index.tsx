@@ -13,26 +13,28 @@ const Header = (): JSX.Element => {
     const router = useRouter()
     const { data: session, status } = useSession()
 
+    const returnHome = () => {
+        router.push("/");
+    };
+
     return (
         <header className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-[.85]' 
             style={{backgroundColor: 'black'}}>
             <div className='container flex items-center justify-between'>
-                <Link className='h-full' href='/'>
-                    <Image className='h-full py-5 object-contain' alt='logo'
-                        src={require('../../assets/images/Logo/XPLORE_logo.png')} priority/>
-                </Link>
+                <Image className='h-full py-5 object-contain' alt='logo'
+                            src={require('../../assets/images/Logo/XPLORE_logo.png')} priority onClick={returnHome}/>
                 <ul className='flex justify-center items-center' style={{color: 'white'}}>
-                    <li className='nav_link' style={router.pathname === '/' ? {color: '#ff00a2'} : {}}>
+                    <li className='nav_link' style={router.pathname === '/' ? {color: '#ff4dd8'} : {}}>
                         <Link href='/'>HOME</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/services' ? {color: '#ff00a2'} : {}}>
-                        <Link  href='/services'>SERVICES</Link>
+                    <li className='nav_link' style={router.pathname === '/services' ? {color: '#ff4dd8'} : {}}>
+                        <Link  href='/Services'>SERVICES</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/discover' ? {color: '#ff00a2'} : {}}>
-                        <Link  href='/discover'>DISCOVER</Link>
+                    <li className='nav_link' style={router.pathname === '/discover' ? {color: '#ff4dd8'} : {}}>
+                        <Link  href='/Discover'>DISCOVER</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/about' ? {color: '#ff00a2'} : {}}>
-                        <Link href='/about'>ABOUT US</Link>
+                    <li className='nav_link' style={router.pathname === '/about' ? {color: '#ff4dd8'} : {}}>
+                        <Link href='/About'>ABOUT US</Link>
                     </li>
                 </ul>
                 {status === 'authenticated' ? <div className={styles.avatar_container}>
