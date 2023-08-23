@@ -65,9 +65,7 @@ const FeatureItem = (props: featureItem): JSX.Element => {
 const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): JSX.Element => {
 
     const { tourList, tourStatistic } = props
-
-    console.log(tourList)
-
+    
     return (
         <div className='bg-slate-200'>
             <Carousel content={courouselData}/>
@@ -119,12 +117,12 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
 
 export default Home
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     try{
         await db()
         let tourData = await tourSchedule.aggregate([
             {
-                $match: { 
+                $match: {
                     status: true,
                 }
             },
@@ -145,6 +143,7 @@ export const getServerSideProps = async () => {
                 tourList: JSON.parse(JSON.stringify(tourData)),
                 tourStatistic: JSON.parse(JSON.stringify(tourStatisticData))
             },
+            revalidate: 10,
         }
     }catch(err){
         return {

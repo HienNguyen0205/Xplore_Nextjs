@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  Select,
   SelectChangeEvent,
-  MenuItem,
-  InputLabel,
-  FormControl,
   Pagination,
   Button,
 } from "@mui/material";
@@ -104,7 +100,6 @@ const TourList = ({
   useEffect(() => {
     if(sortType === 'destination'){
       setTourData(data => data.sort((a, b) => a.destination > b.destination ? 1 : -1))
-      console.log(tourData)
     }else if(sortType === 'date'){
       setTourData(data => data.sort((a, b) => dayjs(a.date.from).isAfter(dayjs(b.date.from)) ? 1 : -1))
     }else if(sortType === 'price'){
