@@ -33,8 +33,8 @@ const GalleryImgList = (props : galleryImgListProps) => {
   const { region, imgList } = props
 
   return (
-    <div className="my-6">
-      <h1 className="text-center text-3xl font-semibold mb-3">{region}</h1>
+    <div id={region} className="my-20">
+      <h1 className="text-center text-5xl font-semibold mb-6">{region}</h1>
       <LightGallery
         elementClassNames="grid lg:grid-cols-4 sm:grid-cols-2 gap-4"
         speed={500}
@@ -43,6 +43,7 @@ const GalleryImgList = (props : galleryImgListProps) => {
         {imgList.map((item,index) => {
           return (
             <CldImage key={index}
+              className="cursor-pointer"
               width={1920}
               height={1080}
               src={item}
@@ -60,9 +61,17 @@ const GalleryGroup = (props: galleryGroupProps) => {
 
   const { imgSrc, region } = props;
 
+  const scrollToGallery = () => {
+    document.querySelector(`#${region}`)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
+    })
+  }
+
   return (
     <div className="w-fit">
-      <div className="rounded overflow-hidden w-[260px] aspect-square">
+      <div className="rounded overflow-hidden w-[260px] aspect-square cursor-pointer" onClick={scrollToGallery}>
         <CldImage
           className="aspect-square transition duration-300 hover:scale-110"
           width={260}
