@@ -16,8 +16,6 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
       <Meta
         props={{
           title: "Xplore | Services",
-          description:
-            "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
         }}
       />
       <div className={styles.search_container}>

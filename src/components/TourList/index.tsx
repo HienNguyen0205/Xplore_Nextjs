@@ -7,6 +7,7 @@ import {
 import { tourDef, tourListProps } from "@/utils/types";
 import { LocationOn, AccessTime, CalendarMonth } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { CldImage } from 'next-cloudinary';
 import Image from "next/image";
 import styles from "@/styles/TourList.module.scss";
 import dayjs from "dayjs";
@@ -32,13 +33,7 @@ const TourItem = ({
 
   return (
     <div className={styles.tour_item} onClick={handleClick}>
-      <div className="relative">
-        <Image
-          className="rounded-t-lg"
-          src={require(`../../assets/images/Tour/${data.image}.webp`)}
-          alt=""
-        />
-      </div>
+      <CldImage className='rounded-t-lg' width={360} height={225} src={data.image} alt='tour_img'/>
       <div className="p-2">
         <h1 className="font-bold text-lg h-[56px]">{`${data.destination} - ${data.route}`}</h1>
         <div className="flex justify-start items-center my-2">
@@ -156,7 +151,7 @@ const TourList = ({
         </div>
       )}
       {tourList.length !== 0 ? (
-        <div className="container grid grid-cols-4 gap-4 mb-5">
+        <div className="container grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mb-5">
           {tourList.map((item, index) => {
             return <TourItem key={index} data={item} showDate={showDate} />;
           })}

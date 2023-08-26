@@ -8,6 +8,7 @@ import { TextField, Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { CldImage } from "next-cloudinary";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -75,18 +76,18 @@ const SignIn = (): JSX.Element => {
       <Meta
         props={{
           title: "Xplore | Sign in",
-          description:
-            "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
           robots: 'noindex'
         }}
       />
       <div className="w-100 h-screen flex flex-col justify-around items-center relative">
-        <Image
-          className="absolute h-[100%] object-cover z-[-1]"
-          src={require("@/assets/images/Background/logbg.webp")}
-          alt=""
-          priority
-          
+        <CldImage
+          className="absoolute object-cover z-[-1]"
+          width={1920}
+          height={1080}
+          src='Background/f1qvgywzo4ke5amkn46n'
+          fill
+          sizes="100vw"
+          alt="background"
         />
         <Image
           className="w-[160px] cursor-pointer"

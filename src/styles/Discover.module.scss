@@ -1,0 +1,10 @@
+.gallery_group_img{
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    transition: .3s ease-in;
+    overflow: hidden;
+    &:hover{
+        transform: scale(1.1);
+    }
+}

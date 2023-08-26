@@ -60,7 +60,7 @@ export interface tourStatisticDef {
 
 export interface MetaProps {
     title: string,
-    description: string,
+    description?: string,
     robots?: string,
 }
 
@@ -97,4 +97,21 @@ export interface tourPageProps {
         departure: string,
         checkIn: string
     }
+}
+
+export interface galleryGroupProps {
+    imgSrc: string,
+    region: string,
+}
+
+export interface galleryImgListProps{
+    region: string,
+    imgList: string[],
+}
+
+export interface discoverDef{
+    galleryData: [{
+        region: string,
+        imageList: [string],
+    }]
 }

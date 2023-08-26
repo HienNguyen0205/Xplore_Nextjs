@@ -1,11 +1,12 @@
-import NextAuth, { SessionStrategy } from "next-auth"
+import NextAuth from "next-auth"
+import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from "next-auth/providers/credentials"
 import FacebookProvider from "next-auth/providers/facebook";
 import db from '@/utils/database'
 import { user } from '@/models'
 import { compare } from 'bcrypt'
 
-export const authOptions = {
+export const authOptions : NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Sign In',
@@ -35,14 +36,6 @@ export const authOptions = {
   ],
   pages: {
     signIn: '/sign-in',
-  },
-  session: {
-    strategy: "jwt" as SessionStrategy,
-    maxAge: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60,
-  },
-  jwt: {
-    maxAge: 3 * 24 * 60 * 60,
   },
 }
 

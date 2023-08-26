@@ -1,38 +1,38 @@
 import React from 'react'
 import styles from '@/styles/Home.module.scss'
 import db from '@/utils/database'
-import Image from "next/image"
 import { tourStatistic, tourSchedule } from '@/models'
 import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
 import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
 import { countryDetail, statistic, featureItem, tourDef, tourStatisticDef } from '@/utils/types'
+import { CldImage } from 'next-cloudinary';
 
 const courouselData: countryDetail[] = [
     {
         country: 'Chile',
         destination: 'Torres del Paine National Park',
-        source: 'Chile.webp'
+        source: 'Carousel/csujhbh4tnrpk4x4zwa9'
     },
     {
         country: 'Croatia',
         destination: 'Plitvice Lakes National Park',
-        source: 'Croatia.webp'
+        source: 'Carousel/xypvtfthd0it63de18xr'
     },
     {
         country: 'New Zealand',
         destination: 'Lake Tekapo',
-        source: 'New-Zealand.webp'
+        source: 'Carousel/x7shbpwiqgsenft9qkbl'
     },
     {
         country: 'Japan',
         destination: 'Fuji Mount',
-        source: 'Japan.webp'
+        source: 'Carousel/misg8ecxyy4nziyspoc1'
     },
     {
         country: 'Viet Nam',
         destination: 'Ha Long Bay',
-        source: 'VietNam.webp'
+        source: 'Carousel/r0v3owiletideu0lurcn'
     },
 ]
 
@@ -74,7 +74,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
-                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_1.webp')} alt=''/>
+                    <CldImage className='select-none' fill src='Background/jclfs1prsslvs3tbsqym' alt='bg'/>
                 </ParallaxBannerLayer>
             </ParallaxBanner>
             <div className='w-full flex justify-center'>
@@ -95,7 +95,7 @@ const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): 
             </div>
             <ParallaxBanner className="aspect-[2/1]" style={{height: '600px'}}>
                 <ParallaxBannerLayer speed={-30}>
-                    <Image className='w-full h-full select-none object-cover' src={require('@/assets/images/Background/homebg_2.webp')} alt=''/>
+                    <CldImage className='select-none' fill src='Background/rhz30vbiznmght1vwrsg' alt='bg'/>
                 </ParallaxBannerLayer>
                 <div className='w-full flex justify-center h-full'>
                     <div className='container grid grid-cols-3 gap-10 h-full items-center'>

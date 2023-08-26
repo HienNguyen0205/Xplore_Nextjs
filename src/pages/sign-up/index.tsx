@@ -8,6 +8,7 @@ import { TextField, Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { CldImage } from "next-cloudinary";
 
 const nameRegex = /^[a-zA-Z]{4,30}(?: [a-zA-Z]+){0,5}$/;
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -113,17 +114,18 @@ const SignUp = (): JSX.Element => {
       <Meta
         props={{
           title: "Xplore | Sign up",
-          description:
-            "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
           robots: 'noindex'
         }}
       />
       <div className="w-100 h-screen flex flex-col justify-around items-center relative">
-        <Image
-          className="absolute h-[100%] object-cover z-[-1]"
-          src={require("@/assets/images/Background/logbg.webp")}
-          alt=""
-          priority
+        <CldImage
+          className="absoolute object-cover z-[-1]"
+          width={1920}
+          height={1080}
+          src='Background/f1qvgywzo4ke5amkn46n'
+          fill
+          sizes="100vw"
+          alt="background"
         />
         <Image
           className="w-[160px] cursor-pointer"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { ArrowBackIosNew , ArrowForwardIos } from '@mui/icons-material'
+import { CldImage } from 'next-cloudinary';
 import styles from '@/styles/Carousel.module.scss'
-import Image from "next/image"
 
 interface carouselProps {
     content: {country: string, destination: string, source: string}[]
@@ -56,7 +56,7 @@ const Carousel = ({content, duration = 6000}: carouselProps): JSX.Element => {
             <div id={styles.carousel} ref={ref}>
                 {content.map((item, imgIndex) => (
                     <div key={imgIndex} className={styles.carousel_item}>
-                        <Image className='select-none' src={require(`../../assets/images/Carousel/${item.source}`)} alt='' priority fill/>
+                        <CldImage className='select-none' fill src={item.source} alt='carousel_img'/>
                         <div className='absolute bottom-8 w-full flex flex-col items-center'>
                             <h1 id={`${index === imgIndex ? styles.carousel_heading1 : ''}`} className={styles.carousel_heading1}>{item.country}</h1>
                             <h3 id={`${index === imgIndex ? styles.carousel_heading2 : ''}`} className={styles.carousel_heading2}>{item.destination}</h3>
