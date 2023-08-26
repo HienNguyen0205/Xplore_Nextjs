@@ -27,14 +27,14 @@ const Header = (): JSX.Element => {
                     <li className='nav_link' style={router.pathname === '/' ? {color: '#ff4dd8'} : {}}>
                         <Link href='/'>HOME</Link>
                     </li>
-                    <li className='nav_link' style={router.pathname === '/services' ? {color: '#ff4dd8'} : {}}>
-                        <Link  href='/Services'>SERVICES</Link>
+                    <li className='nav_link' style={router.pathname === '/service' ? {color: '#ff4dd8'} : {}}>
+                        <Link  href='/service'>SERVICE</Link>
                     </li>
                     <li className='nav_link' style={router.pathname === '/discover' ? {color: '#ff4dd8'} : {}}>
-                        <Link  href='/Discover'>DISCOVER</Link>
+                        <Link  href='/discover'>DISCOVER</Link>
                     </li>
                     <li className='nav_link' style={router.pathname === '/about' ? {color: '#ff4dd8'} : {}}>
-                        <Link href='/About'>ABOUT US</Link>
+                        <Link href='/about'>ABOUT US</Link>
                     </li>
                 </ul>
                 {status === 'authenticated' ? <div className={styles.avatar_container}>

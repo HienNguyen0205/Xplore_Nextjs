@@ -31,10 +31,10 @@ const Footer = (): JSX.Element => {
             <li
               className="nav_link"
               style={
-                router.pathname === "/services" ? { color: "#ae3056" } : {}
+                router.pathname === "/service" ? { color: "#ae3056" } : {}
               }
             >
-              <Link href="/services">SERVICES</Link>
+              <Link href="/service">SERVICE</Link>
             </li>
             <li
               className="nav_link"

@@ -30,8 +30,6 @@ const galleryGroupImg : galleryGroupProps[] = [
 
 const GalleryImgList = (props : galleryImgListProps) => {
 
-  console.log(props)
-
   const { region, imgList } = props
 
   return (
