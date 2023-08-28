@@ -99,7 +99,7 @@ const SignUp = (): JSX.Element => {
               toast.success("Register successful!");
               signIn();
             } else {
-              toast.success("Register fail!");
+              toast.error("Register fail!");
             }
           })
           .catch((err) => {

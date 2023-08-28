@@ -46,9 +46,9 @@ const Footer = (): JSX.Element => {
             </li>
             <li
               className="nav_link"
-              style={router.pathname === "/about" ? { color: "#ae3056" } : {}}
+              style={router.pathname === "/contact" ? { color: "#ae3056" } : {}}
             >
-              <Link href="">ABOUT US</Link>
+              <Link href="">CONTACT</Link>
             </li>
           </ul>
         </div>

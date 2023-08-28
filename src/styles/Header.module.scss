@@ -1,14 +1,16 @@
 .avatar_container{
     cursor: pointer;
     position: relative;
-    margin: 0 64px;
+    flex: 1 1 20%;
+    display: flex;
+    justify-content: center;
     &::before{
         content: "";
         position: absolute;
-        width: 140px;
+        width: 160px;
         height: 32px;
         top: calc(100% - 8px);
-        right: -30px;
+        right: calc(50% - 80px);
     }
     &:hover{
         .avatar_dropdown{
@@ -30,9 +32,8 @@
         display: none;
         position: absolute;
         top: 66px;
-        right: 0;
-        max-width: 240px;
-        min-width: 160px;
+        right: calc(50% - 80px);
+        width: 160px;
         border-radius: 4px;
         background-color: #eee;
         overflow: hidden;

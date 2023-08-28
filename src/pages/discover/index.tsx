@@ -1,48 +1,52 @@
 import React from "react";
 import Meta from "@/components/Layout/meta";
-import LightGallery from 'lightgallery/react';
-import lgZoom from 'lightgallery/plugins/zoom';
-import db from '@/utils/database'
-import { galleryGroupProps, galleryImgListProps, discoverDef } from "@/utils/types";
+import LightGallery from "lightgallery/react";
+import lgZoom from "lightgallery/plugins/zoom";
+import db from "@/utils/database";
+import {
+  galleryGroupProps,
+  galleryImgListProps,
+  discoverDef,
+} from "@/utils/types";
 import { CldImage } from "next-cloudinary";
 import { galleryimages } from "@/models";
-import 'lightgallery/scss/lightgallery.scss';
-import 'lightgallery/scss/lg-zoom.scss';
+import "lightgallery/scss/lightgallery.scss";
+import "lightgallery/scss/lg-zoom.scss";
 
-const galleryGroupImg : galleryGroupProps[] = [
+const galleryGroupImg: galleryGroupProps[] = [
   {
-    imgSrc: 'Background/nlqfojwt9wbh0yuw5yzk',
-    region: 'Asia'
+    imgSrc: "Background/nlqfojwt9wbh0yuw5yzk",
+    region: "Asia",
   },
   {
-    imgSrc: 'Background/fx6i7rnmq7mkzpmgxfzr',
-    region: 'Africa'
+    imgSrc: "Background/fx6i7rnmq7mkzpmgxfzr",
+    region: "Africa",
   },
   {
-    imgSrc: 'Background/wczkt2urytrrgkjgbcqx',
-    region: 'Europe'
+    imgSrc: "Background/wczkt2urytrrgkjgbcqx",
+    region: "Europe",
   },
   {
-    imgSrc: 'Background/szidyar7fphtisskl7ci',
-    region: 'Americas'
+    imgSrc: "Background/szidyar7fphtisskl7ci",
+    region: "Americas",
   },
-]
+];
 
-const GalleryImgList = (props : galleryImgListProps) => {
-
-  const { region, imgList } = props
+const GalleryImgList = (props: galleryImgListProps) => {
+  const { region, imgList } = props;
 
   return (
     <div id={region} className="my-20">
       <h1 className="text-center text-5xl font-semibold mb-6">{region}</h1>
       <LightGallery
-        elementClassNames="grid lg:grid-cols-4 sm:grid-cols-2 gap-4"
+        elementClassNames="grid md:grid-cols-3 sm:grid-cols-2 gap-4"
         speed={500}
         plugins={[lgZoom]}
       >
-        {imgList.map((item,index) => {
+        {imgList.map((item, index) => {
           return (
-            <CldImage key={index}
+            <CldImage
+              key={index}
               className="cursor-pointer"
               width={1920}
               height={1080}
@@ -50,28 +54,30 @@ const GalleryImgList = (props : galleryImgListProps) => {
               alt="gallery_img"
               fillBackground
             />
-          )
+          );
         })}
       </LightGallery>
     </div>
-  )
-}
+  );
+};
 
 const GalleryGroup = (props: galleryGroupProps) => {
-
   const { imgSrc, region } = props;
 
   const scrollToGallery = () => {
     document.querySelector(`#${region}`)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
-    })
-  }
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
+  };
 
   return (
     <div className="w-fit">
-      <div className="rounded overflow-hidden w-[260px] aspect-square cursor-pointer" onClick={scrollToGallery}>
+      <div
+        className="rounded overflow-hidden w-[260px] aspect-square cursor-pointer"
+        onClick={scrollToGallery}
+      >
         <CldImage
           className="aspect-square transition duration-300 hover:scale-110"
           width={260}
@@ -85,9 +91,8 @@ const GalleryGroup = (props: galleryGroupProps) => {
   );
 };
 
-const Discover = (props : discoverDef) => {
-
-  const { galleryData } = props
+const Discover = (props: discoverDef) => {
+  const { galleryData } = props;
 
   return (
     <div className="bg-slate-200 flex flex-col items-center">
@@ -96,32 +101,36 @@ const Discover = (props : discoverDef) => {
           title: "Xplore | Discover",
         }}
       />
-      <div>
-        <div className="relative">
-          <CldImage
-            width={1800}
-            height={500}
-            src='Background/husbetx1d0ipqosvnksy'
-            alt="galleryBg"
-          />
-          <p className="absolute text-center bottom-[30%] text-white font-bold w-full text-5xl">
-            Discover
-          </p>
-        </div>
+      <div className="relative">
+        <CldImage
+          width={1800}
+          height={500}
+          src="Background/husbetx1d0ipqosvnksy"
+          alt="galleryBg"
+        />
+        <p className="absolute text-center bottom-[30%] text-white font-bold w-full text-5xl">
+          Discover
+        </p>
       </div>
       <div className="container">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 my-10 justify-items-center">
-          {galleryGroupImg.map((item,index) => {
+          {galleryGroupImg.map((item, index) => {
             return (
               <GalleryGroup
                 key={index}
                 imgSrc={item.imgSrc}
                 region={item.region}
               />
-            )
+            );
           })}
         </div>
-        {galleryData.map((item,index) => <GalleryImgList key={index} region={item.region} imgList={item.imageList}/>)}
+        {galleryData.map((item, index) => (
+          <GalleryImgList
+            key={index}
+            region={item.region}
+            imgList={item.imageList}
+          />
+        ))}
       </div>
     </div>
   );
@@ -130,19 +139,19 @@ const Discover = (props : discoverDef) => {
 export default Discover;
 
 export const getStaticProps = async () => {
-  try{
-    await db()
-    const galleryData = await galleryimages.find()
+  try {
+    await db();
+    const galleryData = await galleryimages.find();
     return {
       props: {
-        galleryData: JSON.parse(JSON.stringify(galleryData))
-      }
-    }
-  }catch(err){
+        galleryData: JSON.parse(JSON.stringify(galleryData)),
+      },
+    };
+  } catch (err) {
     return {
       props: {
-          notFound: true
-      }
-    }
+        notFound: true,
+      },
+    };
   }
-}
+};

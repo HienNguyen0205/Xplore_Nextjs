@@ -115,3 +115,11 @@ export interface discoverDef{
         imageList: [string],
     }]
 }
+
+export interface infoCardProps{
+    title: string,
+    address: string,
+    tel: string,
+    email: string,
+    imageSrc: string,
+}

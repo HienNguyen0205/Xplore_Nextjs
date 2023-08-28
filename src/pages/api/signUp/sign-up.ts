@@ -18,11 +18,14 @@ const checkUser = async (email: string) => {
 }
 
 const saveUser = async (req: NextApiRequest, res: NextApiResponse) => {
+
     if(req.method !== 'POST'){
         res.status(405).send({ message: 'Only POST requests allowed' })
         return
     }
+
     const { name, email, password, tel } = req.body
+    
     try{
         if(await checkUser(email as string)){
             res.status(200).json({message: 'Account already exists', status: 'error'})
