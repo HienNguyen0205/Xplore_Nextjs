@@ -1,6 +1,7 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { MetaProps } from "@/utils/types";
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import Header from '../Header';
 import Footer from '../Footer';
 import Meta from './meta'
@@ -18,6 +19,7 @@ const Layout = ({
 } : layoutProps) => {
 
     const router = useRouter()
+    const { status } = useSession()
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -25,6 +27,12 @@ const Layout = ({
         
         const handleStart = () => setLoading(true);
         const handleComplete = () => setLoading(false);
+        
+        if(status === 'loading') {
+            handleStart()
+        }else{
+            handleComplete()
+        }
 
         router.events.on('routeChangeStart', handleStart)
         router.events.on('routeChangeComplete', handleComplete)
@@ -36,7 +44,7 @@ const Layout = ({
             router.events.off('routeChangeError', handleComplete)
         }
 
-    }, [router])
+    }, [router, status])
 
     if (loading || router.isFallback) {
         return (

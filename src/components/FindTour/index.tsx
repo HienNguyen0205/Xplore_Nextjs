@@ -6,6 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@/components";
 import { useRouter } from "next/router";
 import { findTourProps } from "@/utils/types";
+import { toast } from "react-toastify";
 
 const desOptions = [
   "Australia",
@@ -36,9 +37,13 @@ const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(
-      `/tour?departure=${departure}&destination=${destination}&checkIn=${checkIn}`
-    );
+    if(departure && destination && checkIn){
+      router.push(
+        `/tour?departure=${departure}&destination=${destination}&checkIn=${checkIn}`
+      );
+    }else{
+      toast.error('Please fill all fields')
+    }
   };
 
   return (
@@ -72,6 +77,7 @@ const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
         renderInput={(params) => <TextField {...params} label="Departure" />}
       />
       <DatePicker
+        sx={{ flex: 1, mx: 2 }}
         label="Select check-in day"
         value={checkIn}
         onChange={(date) => {
@@ -79,14 +85,15 @@ const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
         }}
         disablePast
       />
-      <Button
-        content="Search"
-        bgColor="#1a1aff"
-        width="136px"
-        height="56px"
-        textColor="white"
-        onClick={handleClick}
-      />
+      <div className="flex-1 mx-4">
+        <Button
+          style={{ width: '80%', aspectRatio: '7/2' }}
+          content="Search"
+          bgColor="#1a1aff"
+          textColor="white"
+          onClick={handleClick}
+        />
+      </div>
     </div>
   );
 };

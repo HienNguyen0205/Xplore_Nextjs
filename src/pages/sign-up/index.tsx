@@ -119,11 +119,10 @@ const SignUp = (): JSX.Element => {
       />
       <div className="w-100 h-screen flex flex-col justify-around items-center relative">
         <CldImage
-          className="absoolute object-cover z-[-1]"
+          className="absolute h-screen object-cover z-[-1]"
           width={1920}
           height={1080}
           src='Background/f1qvgywzo4ke5amkn46n'
-          fill
           sizes="100vw"
           alt="background"
         />

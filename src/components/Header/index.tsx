@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import Button from '../Button'
 import Link from 'next/link'
@@ -11,7 +10,7 @@ import { History, Settings, Logout, Person } from '@mui/icons-material'
 const Header = (): JSX.Element => {
 
     const router = useRouter()
-    const { data: session, status } = useSession()
+    const { status } = useSession()
 
     const returnHome = () => {
         router.push("/");
@@ -57,7 +56,7 @@ const Header = (): JSX.Element => {
                             <span className={styles.dropdown_text}>Log out</span>
                         </div>
                     </div>
-                </div> : <div className='flex-1'>
+                </div> : <div className='flex flex-1 basis-1/5'>
                     <Button
                         content='Sign In'
                         bgColor='#5a66ff'

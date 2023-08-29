@@ -8,18 +8,17 @@ interface buttonProps {
     bgColor: string,
     textColor?: string,
     link?: string,
-    height?: string,
-    width?: string,
+    style?: object,
     onClick?: () => void
 }
 
-const Button = ({content, bgColor, textColor = 'white', link, height = '44px', width = '112px', onClick}: buttonProps): JSX.Element => {
+const Button = ({content, bgColor, textColor = 'white', link, onClick, style}: buttonProps): JSX.Element => {
 
     const btnStyle = {color: textColor, backgroundColor: bgColor}
 
     if(link){
         return (
-            <button className='relative' style={{width: width, height: height, margin: '16px'}}>
+            <button className='relative w-full aspect-[5/2] m-4' style={style}>
                 <Link className={styles.custom_btn} href={link} style={btnStyle}>
                     {content}
                 </Link>
@@ -27,7 +26,7 @@ const Button = ({content, bgColor, textColor = 'white', link, height = '44px', w
         )
     }else{
         return (
-            <button className='relative' style={{width: width, height: height, margin: '16px'}} onClick={onClick}>
+            <button className='relative w-full aspect-[5/2] m-4' style={style} onClick={onClick}>
                 <div className={styles.custom_btn} style={btnStyle}>
                     {content}
                 </div>
