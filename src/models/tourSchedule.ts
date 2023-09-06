@@ -17,6 +17,9 @@ const tourScheduleSchema = new Schema({
         rating: {type: Number, min: 0, max: 5},
         time: Number,
         route: String,
+        image: String,
+        region: String,
+        routeId: mongoose.Types.ObjectId,
         status: Boolean,
     }
 })

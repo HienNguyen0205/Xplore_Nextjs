@@ -92,6 +92,15 @@ const LoadingSkeleton = (): JSX.Element => {
           />
         </g>
       </svg>
+      <div className={styles.waviy}>
+        <span style={{ '--i':1 } as React.CSSProperties}>L</span>
+        <span style={{ '--i':2 } as React.CSSProperties}>o</span>
+        <span style={{ '--i':3 } as React.CSSProperties}>a</span>
+        <span style={{ '--i':4 } as React.CSSProperties}>d</span>
+        <span style={{ '--i':5 } as React.CSSProperties}>i</span>
+        <span style={{ '--i':6 } as React.CSSProperties}>n</span>
+        <span style={{ '--i':7 } as React.CSSProperties}>g</span>
+      </div>
     </div>
   );
 };

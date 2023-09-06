@@ -27,7 +27,7 @@ export interface tourDef {
     rating: number,
     comments: {
         content: string,
-        date: Date,
+        date: string,
     }[],
     route: string,
     status: boolean,
@@ -37,6 +37,7 @@ export interface tourDef {
     },
     departure: string,
     region: string,
+    routeId: string,
 }
 
 export interface tourListProps{
@@ -122,4 +123,44 @@ export interface infoCardProps{
     tel: string,
     email: string,
     imageSrc: string,
+}
+
+export interface tourDetailDef {
+    _id: string,
+    slot: number,
+    date: {
+        from: string,
+        to: string,
+    },
+    comments: [{
+        content: string,
+        date: string,
+    }],
+    price: number,
+    rating: number,
+}
+
+export interface tourDetailProps {
+    routeSelected: tourDetailDef,
+    routeData: tourDetailDef[]
+}
+
+export interface tourOptionsProps {
+    routeData: tourDetailDef[]
+}
+
+export interface tourDetailStore {
+    _id: string,
+    slot: number,
+    date: {
+        from: string,
+        to: string,
+    },
+    comments: [{
+        content: string,
+        date: string,
+    }],
+    price: number,
+    rating: number,
+    quantity?: number,
 }

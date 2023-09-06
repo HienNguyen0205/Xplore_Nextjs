@@ -46,7 +46,7 @@ export const getStaticProps = async () => {
       },
       {
         $group: {
-          _id: "$tourId",
+          _id: "$routeId",
           tourId: { $first: "$_id" },
           image: { $first: "$image" },
           route: { $first: "$route" },
@@ -66,6 +66,16 @@ export const getStaticProps = async () => {
       }
     ]);
     tourData = tourData.map(tour => tour.tourRegion)
+    tourData = tourData.map(tour => {
+      tour.map((item: { routeId: any; _id: any; tourId: any; }) => {
+        item.routeId = item._id
+        delete item._id
+        item._id = item.tourId
+        delete item.tourId
+        return item
+      })
+      return tour
+    })
     return {
       props: {
         tourList: JSON.parse(JSON.stringify(tourData)),

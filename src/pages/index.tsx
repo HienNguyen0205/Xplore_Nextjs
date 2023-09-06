@@ -128,7 +128,7 @@ export const getStaticProps = async () => {
             },
             {
                 $group: {
-                    _id: '$tourId',
+                    _id: '$routeId',
                     tourData: { $push: '$$ROOT' }
                 }
             },

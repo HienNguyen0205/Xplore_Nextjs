@@ -50,7 +50,6 @@ const Layout = ({
         return (
           <div className="h-screen w-screen flex flex-col justify-center items-center bg-slate-400">
             <LoadingSkeleton />
-            <p className='text-2xl font-semibold tracking-wide text-center text-black mt-4'>Loading...</p>
           </div>
         );
     }

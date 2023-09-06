@@ -20,7 +20,7 @@ const Header = (): JSX.Element => {
         <header className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-[.85]' 
             style={{backgroundColor: 'black'}}>
             <div className='container flex items-center justify-between'>
-                <Image className='h-full py-5 object-contain flex-1 basis-1/5' alt='logo'
+                <Image className='h-full py-5 object-contain flex-1 basis-1/5 cursor-pointer' alt='logo'
                             src={require('../../assets/images/Logo/XPLORE_logo.png')} priority onClick={returnHome}/>
                 <ul className='flex justify-center items-center grow-[2]' style={{color: 'white'}}>
                     <li className='nav_link' style={router.pathname === '/' ? {color: '#ff4dd8'} : {}}>

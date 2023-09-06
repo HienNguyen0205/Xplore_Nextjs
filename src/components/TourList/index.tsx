@@ -8,7 +8,6 @@ import { tourDef, tourListProps } from "@/utils/types";
 import { LocationOn, AccessTime, CalendarMonth } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { CldImage } from 'next-cloudinary';
-import Image from "next/image";
 import styles from "@/styles/TourList.module.scss";
 import dayjs from "dayjs";
 
@@ -28,7 +27,7 @@ const TourItem = ({
   };
 
   const handleClick = () => {
-    router.push(`/tour?_id=${data._id}`);
+    router.push(`/tour-detail/${data.routeId}?_id=${data._id}`);
   };
 
   return (

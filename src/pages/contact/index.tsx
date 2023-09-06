@@ -52,7 +52,7 @@ const FeedbackMessage = () => {
           and we will get back to you.
         </h5>
       </div>
-      <div className="p-4 rounded-xl border-2 border-violet-700">
+      <div className="p-4 rounded-xl border-2 border-violet-700 bg-white">
         <div className="grid grid-cols-2 grid-rows-2 gap-x-2">
           <TextField
             sx={{ margin: "4px 0", gridArea: '1 / 1 / 2 / 2' }}

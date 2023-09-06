@@ -17,7 +17,7 @@ const Footer = (): JSX.Element => {
         <div className="flex items-center justify-between">
           <Image
             src={require("../../assets/images/Logo/XPLORE_logo_dark.png")}
-            className="h-12 mr-3 w-fit mb-4 sm:mb-0"
+            className="h-12 mr-3 w-fit mb-4 sm:mb-0 cursor-pointer"
             alt=""
             onClick={returnHome}
           />
