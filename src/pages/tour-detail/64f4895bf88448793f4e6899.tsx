@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
-import dayjs from "dayjs";
-import { TextField, Button, Box, Tab } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import { CldImage } from "next-cloudinary";
 import {
   Info,
@@ -14,81 +13,20 @@ import {
   Map,
   ContactEmergency,
   Hail,
-  Comment,
+  Star,
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
-import { tourDetailDef, tourDetailProps, tourOptionsProps } from "@/utils/types";
+import { tourDetailProps } from "@/utils/types";
 import type { GetServerSideProps } from "next";
-import { useAppSelector, useAppDispatch } from "@/hooks";
-import { setRouteSelected, setQuantity } from "@/redux/reducers/routeSelected";
+import { useAppDispatch } from "@/hooks";
+import { setRouteSelected } from "@/redux/reducers/routeSelected";
+import { TourOptions } from "@/components";
 
 const ratingTag = (rating: number): string => {
   if (rating >= 4) return "Excellent";
   else if (rating >= 3) return "Great";
   else return "Good";
-};
-
-const TourOptions = (props : tourOptionsProps) => {
-
-  const { routeData } = props;
-
-  const routeDetail = useAppSelector(state => state.routeDetail.value)
-
-  const dispatch = useAppDispatch()
-
-  const changeRouteDate = (_id : string) => {
-    dispatch(setRouteSelected(routeData.find(route => route._id == _id) as tourDetailDef))
-  }
-
-  const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setQuantity(Number(e.target.value)))
-  }
-
-  return (
-    <div className="sticky top-[100px] rounded-lg border-2 border-emerald-600 p-4">
-      <h1 className="text-2xl font-medium mb-1 text-blue-800">
-        Departure schedule & prices
-      </h1>
-      <p className="text-xl mt-4 mb-2">Select departure date:</p>
-      <div className="grid grid-cols-4 grid-rows-1 gap-2 my-4">
-        {routeData.map((route, index) => {
-          return (
-            <div
-              className="flex justify-center py-3 px-1 rounded-lg border-[2px] cursor-pointer"
-              key={index}
-              style={
-                route._id == routeDetail._id
-                  ? { borderColor: "rgb(37,99,235)" }
-                  : { borderColor: "rgb(0,0,0)" }
-              }
-              onClick={() => changeRouteDate(route._id)}
-            >
-              {dayjs(route.date.from).format("DD/MM")}
-            </div>
-          );
-        })}
-      </div>
-      <div className="flex items-center my-8">
-        <h1 className="text-xl flex-1">Quantity:</h1>
-        <h1 className="text-2xl flex-1 text-yellow-800">
-          ${routeDetail.price} &times;
-        </h1>
-        <div className="flex-1">
-          <TextField type="number" fullWidth size="small" defaultValue={1} inputProps={{ min: 1, max: 20 }} onChange={handleChangeQuantity} value={routeDetail.quantity}/>
-        </div>
-      </div>
-      <div className="flex justify-between items-center my-8">
-        <h1 className="text-xl">Total price:</h1>
-        <p className="text-3xl font-semibold text-yellow-800">${(routeDetail.quantity as number * routeDetail.price).toFixed(2)}</p>
-      </div>
-      <div className="flex justify-end">
-        <Button sx={{ width: "50%" }} variant="contained">
-          Book
-        </Button>
-      </div>
-    </div>
-  );
 };
 
 const TourDetail = (props: tourDetailProps) => {
@@ -97,12 +35,12 @@ const TourDetail = (props: tourDetailProps) => {
 
   const [tabIndex, setTabIndex] = useState<string>("1");
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setRouteSelected(routeSelected))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    dispatch(setRouteSelected(routeSelected));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
@@ -116,19 +54,9 @@ const TourDetail = (props: tourDetailProps) => {
         }}
       />
       <div className="container relative mt-[92px]">
-        <h1 className="text-4xl font-medium mt-6">
+        <h1 className="text-4xl font-medium my-6">
           Singapore - Merlion Park | Fort Canning
         </h1>
-        <div className="flex justify-start items-center my-4">
-          <div className="py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit inline-block me-1">
-            {routeSelected.rating}
-          </div>
-          <span className="text-emerald-500">
-            {ratingTag(routeSelected.rating)}
-          </span>
-          <span className="mx-1">|</span>
-          <span>{routeSelected.comments.length} comments</span>
-        </div>
         <div className="grid grid-cols-3 grid-rows-1 gap-x-8">
           <div style={{ gridArea: "1 / 1 / 2 / 3" }}>
             <CldImage
@@ -138,17 +66,29 @@ const TourDetail = (props: tourDetailProps) => {
               src="Tour/Singapore/c8f9gemtdcbicvxtkidp"
               alt=""
             />
-            <div className="flex items-center h-[60px] px-3 bg-zinc-300">
-              <div className="flex items-center mr-5">
-                <LocationOn sx={{ marginRight: "2px" }} /> Ho Chi Minh
+            <div className="flex justify-between items-center h-[60px] px-3 bg-zinc-300">
+              <div className="flex items-center">
+                <div className="flex items-center mr-5">
+                  <LocationOn sx={{ marginRight: "2px" }} /> Ho Chi Minh
+                </div>
+                <div className="flex items-center mr-5">
+                  <AccessTime sx={{ marginRight: "2px" }} /> 4 Days
+                </div>
+                <div className="flex items-center mr-5">
+                  Transportation:
+                  <LocalAirport sx={{ margin: "0 4px 0 12px" }} />
+                  <DirectionsBus sx={{ margin: "0 12px 0 4px" }} />
+                </div>
               </div>
-              <div className="flex items-center mr-5">
-                <AccessTime sx={{ marginRight: "2px" }} /> 4 Days
-              </div>
-              <div className="flex items-center mr-5">
-                Transportation:
-                <LocalAirport sx={{ margin: "0 4px 0 12px" }} />
-                <DirectionsBus sx={{ margin: "0 12px 0 4px" }} />
+              <div className="flex items-center">
+                <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
+                  <p>{routeSelected.rating}</p>
+                  <Star sx={{ marginLeft: '4px', color: 'yellow' }}/>
+                </div>
+                <p className="mx-2">|</p>
+                <span className="text-emerald-500">
+                  {ratingTag(routeSelected.rating)}
+                </span>
               </div>
             </div>
             <div className="my-8">
@@ -513,18 +453,9 @@ const TourDetail = (props: tourDetailProps) => {
                 </TabContext>
               </Box>
             </div>
-            <div className="my-8">
-              <h1 className="text-2xl font-medium flex items-center">
-                <Comment
-                  sx={{ color: "rgb(30, 64, 175)", marginRight: "8px" }}
-                />
-                Customer Reviews
-              </h1>
-              <hr className="border-black mt-3 mb-2" />
-            </div>
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            <TourOptions routeData={routeData}/>
+            <TourOptions routeData={routeData} />
           </div>
         </div>
       </div>
@@ -552,6 +483,9 @@ export const getServerSideProps: GetServerSideProps<
       {
         $project: {
           _id: 1,
+          departure: 1,
+          route: 1,
+          destination: 1,
           slot: 1,
           date: 1,
           comments: 1,
@@ -563,7 +497,7 @@ export const getServerSideProps: GetServerSideProps<
         $limit: 4,
       },
     ]);
-    const routeSelected = routeData.find(route => route._id == _id)
+    const routeSelected = routeData.find((route) => route._id == _id);
     return {
       props: {
         routeSelected: JSON.parse(JSON.stringify(routeSelected)),

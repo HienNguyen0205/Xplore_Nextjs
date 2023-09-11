@@ -141,7 +141,7 @@ export const getStaticProps = async () => {
         return {
             props: {
                 tourList: JSON.parse(JSON.stringify(tourData)),
-                tourStatistic: JSON.parse(JSON.stringify(tourStatisticData))
+                tourStatistic: JSON.parse(JSON.stringify(tourStatisticData)),
             },
             revalidate: 10,
         }

@@ -9,17 +9,14 @@ interface routeDetailState {
 const initialState : routeDetailState = {
   value: {
     _id: "",
+    departure: '',
+    route: '',
+    destination: '',
     slot: 0,
     date: {
       from: "",
       to: "",
     },
-    comments: [
-      {
-        content: "",
-        date: "",
-      },
-    ],
     price: 0,
     rating: 0,
     quantity: 1,

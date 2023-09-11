@@ -25,10 +25,6 @@ export interface tourDef {
     destination: string,
     time: number,
     rating: number,
-    comments: {
-        content: string,
-        date: string,
-    }[],
     route: string,
     status: boolean,
     date: {
@@ -71,9 +67,9 @@ export interface toastProps {
 }
 
 export interface UserDef {
-    name: string,
+    fullName: string,
     email: string,
-    password: string,
+    password?: string,
     tel: string,
 }
 
@@ -89,6 +85,10 @@ export interface findTourProps {
         departure: string,
         checkIn: string,
     }
+}
+
+export interface pageNotFound {
+    notFound: boolean
 }
 
 export interface tourPageProps {
@@ -132,12 +132,11 @@ export interface tourDetailDef {
         from: string,
         to: string,
     },
-    comments: [{
-        content: string,
-        date: string,
-    }],
     price: number,
     rating: number,
+    departure: string,
+    route: string,
+    destination: string,
 }
 
 export interface tourDetailProps {
@@ -149,18 +148,18 @@ export interface tourOptionsProps {
     routeData: tourDetailDef[]
 }
 
-export interface tourDetailStore {
-    _id: string,
-    slot: number,
-    date: {
-        from: string,
-        to: string,
-    },
-    comments: [{
-        content: string,
-        date: string,
-    }],
-    price: number,
-    rating: number,
+export interface tourDetailStore extends tourDetailDef {
     quantity?: number,
+}
+
+export interface tourPurchaseProps{
+    userData: UserDef
+}
+
+export interface purchaseMessDef {
+    cardNumber?: string,
+    expireDate?: string,
+    cvvCode?: string,
+    country?: string,
+    postalCode?: string,
 }

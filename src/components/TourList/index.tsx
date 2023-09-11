@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  SelectChangeEvent,
-  Pagination,
-  Button,
-} from "@mui/material";
+import { SelectChangeEvent, Pagination, Button } from "@mui/material";
 import { tourDef, tourListProps } from "@/utils/types";
-import { LocationOn, AccessTime, CalendarMonth } from "@mui/icons-material";
+import { LocationOn, AccessTime, CalendarMonth, Star } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import { CldImage } from 'next-cloudinary';
+import { CldImage } from "next-cloudinary";
 import styles from "@/styles/TourList.module.scss";
 import dayjs from "dayjs";
 
@@ -32,16 +28,26 @@ const TourItem = ({
 
   return (
     <div className={styles.tour_item} onClick={handleClick}>
-      <CldImage className='rounded-t-lg' width={360} height={225} src={data.image} alt='tour_img'/>
+      <CldImage
+        className="rounded-t-lg"
+        width={360}
+        height={225}
+        src={data.image}
+        alt="tour_img"
+      />
       <div className="p-2">
-        <h1 className="font-bold text-lg h-[56px]">{`${data.destination} - ${data.route}`}</h1>
-        <div className="flex justify-start items-center my-2">
-          <div className="py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit inline-block me-1">
-            {data.rating}
+        <h1 className="font-bold text-lg h-[56px]">
+          {data.destination} - {data.route}
+        </h1>
+        <div className="flex items-center my-2">
+          <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
+            <p>{data.rating}</p>
+            <Star sx={{ marginLeft: "4px", color: "yellow" }} />
           </div>
-          <span className="text-emerald-500">{ratingTag(data.rating)}</span>
-          <span className="mx-1">|</span>
-          <span>{data.comments.length} comments</span>
+          <p className="text-lg mx-2">|</p>
+          <span className="text-emerald-500 text-lg">
+            {ratingTag(data.rating)}
+          </span>
         </div>
         <div className="flex justify-between items-center my-2">
           <p>
@@ -82,7 +88,7 @@ const TourList = ({
   isLimit = true,
   showDate = false,
   title = false,
-  titleContent = '',
+  titleContent = "",
 }: tourListProps): JSX.Element => {
   const [index, setIndex] = useState<number>(0);
   const [tourData, setTourData] = useState<tourDef[]>(data);
@@ -92,14 +98,20 @@ const TourList = ({
   const [sortType, setSortType] = useState<string>("destination");
 
   useEffect(() => {
-    if(sortType === 'destination'){
-      setTourData(data => data.sort((a, b) => a.destination > b.destination ? 1 : -1))
-    }else if(sortType === 'date'){
-      setTourData(data => data.sort((a, b) => dayjs(a.date.from).isAfter(dayjs(b.date.from)) ? 1 : -1))
-    }else if(sortType === 'price'){
-      setTourData(data => data.sort((a, b) => a.price - b.price))
-    }else if(sortType === 'rating'){
-      setTourData(data => data.sort((a, b) => a.rating - b.rating))
+    if (sortType === "destination") {
+      setTourData((data) =>
+        data.sort((a, b) => (a.destination > b.destination ? 1 : -1))
+      );
+    } else if (sortType === "date") {
+      setTourData((data) =>
+        data.sort((a, b) =>
+          dayjs(a.date.from).isAfter(dayjs(b.date.from)) ? 1 : -1
+        )
+      );
+    } else if (sortType === "price") {
+      setTourData((data) => data.sort((a, b) => a.price - b.price));
+    } else if (sortType === "rating") {
+      setTourData((data) => data.sort((a, b) => a.rating - b.rating));
     }
   }, [sortType, tourData]);
 
@@ -127,10 +139,12 @@ const TourList = ({
       {tourHeader && (
         <div className="container flex my-10">
           <div>
-            {!title && <div>
-              <h1 className="text-5xl font-bold inline-block pr-2">Find</h1>
-              <span className={styles.type_text}></span>
-            </div>}
+            {!title && (
+              <div>
+                <h1 className="text-5xl font-bold inline-block pr-2">Find</h1>
+                <span className={styles.type_text}></span>
+              </div>
+            )}
             <h1 className="text-5xl font-bold">{titleContent}</h1>
           </div>
         </div>

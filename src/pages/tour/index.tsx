@@ -1,15 +1,12 @@
 import React from "react";
 import Meta from "@/components/Layout/meta";
 import db from '@/utils/database'
-import { useRouter } from "next/router";
 import type { GetServerSideProps } from "next";
 import { tourSchedule } from '@/models';
 import { tourPageProps , tourDef } from '@/utils/types';
 import { FindTour, TourList } from "@/components";
 
 const Tour = (props : tourPageProps) => {
-
-  const router = useRouter()
 
   const { tourList, defaultValue } = props
 
