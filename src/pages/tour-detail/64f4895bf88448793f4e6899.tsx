@@ -488,7 +488,6 @@ export const getServerSideProps: GetServerSideProps<
           destination: 1,
           slot: 1,
           date: 1,
-          comments: 1,
           price: 1,
           rating: 1,
         },
