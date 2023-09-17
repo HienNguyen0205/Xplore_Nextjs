@@ -7,6 +7,6 @@ const tourStatisticSchema = new Schema({
     supportCases: Number
 })
 
-const tourStatistic = models.tourStatistic || model('tourStatistic', tourStatisticSchema)
+const tourStatistic = models.tourstatistic || model('tourstatistic', tourStatisticSchema)
 
 export default tourStatistic

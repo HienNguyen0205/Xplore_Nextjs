@@ -190,4 +190,4 @@ export const country_list = [
 
 export const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
 
-export const cvvCodeRegex = /^[0-9]{3, 4}$/;
+export const cvvCodeRegex = /^[0-9]{3,4}$/;

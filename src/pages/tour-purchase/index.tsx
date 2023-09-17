@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import Meta from "@/components/Layout/meta";
 import dayjs, { Dayjs } from "dayjs";
 import db from "@/utils/database";
+import axios from "axios";
+import { toast } from "react-toastify";
 import {
   Box,
   Stepper,
@@ -15,7 +17,7 @@ import {
   InputLabel,
   FormHelperText,
 } from "@mui/material";
-import { useAppSelector } from "@/hooks";
+import { useAppSelector, useAppDispatch } from "@/hooks";
 import { user } from "@/models";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
@@ -27,6 +29,8 @@ import {
 } from "@/utils/types";
 import { DatePicker } from "@mui/x-date-pickers";
 import { steps, country_list, visaRegex, cvvCodeRegex } from "@/utils/data";
+import { Player } from '@lottiefiles/react-lottie-player';
+import { resetData } from "@/redux/reducers/routeSelected";
 
 const TourPurchase = (props: tourPurchaseProps) => {
   const { userData } = props;
@@ -43,73 +47,93 @@ const TourPurchase = (props: tourPurchaseProps) => {
 
   const tourDetail = useAppSelector((state) => state.routeDetail.value);
 
-  const cardNumberRef = useRef<HTMLInputElement>();
-  const cvvCodeRef = useRef<HTMLInputElement>();
-  const countryRef = useRef<HTMLOptionElement>();
-  const postalCodeRef = useRef<HTMLInputElement>();
+  const dispatch = useAppDispatch()
+
+  const cardNumberRef = useRef<HTMLInputElement>(null);
+  const cvvCodeRef = useRef<HTMLInputElement>(null);
+  const countryRef = useRef<HTMLOptionElement>(null);
+  const postalCodeRef = useRef<HTMLInputElement>(null);
 
   const validateInput = () => {
     let flag = true;
-    if (
-      cardNumberRef.current &&
-      cvvCodeRef.current &&
-      countryRef.current &&
-      postalCodeRef.current
-    ) {
-      const cardNumber = cardNumberRef.current.value.trim();
-      const cvvCode = cvvCodeRef.current.value.trim();
-      const country = countryRef.current.value.trim();
-      const postalCode = postalCodeRef.current.value.trim();
-      if (!visaRegex.test(cardNumber)) {
-        flag = false;
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          cardNumber: "Please enter a valid card number",
-        }));
-      } else {
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          cardNumber: "",
-        }));
-      }
-      if (!cvvCodeRegex.test(cvvCode)) {
-        flag = false;
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          cvvCode: "Please enter a valid cvv code",
-        }));
-      } else {
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          cvvCode: "",
-        }));
-      }
-      if (country === "") {
-        flag = false;
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          country: "Please select a country",
-        }));
-      } else {
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          country: "",
-        }));
-      }
-      if (postalCode === "") {
-        flag = false;
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          postalCode: "Please enter a valid postal code",
-        }));
-      } else {
-        setErrorMess((errorMess) => ({
-          ...errorMess,
-          postalCode: "",
-        }));
-      }
+    const cardNumber = cardNumberRef.current?.value.trim();
+    const cvvCode = cvvCodeRef.current?.value.trim();
+    const country = countryRef.current?.value.trim();
+    const postalCode = postalCodeRef.current?.value.trim();
+    if (!visaRegex.test(cardNumber as string)) {
+      flag = false;
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        cardNumber: "Please enter a valid card number",
+      }));
+    } else {
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        cardNumber: "",
+      }));
+    }
+    if (!cvvCodeRegex.test(cvvCode as string)) {
+      flag = false;
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        cvvCode: "Please enter a valid cvv code",
+      }));
+    } else {
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        cvvCode: "",
+      }));
+    }
+    if (country === "") {
+      flag = false;
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        country: "Please select a country",
+      }));
+    } else {
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        country: "",
+      }));
+    }
+    if (postalCode === "") {
+      flag = false;
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        postalCode: "Please enter a valid postal code",
+      }));
+    } else {
+      setErrorMess((errorMess) => ({
+        ...errorMess,
+        postalCode: "",
+      }));
     }
     return flag;
+  };
+
+  const purchaseTour = () => {
+    if (validateInput()) {
+      axios
+        .post("/api/payment", {
+          cardNumber: cardNumberRef.current?.value.trim(),
+          cvvCode: cvvCodeRef.current?.value.trim(),
+          country: countryRef.current?.value.trim(),
+          postalCode: postalCodeRef.current?.value.trim(),
+          paymentMethod: paymentMethod,
+          email: userData.email,
+          quantity: tourDetail.quantity,
+          _id: tourDetail._id,
+        })
+        .then((res) => {
+          if (res.data.status === "success") {
+            setPaymentStep(2);
+            dispatch(resetData())
+            toast.success(res.data.message);
+          } else {
+            toast.error(res.data.message);
+          }
+        });
+    }
   };
 
   return (
@@ -308,7 +332,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
                       width="40px"
                       height="40px"
                       viewBox="0 0 64 64"
-                      enable-background="new 0 0 64 64"
+                      enableBackground="new 0 0 64 64"
                       xmlSpace="preserve"
                       fill="#000000"
                     >
@@ -420,29 +444,29 @@ const TourPurchase = (props: tourPurchaseProps) => {
                     <p className="text-center">Paypal</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 grid-rows-3 gap-4 mt-4 items-end">
+                <div className="grid grid-cols-2 grid-rows-3 gap-2 mt-4 items-end">
                   <TextField
                     label="Card Number"
-                    sx={{ gridArea: "1 / 1 / 2 / 4" }}
+                    sx={{ gridArea: "1 / 1 / 2 / 3" }}
                     inputRef={cardNumberRef}
                     error={errorMess.cardNumber !== ""}
                     helperText={errorMess.cardNumber}
                   />
                   <DatePicker
                     label="Expiration Date"
-                    sx={{ gridArea: "2 / 1 / 3 / 3" }}
+                    sx={{ gridArea: "2 / 1 / 3 / 2" }}
                     value={expireDate}
                     onChange={(newValue) => setExpireDate(newValue)}
                   />
                   <TextField
                     label="CVV Code"
-                    sx={{ gridArea: "2 / 3 / 3 / 4" }}
+                    sx={{ gridArea: "2 / 2 / 3 / 3" }}
                     inputRef={cvvCodeRef}
                     error={errorMess.cvvCode !== ""}
                     helperText={errorMess.cvvCode}
                   />
                   <FormControl
-                    sx={{ gridArea: "3 / 1 / 4 / 3" }}
+                    sx={{ gridArea: "3 / 1 / 4 / 2" }}
                     error={errorMess.country !== ""}
                   >
                     <InputLabel id="country_label">Country</InputLabel>
@@ -451,6 +475,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
                       label="Country"
                       placeholder="Select a country"
                       inputRef={countryRef}
+                      defaultValue=""
                     >
                       {country_list.map((country, index) => (
                         <MenuItem key={index} value={country}>
@@ -462,7 +487,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
                   </FormControl>
                   <TextField
                     label="Postal Code"
-                    sx={{ gridArea: "3 / 3 / 4 / 4" }}
+                    sx={{ gridArea: "3 / 2 / 4 / 3" }}
                     inputRef={postalCodeRef}
                     error={errorMess.postalCode !== ""}
                     helperText={errorMess.postalCode}
@@ -502,7 +527,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
                 <div className="flex justify-between items-center w-full">
                   <Button
                     variant="outlined"
-                    color='error'
+                    color="error"
                     sx={{ width: "48.5%" }}
                     onClick={() => setPaymentStep(0)}
                   >
@@ -511,12 +536,28 @@ const TourPurchase = (props: tourPurchaseProps) => {
                   <Button
                     variant="contained"
                     sx={{ width: "48.5%" }}
-                    onClick={() => setPaymentStep(2)}
+                    onClick={purchaseTour}
                   >
                     Purchase
                   </Button>
                 </div>
               </div>
+            </div>
+          )}
+          {paymentStep === 2 && (
+            <div
+              className="flex flex-col justify-center items-center"
+              style={{ animation: "fadeIn .3s ease-in" }}
+            >
+              <Player
+                  autoplay
+                  loop
+                  src="https://lottie.host/d6e329f3-e515-4e7b-bdb3-ce8cedc41800/8zL9jQ2rqX.json"
+                  style={{ height: "100px", width: "100px" }}
+                >
+              </Player>
+              <p className="text-2xl font-semibold text-lime-600">Purchase successfully!</p>
+              <Button  className="pt-3">Check history</Button>
             </div>
           )}
         </div>

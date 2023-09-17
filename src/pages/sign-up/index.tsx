@@ -46,66 +46,59 @@ const SignUp = (): JSX.Element => {
   };
 
   const validate = () => {
-    if (
-      nameRef.current &&
-      emailRef.current &&
-      passRef.current &&
-      confirmPassRef.current
-    ) {
-      const name = nameRef.current.value.trim();
-      const email = emailRef.current.value.trim();
-      const password = passRef.current.value.trim();
-      const confirmPass = confirmPassRef.current.value.trim();
-      let flag = true;
-      resetErrMes();
-      if (name === "") {
-        flag = false;
-        setNameMes("Please enter your name");
-      } else if (!nameRegex.test(name)) {
-        flag = false;
-        setNameMes("Invalid name");
-      }
-      if (email === "") {
-        flag = false;
-        setEmailMes("Please enter your email");
-      } else if (!emailRegex.test(email)) {
-        flag = false;
-        setEmailMes("Invalid email");
-      }
-      if (password === "") {
-        flag = false;
-        setPassMes("Please enter your password");
-      } else if (!passwordRegex.test(password)) {
-        flag = false;
-        setPassMes("Invalid password");
-      }
-      if (confirmPass === "") {
-        flag = false;
-        setConfirmPassMes("Please enter confirm password");
-      } else if (confirmPass !== password) {
-        flag = false;
-        setConfirmPassMes("Wrong confirm password");
-      }
-      if (flag) {
-        axios
-          .post("/api/signUp/sign-up", {
-            name: name,
-            email: email,
-            password: password,
-            tel: "",
-          })
-          .then((res) => {
-            if (res.data.status === "success") {
-              toast.success("Register successful!");
-              signIn();
-            } else {
-              toast.error("Register fail!");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
+    const name = nameRef.current?.value.trim();
+    const email = emailRef.current?.value.trim();
+    const password = passRef.current?.value.trim();
+    const confirmPass = confirmPassRef.current?.value.trim();
+    let flag = true;
+    resetErrMes();
+    if (name === "") {
+      flag = false;
+      setNameMes("Please enter your name");
+    } else if (!nameRegex.test(name as string)) {
+      flag = false;
+      setNameMes("Invalid name");
+    }
+    if (email === "") {
+      flag = false;
+      setEmailMes("Please enter your email");
+    } else if (!emailRegex.test(email as string)) {
+      flag = false;
+      setEmailMes("Invalid email");
+    }
+    if (password === "") {
+      flag = false;
+      setPassMes("Please enter your password");
+    } else if (!passwordRegex.test(password as string)) {
+      flag = false;
+      setPassMes("Invalid password");
+    }
+    if (confirmPass === "") {
+      flag = false;
+      setConfirmPassMes("Please enter confirm password");
+    } else if (confirmPass !== password) {
+      flag = false;
+      setConfirmPassMes("Wrong confirm password");
+    }
+    if (flag) {
+      axios
+        .post("/api/signUp", {
+          name: name,
+          email: email,
+          password: password,
+          tel: "",
+        })
+        .then((res) => {
+          if (res.data.status === "success") {
+            toast.success("Register successful!");
+            signIn();
+          } else {
+            toast.error("Register fail!");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
 
@@ -114,7 +107,7 @@ const SignUp = (): JSX.Element => {
       <Meta
         props={{
           title: "Xplore | Sign up",
-          robots: 'noindex'
+          robots: "noindex",
         }}
       />
       <div className="w-100 h-screen flex flex-col justify-around items-center relative">
@@ -122,7 +115,7 @@ const SignUp = (): JSX.Element => {
           className="absolute h-screen object-cover z-[-1]"
           width={1920}
           height={1080}
-          src='Background/f1qvgywzo4ke5amkn46n'
+          src="Background/f1qvgywzo4ke5amkn46n"
           sizes="100vw"
           alt="background"
         />

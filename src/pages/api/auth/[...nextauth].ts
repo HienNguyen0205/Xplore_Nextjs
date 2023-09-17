@@ -21,7 +21,7 @@ export const authOptions : NextAuthOptions = {
       async authorize(credentials){
         await db()
         const { email, password } = credentials as { email: string, password: string }
-        const userData = await user.findOne({ email: email })
+        const userData = await user.findOne({ email })
         const checkPass = await compare(password, userData.password)
         if(userData && checkPass) {
           return userData

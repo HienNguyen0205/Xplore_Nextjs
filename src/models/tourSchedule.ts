@@ -1,14 +1,9 @@
 import mongoose, { Schema, model, models } from "mongoose"
 
-const tourScheduleSchema = new Schema({
+export const tourScheduleSchema = new Schema({
     tourSchedules: {
         slot: {type: Number, min: 0, max: 20},
-        userRegisterId: [mongoose.Types.ObjectId],
         departure: String,
-        comments: [{
-            content: String,
-            date: Date,
-        }],
         date: {
             from: Date,
             to: Date,

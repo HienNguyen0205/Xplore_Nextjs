@@ -6,7 +6,7 @@ import db from '@/utils/database'
 const checkUser = async (email: string) => {
     try{
         await db()
-        const userData = await user.findOne({ email: email })
+        const userData = await user.findOne({ email })
         if(userData){
             return true
         }
