@@ -510,43 +510,4 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
-
-  // try {
-  //   await db();
-  //   const routeData = await tourSchedule.aggregate([
-  //     {
-  //       $match: {
-  //         status: true,
-  //         routeId: new ObjectId("64f4895bf88448793f4e6899"),
-  //       },
-  //     },
-  //     {
-  //       $project: {
-  //         _id: 1,
-  //         departure: 1,
-  //         route: 1,
-  //         destination: 1,
-  //         date: 1,
-  //         price: 1,
-  //         rating: 1,
-  //       },
-  //     },
-  //     {
-  //       $limit: 4,
-  //     },
-  //   ]);
-  //   const routeSelected = routeData.find((route) => route._id == _id);
-  //   return {
-  //     props: {
-  //       routeSelected: JSON.parse(JSON.stringify(routeSelected)),
-  //       routeData: JSON.parse(JSON.stringify(routeData)),
-  //     },
-  //   };
-  // } catch (e) {
-  //   return {
-  //     props: {
-  //       notFound: true,
-  //     },
-  //   };
-  // }
 };
