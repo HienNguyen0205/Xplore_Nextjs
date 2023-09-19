@@ -50,7 +50,6 @@ export const getStaticProps = async () => {
           tourId: { $first: "$_id" },
           image: { $first: "$image" },
           route: { $first: "$route" },
-          comments: { $first: "$comments" },
           price: { $first: "$price" },
           rating: { $first: "$rating" },
           time: { $first: "$time" },

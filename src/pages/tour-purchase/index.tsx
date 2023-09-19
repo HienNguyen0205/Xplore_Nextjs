@@ -557,7 +557,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
                 >
               </Player>
               <p className="text-2xl font-semibold text-lime-600">Purchase successfully!</p>
-              <Button  className="pt-3">Check history</Button>
+              <Button className="pt-3">Check history</Button>
             </div>
           )}
         </div>

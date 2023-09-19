@@ -31,16 +31,16 @@ const ratingTag = (rating: number): string => {
 
 const TourDetail = (props: tourDetailProps) => {
 
-  const { routeSelected, routeData } = props;
+  // const { routeSelected, routeData } = props;
 
   const [tabIndex, setTabIndex] = useState<string>("1");
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(setRouteSelected(routeSelected));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   dispatch(setRouteSelected(routeSelected));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
@@ -82,12 +82,12 @@ const TourDetail = (props: tourDetailProps) => {
               </div>
               <div className="flex items-center">
                 <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
-                  <p>{routeSelected.rating}</p>
+                  {/* <p>{routeSelected.rating}</p> */}
                   <Star sx={{ marginLeft: '4px', color: 'yellow' }}/>
                 </div>
                 <p className="mx-2">|</p>
                 <span className="text-emerald-500">
-                  {ratingTag(routeSelected.rating)}
+                  {/* {ratingTag(routeSelected.rating)} */}
                 </span>
               </div>
             </div>
@@ -455,7 +455,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            <TourOptions routeData={routeData} />
+            {/* <TourOptions routeData={routeData} /> */}
           </div>
         </div>
       </div>
@@ -465,49 +465,49 @@ const TourDetail = (props: tourDetailProps) => {
 
 export default TourDetail;
 
-export const getServerSideProps: GetServerSideProps<
-  tourDetailProps | { notFound: boolean }
-> = async (context) => {
-  const { _id } = context.query;
-  const ObjectId = mongoose.Types.ObjectId;
+// export const getServerSideProps: GetServerSideProps<
+//   tourDetailProps | { notFound: boolean }
+// > = async (context) => {
+//   const { _id } = context.query;
+//   const ObjectId = mongoose.Types.ObjectId;
 
-  try {
-    await db();
-    const routeData = await tourSchedule.aggregate([
-      {
-        $match: {
-          status: true,
-          routeId: new ObjectId("64f4895bf88448793f4e6899"),
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          departure: 1,
-          route: 1,
-          destination: 1,
-          slot: 1,
-          date: 1,
-          price: 1,
-          rating: 1,
-        },
-      },
-      {
-        $limit: 4,
-      },
-    ]);
-    const routeSelected = routeData.find((route) => route._id == _id);
-    return {
-      props: {
-        routeSelected: JSON.parse(JSON.stringify(routeSelected)),
-        routeData: JSON.parse(JSON.stringify(routeData)),
-      },
-    };
-  } catch (e) {
-    return {
-      props: {
-        notFound: true,
-      },
-    };
-  }
-};
+//   try {
+//     await db();
+//     const routeData = await tourSchedule.aggregate([
+//       {
+//         $match: {
+//           status: true,
+//           routeId: new ObjectId("64f4895bf88448793f4e6899"),
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 1,
+//           departure: 1,
+//           route: 1,
+//           destination: 1,
+//           slot: 1,
+//           date: 1,
+//           price: 1,
+//           rating: 1,
+//         },
+//       },
+//       {
+//         $limit: 4,
+//       },
+//     ]);
+//     const routeSelected = routeData.find((route) => route._id == _id);
+//     return {
+//       props: {
+//         routeSelected: JSON.parse(JSON.stringify(routeSelected)),
+//         routeData: JSON.parse(JSON.stringify(routeData)),
+//       },
+//     };
+//   } catch (e) {
+//     return {
+//       props: {
+//         notFound: true,
+//       },
+//     };
+//   }
+// };
