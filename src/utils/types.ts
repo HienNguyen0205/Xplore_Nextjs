@@ -140,7 +140,7 @@ export interface tourDetailDef {
 }
 
 export interface tourDetailProps {
-    routeSelected: tourDetailDef,
+    // routeSelected: tourDetailDef,
     routeData: tourDetailDef[]
 }
 
