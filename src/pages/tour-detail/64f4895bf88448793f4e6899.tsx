@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
-import axios from "axios";
 import { Box, Tab } from "@mui/material";
 import { CldImage } from "next-cloudinary";
 import {
@@ -18,9 +17,9 @@ import {
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
-import { tourDetailProps, routeDataDef } from "@/utils/types";
+import { tourDetailProps } from "@/utils/types";
 import type { GetServerSideProps } from "next";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch } from "@/hooks";
 import { setRouteSelected } from "@/redux/reducers/routeSelected";
 import { TourOptions } from "@/components";
 
@@ -32,27 +31,14 @@ const ratingTag = (rating: number): string => {
 
 const TourDetail = (props: tourDetailProps) => {
 
-  // const { routeSelected, routeData } = props;
-
-  const { id } = props
+  const { routeSelected, routeData } = props;
 
   const [tabIndex, setTabIndex] = useState<string>("1");
-  const [routeData, setRouteData] = useState<routeDataDef>([])
-
-  const routeSelected = useAppSelector(state => state.routeDetail.value)
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    axios.get(`/api/tour/get-route-data?id=${id}`)
-    .then(res => {
-      if(res.data.code === 0){
-        const { routeSelected, routeData } = res.data
-        dispatch(setRouteSelected(routeSelected))
-        setRouteData(routeData)
-      }
-    })
-    // dispatch(setRouteSelected(routeSelected));
+    dispatch(setRouteSelected(routeSelected));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -483,12 +469,46 @@ export const getServerSideProps: GetServerSideProps<
   tourDetailProps | { notFound: boolean }
 > = async (context) => {
   const { _id } = context.query;
-  // const ObjectId = mongoose.Types.ObjectId;
+  const ObjectId = mongoose.Types.ObjectId;
 
-  return {
-    props: {
-      id: _id as string,
-    }
+  try {
+    await db();
+    const routeData = await tourSchedule.aggregate([
+      {
+        $match: {
+          status: true,
+          routeId: new ObjectId("64f4895bf88448793f4e6899"),
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          departure: 1,
+          route: 1,
+          destination: 1,
+          slot: 1,
+          date: 1,
+          price: 1,
+          rating: 1,
+        },
+      },
+      {
+        $limit: 4,
+      },
+    ]);
+    const routeSelected = routeData.find((route) => route._id == _id);
+    return {
+      props: {
+        routeSelected: JSON.parse(JSON.stringify(routeSelected)),
+        routeData: JSON.parse(JSON.stringify(routeData)),
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        notFound: true,
+      },
+    };
   }
 
   // try {
