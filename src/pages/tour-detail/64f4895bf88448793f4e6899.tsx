@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
+import axios from "axios";
 import { Box, Tab } from "@mui/material";
 import { CldImage } from "next-cloudinary";
 import {
@@ -17,9 +18,9 @@ import {
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
-import { tourDetailProps } from "@/utils/types";
+import { tourDetailProps, routeDataDef } from "@/utils/types";
 import type { GetServerSideProps } from "next";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setRouteSelected } from "@/redux/reducers/routeSelected";
 import { TourOptions } from "@/components";
 
@@ -31,16 +32,27 @@ const ratingTag = (rating: number): string => {
 
 const TourDetail = (props: tourDetailProps) => {
 
-  const { routeSelected, routeData } = props;
+  // const { routeSelected, routeData } = props;
 
-  console.log(routeData)
+  const { id } = props
 
   const [tabIndex, setTabIndex] = useState<string>("1");
+  const [routeData, setRouteData] = useState<routeDataDef>([])
+
+  const routeSelected = useAppSelector(state => state.routeDetail.value)
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setRouteSelected(routeSelected));
+    axios.get(`/api/tour/get-route-data?id=${id}`)
+    .then(res => {
+      if(res.data.code === 0){
+        const { routeSelected, routeData } = res.data
+        dispatch(setRouteSelected(routeSelected))
+        setRouteData(routeData)
+      }
+    })
+    // dispatch(setRouteSelected(routeSelected));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,12 +96,12 @@ const TourDetail = (props: tourDetailProps) => {
               </div>
               <div className="flex items-center">
                 <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
-                  {/* <p>{routeSelected.rating}</p> */}
+                  <p>{routeSelected.rating}</p>
                   <Star sx={{ marginLeft: '4px', color: 'yellow' }}/>
                 </div>
                 <p className="mx-2">|</p>
                 <span className="text-emerald-500">
-                  {/* {ratingTag(routeSelected.rating)} */}
+                  {ratingTag(routeSelected.rating)}
                 </span>
               </div>
             </div>
@@ -457,7 +469,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            {/* <TourOptions routeData={routeData} /> */}
+            <TourOptions routeData={routeData} />
           </div>
         </div>
       </div>
@@ -471,44 +483,50 @@ export const getServerSideProps: GetServerSideProps<
   tourDetailProps | { notFound: boolean }
 > = async (context) => {
   const { _id } = context.query;
-  const ObjectId = mongoose.Types.ObjectId;
+  // const ObjectId = mongoose.Types.ObjectId;
 
-  try {
-    await db();
-    const routeData = await tourSchedule.aggregate([
-      {
-        $match: {
-          status: true,
-          routeId: new ObjectId("64f4895bf88448793f4e6899"),
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          departure: 1,
-          route: 1,
-          destination: 1,
-          date: 1,
-          price: 1,
-          rating: 1,
-        },
-      },
-      {
-        $limit: 4,
-      },
-    ]);
-    const routeSelected = routeData.find((route) => route._id == _id);
-    return {
-      props: {
-        routeSelected: JSON.parse(JSON.stringify(routeSelected)),
-        routeData: JSON.parse(JSON.stringify(routeData)),
-      },
-    };
-  } catch (e) {
-    return {
-      props: {
-        notFound: true,
-      },
-    };
+  return {
+    props: {
+      id: _id as string,
+    }
   }
+
+  // try {
+  //   await db();
+  //   const routeData = await tourSchedule.aggregate([
+  //     {
+  //       $match: {
+  //         status: true,
+  //         routeId: new ObjectId("64f4895bf88448793f4e6899"),
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         _id: 1,
+  //         departure: 1,
+  //         route: 1,
+  //         destination: 1,
+  //         date: 1,
+  //         price: 1,
+  //         rating: 1,
+  //       },
+  //     },
+  //     {
+  //       $limit: 4,
+  //     },
+  //   ]);
+  //   const routeSelected = routeData.find((route) => route._id == _id);
+  //   return {
+  //     props: {
+  //       routeSelected: JSON.parse(JSON.stringify(routeSelected)),
+  //       routeData: JSON.parse(JSON.stringify(routeData)),
+  //     },
+  //   };
+  // } catch (e) {
+  //   return {
+  //     props: {
+  //       notFound: true,
+  //     },
+  //   };
+  // }
 };

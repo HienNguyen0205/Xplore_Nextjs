@@ -139,13 +139,16 @@ export interface tourDetailDef {
 }
 
 export interface tourDetailProps {
-    routeSelected: tourDetailDef,
-    routeData: tourDetailDef[]
+    // routeSelected: tourDetailDef,
+    // routeData: tourDetailDef[]
+    id: string,
 }
 
 export interface tourOptionsProps {
     routeData: tourDetailDef[]
 }
+
+export interface routeDataDef extends tourOptionsProps{}
 
 export interface tourDetailStore extends tourDetailDef {
     quantity?: number,
