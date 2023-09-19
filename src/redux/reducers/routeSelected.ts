@@ -12,7 +12,6 @@ const initialState : routeDetailState = {
     departure: '',
     route: '',
     destination: '',
-    slot: 0,
     date: {
       from: "",
       to: "",

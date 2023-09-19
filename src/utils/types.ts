@@ -127,7 +127,6 @@ export interface infoCardProps{
 
 export interface tourDetailDef {
     _id: string,
-    slot: number,
     date: {
         from: string,
         to: string,
@@ -140,7 +139,7 @@ export interface tourDetailDef {
 }
 
 export interface tourDetailProps {
-    // routeSelected: tourDetailDef,
+    routeSelected: tourDetailDef,
     routeData: tourDetailDef[]
 }
 

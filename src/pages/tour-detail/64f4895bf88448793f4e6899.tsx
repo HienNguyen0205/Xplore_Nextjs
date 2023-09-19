@@ -31,18 +31,18 @@ const ratingTag = (rating: number): string => {
 
 const TourDetail = (props: tourDetailProps) => {
 
-  // const { routeSelected, routeData } = props;
+  const { routeSelected, routeData } = props;
 
-  const { routeData } = props;
+  console.log(routeData)
 
   const [tabIndex, setTabIndex] = useState<string>("1");
 
   const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   dispatch(setRouteSelected(routeSelected));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    dispatch(setRouteSelected(routeSelected));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
@@ -457,7 +457,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            <TourOptions routeData={routeData} />
+            {/* <TourOptions routeData={routeData} /> */}
           </div>
         </div>
       </div>
@@ -488,7 +488,6 @@ export const getServerSideProps: GetServerSideProps<
           departure: 1,
           route: 1,
           destination: 1,
-          slot: 1,
           date: 1,
           price: 1,
           rating: 1,
@@ -498,10 +497,10 @@ export const getServerSideProps: GetServerSideProps<
         $limit: 4,
       },
     ]);
-    // const routeSelected = routeData.find((route) => route._id == _id);
+    const routeSelected = routeData.find((route) => route._id == _id);
     return {
       props: {
-        // routeSelected: JSON.parse(JSON.stringify(routeSelected)),
+        routeSelected: JSON.parse(JSON.stringify(routeSelected)),
         routeData: JSON.parse(JSON.stringify(routeData)),
       },
     };
