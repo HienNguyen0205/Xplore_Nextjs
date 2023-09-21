@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { ArrowBackIosNew , ArrowForwardIos } from '@mui/icons-material'
+import Image from "next/image";
 import { CldImage } from 'next-cloudinary';
 import { carouselProps } from '@/utils/types'
 import styles from '@/styles/Carousel.module.scss'
@@ -44,10 +44,10 @@ const Carousel = ({content, duration = 6000}: carouselProps) => {
     return (
         <div className="relative w-full h-screen bg-black z-0 overflow-x-hidden">
             <div className={`${styles.carousel_arrow} ${styles.arrow_left}`} onClick={prevSlide}>
-                <ArrowBackIosNew />
+                <Image src={require('@/assets/images/Icon/arrow-prev.svg')} alt="arrow-left" height={24} width={24}/>
             </div>
             <div className={`${styles.carousel_arrow} ${styles.arrow_right}`} onClick={nextSlide}>
-                <ArrowForwardIos />
+                <Image src={require('@/assets/images/Icon/arrow-next.svg')} alt="arrow-right" height={24} width={24}/>
             </div>
             <div id={styles.carousel} ref={ref}>
                 {content.map((item, imgIndex) => (

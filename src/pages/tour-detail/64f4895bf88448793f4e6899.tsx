@@ -2,19 +2,9 @@ import React, { useState, useEffect } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
+import Image from 'next/image'
 import { Box, Tab } from "@mui/material";
 import { CldImage } from "next-cloudinary";
-import {
-  Info,
-  LocationOn,
-  AccessTime,
-  LocalAirport,
-  DirectionsBus,
-  Map,
-  ContactEmergency,
-  Hail,
-  Star,
-} from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
 import { tourDetailProps } from "@/utils/types";
@@ -69,21 +59,23 @@ const TourDetail = (props: tourDetailProps) => {
             <div className="flex justify-between items-center h-[60px] px-3 bg-zinc-300">
               <div className="flex items-center">
                 <div className="flex items-center mr-5">
-                  <LocationOn sx={{ marginRight: "2px" }} /> Ho Chi Minh
+                  <Image className="mr-1" src={require('@/assets/images/Icon/location.svg')} alt="location" height={24} width={24}/>
+                  Ho Chi Minh
                 </div>
                 <div className="flex items-center mr-5">
-                  <AccessTime sx={{ marginRight: "2px" }} /> 4 Days
+                  <Image className="mr-1" src={require('@/assets/images/Icon/location.svg')} alt="location" height={24} width={24}/>
+                  4 Days
                 </div>
                 <div className="flex items-center mr-5">
                   Transportation:
-                  <LocalAirport sx={{ margin: "0 4px 0 12px" }} />
-                  <DirectionsBus sx={{ margin: "0 12px 0 4px" }} />
+                  <Image className="mr-1 ml-3" src={require('@/assets/images/Icon/plane.svg')} alt="plane" height={24} width={24}/>
+                  <Image className="mr-3 ml-1" src={require('@/assets/images/Icon/bus.svg')} alt="bus" height={24} width={24}/>
                 </div>
               </div>
               <div className="flex items-center">
                 <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
                   <p>{routeSelected.rating}</p>
-                  <Star sx={{ marginLeft: '4px', color: 'yellow' }}/>
+                  <Image className="mr-1" src={require('@/assets/images/Icon/star.svg')} alt="star" height={24} width={24}/>
                 </div>
                 <p className="mx-2">|</p>
                 <span className="text-emerald-500">
@@ -93,7 +85,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Info sx={{ color: "rgb(30, 64, 175)", marginRight: "8px" }} />
+                <Image className="mr-2" src={require('@/assets/images/Icon/info.svg')} alt="info" height={24} width={24}/>
                 Tour Introduction
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -114,7 +106,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Map sx={{ color: "rgb(30, 64, 175)", marginRight: "8px" }} />
+                <Image className="mr-2" src={require('@/assets/images/Icon/map.svg')} alt="map" height={24} width={24}/>
                 Tour Schedule
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -286,9 +278,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <ContactEmergency
-                  sx={{ color: "rgb(30, 64, 175)", marginRight: "8px" }}
-                />
+                <Image className="mr-2" src={require('@/assets/images/Icon/visa-card.svg')} alt="visa-card" height={24} width={24}/>
                 Visa Infomation
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -300,7 +290,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Hail sx={{ color: "rgb(30, 64, 175)", marginRight: "8px" }} />
+                <Image className="mr-2" src={require('@/assets/images/Icon/tourguild.svg')} alt="tourguild" height={24} width={24}/>
                 Tour Guild
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -315,11 +305,6 @@ const TourDetail = (props: tourDetailProps) => {
               </p>
             </div>
             <div className="my-8">
-              <h1 className="text-2xl font-medium flex items-center">
-                <Hail sx={{ color: "rgb(30, 64, 175)", marginRight: "8px" }} />
-                Tour Guild
-              </h1>
-              <hr className="border-black mt-3 mb-2" />
               <Box sx={{ width: "100%", typography: "body1" }}>
                 <TabContext value={tabIndex}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

@@ -5,7 +5,6 @@ import Image from 'next/image'
 import styles from '@/styles/Header.module.scss'
 import { useRouter } from 'next/router'
 import { useSession, signIn, signOut } from "next-auth/react"
-import { History, Settings, Logout, Person } from '@mui/icons-material'
 
 const Header = (): JSX.Element => {
 
@@ -40,19 +39,19 @@ const Header = (): JSX.Element => {
                     <Image className={styles.avatar} src={require('@/assets/images/User/unknowUser.jpg')} alt='user-img'/>
                     <div className={styles.avatar_dropdown}>
                         <div className={styles.dropdown_item}>
-                            <Person/>
+                            <Image src={require('@/assets/images/Icon/user.svg')} alt='user' height={24} width={24}/>
                             <span className={styles.dropdown_text}>Profile</span>
                         </div>
                         <div className={styles.dropdown_item}>
-                            <History/>
+                            <Image src={require('@/assets/images/Icon/clock-rewind.svg')} alt='clock-rewind' height={24} width={24}/>
                             <span className={styles.dropdown_text}>History</span>
                         </div>
                         <div className={styles.dropdown_item}>
-                            <Settings/>
+                            <Image src={require('@/assets/images/Icon/gear.svg')} alt='gear' height={24} width={24}/>
                             <span className={styles.dropdown_text}>Setting</span>
                         </div>
-                        <div className={styles.dropdown_item} onClick={() => signOut()}>
-                            <Logout/>
+                        <div className={styles.dropdown_item} onClick={() => signOut({ redirect: false }).then(() => returnHome())}>
+                            <Image src={require('@/assets/images/Icon/log-out.svg')} alt='log-out' height={24} width={24}/>
                             <span className={styles.dropdown_text}>Log out</span>
                         </div>
                     </div>

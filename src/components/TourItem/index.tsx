@@ -1,10 +1,10 @@
 import React from "react";
 import styles from '@/styles/TourList.module.scss'
 import dayjs from "dayjs";
+import Image from 'next/image'
 import { tourDef } from "@/utils/types";
 import { useRouter } from "next/router";
 import { CldImage } from "next-cloudinary";
-import { LocationOn, AccessTime, CalendarMonth, Star } from "@mui/icons-material";
 
 const TourItem = ({
   data,
@@ -41,7 +41,7 @@ const TourItem = ({
         <div className="flex items-center my-2">
           <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
             <p>{data.rating}</p>
-            <Star sx={{ marginLeft: "4px", color: "yellow" }} />
+            <Image className="mr-1" src={require('@/assets/images/Icon/star.svg')} alt='star' height={24} width={24}/>
           </div>
           <p className="text-lg mx-2">|</p>
           <span className="text-emerald-500 text-lg">
@@ -50,18 +50,18 @@ const TourItem = ({
         </div>
         <div className="flex justify-between items-center my-2">
           <p>
-            <LocationOn sx={{ marginRight: "3px", marginLeft: "-5px" }} />
+            <Image className="mr-1" src={require('@/assets/images/Icon/location.svg')} alt='location' height={24} width={24}/>
             {data.destination}
           </p>
           <p>
-            <AccessTime sx={{ marginRight: "3px" }} />
+            <Image className="mr-1" src={require('@/assets/images/Icon/clock.svg')} alt='clock' height={24} width={24}/>
             {data.time} days
           </p>
         </div>
         {showDate && (
           <div className="my-2">
             <div className="flex items-center">
-              <CalendarMonth sx={{ marginRight: "3px", marginLeft: "-5px" }} />
+              <Image className="mr-1" src={require('@/assets/images/Icon/calendar.svg')} alt='calendar' height={24} width={24}/>
               <span>
                 {dayjs(data.date.from).format("ddd, DD-MM-YYYY").toString()}
               </span>

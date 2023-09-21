@@ -19,7 +19,6 @@ const Error = (): JSX.Element => {
             <p className={styles.subheading}>
               Looks like the page you were looking for is no longer here.
             </p>
-            
           </div>
         </div>
         <div className={styles.right_section}>

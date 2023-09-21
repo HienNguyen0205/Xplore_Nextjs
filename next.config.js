@@ -5,10 +5,9 @@ const nextConfig = {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  modularizeImports: {
-    '@mui/icons-material': {
-      transform: '@mui/icons-material/{{member}}'
-    }
+  transpilePackages: ["@mui/system", "@mui/material",'@/components'],
+  experimental: {
+    optimizePackageImports: ['@mui/material']
   }
 }
 
