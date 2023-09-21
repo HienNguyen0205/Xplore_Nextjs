@@ -1,11 +1,6 @@
 import Head from "next/head";
 import { MetaProps } from "@/utils/types";
-
-const defaultMetaProps = {
-  title: "Xplore",
-  description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
-  robots: 'all'
-}
+import { defaultMetaProps } from '@/utils/data'
 
 export default function Meta({ props = defaultMetaProps }: { props: MetaProps }) {
   return (

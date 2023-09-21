@@ -4,7 +4,16 @@ const nextConfig = {
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
+  },
+  modularizeImports: {
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}'
+    }
   }
 }
 
-module.exports = nextConfig
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(nextConfig)

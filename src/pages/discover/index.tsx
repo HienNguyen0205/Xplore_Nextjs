@@ -1,95 +1,15 @@
 import React from "react";
 import Meta from "@/components/Layout/meta";
-import LightGallery from "lightgallery/react";
-import lgZoom from "lightgallery/plugins/zoom";
 import db from "@/utils/database";
 import {
-  galleryGroupProps,
-  galleryImgListProps,
   discoverDef,
 } from "@/utils/types";
 import { CldImage } from "next-cloudinary";
 import { galleryimages } from "@/models";
+import { galleryGroupImg } from "@/utils/data";
+import { GalleryGroup, GalleryImgList } from "@/components";
 import "lightgallery/scss/lightgallery.scss";
 import "lightgallery/scss/lg-zoom.scss";
-
-const galleryGroupImg: galleryGroupProps[] = [
-  {
-    imgSrc: "Background/nlqfojwt9wbh0yuw5yzk",
-    region: "Asia",
-  },
-  {
-    imgSrc: "Background/fx6i7rnmq7mkzpmgxfzr",
-    region: "Africa",
-  },
-  {
-    imgSrc: "Background/wczkt2urytrrgkjgbcqx",
-    region: "Europe",
-  },
-  {
-    imgSrc: "Background/szidyar7fphtisskl7ci",
-    region: "Americas",
-  },
-];
-
-const GalleryImgList = (props: galleryImgListProps) => {
-  const { region, imgList } = props;
-
-  return (
-    <div id={region} className="my-20">
-      <h1 className="text-center text-5xl font-semibold mb-6">{region}</h1>
-      <LightGallery
-        elementClassNames="grid md:grid-cols-3 sm:grid-cols-2 gap-4"
-        speed={500}
-        plugins={[lgZoom]}
-      >
-        {imgList.map((item, index) => {
-          return (
-            <CldImage
-              key={index}
-              className="cursor-pointer"
-              width={1920}
-              height={1080}
-              src={item}
-              alt="gallery_img"
-              fillBackground
-            />
-          );
-        })}
-      </LightGallery>
-    </div>
-  );
-};
-
-const GalleryGroup = (props: galleryGroupProps) => {
-  const { imgSrc, region } = props;
-
-  const scrollToGallery = () => {
-    document.querySelector(`#${region}`)?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "center",
-    });
-  };
-
-  return (
-    <div className="w-fit">
-      <div
-        className="rounded overflow-hidden w-[260px] aspect-square cursor-pointer"
-        onClick={scrollToGallery}
-      >
-        <CldImage
-          className="aspect-square transition duration-300 hover:scale-110"
-          width={260}
-          height={260}
-          src={imgSrc}
-          alt="galleryGroupImg"
-        />
-      </div>
-      <h5 className="text-center text-2xl font-medium mt-4">{region}</h5>
-    </div>
-  );
-};
 
 const Discover = (props: discoverDef) => {
   const { galleryData } = props;

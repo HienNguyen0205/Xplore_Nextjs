@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"
 import { ArrowBackIosNew , ArrowForwardIos } from '@mui/icons-material'
 import { CldImage } from 'next-cloudinary';
+import { carouselProps } from '@/utils/types'
 import styles from '@/styles/Carousel.module.scss'
 
-interface carouselProps {
-    content: {country: string, destination: string, source: string}[]
-    duration?: number,
-}
-
-const Carousel = ({content, duration = 6000}: carouselProps): JSX.Element => {
+const Carousel = ({content, duration = 6000}: carouselProps) => {
 
     const [index, setIndex] = useState(0)
 

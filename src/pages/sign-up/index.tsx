@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client";
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Meta from "@/components/Layout/meta";
@@ -8,11 +7,7 @@ import { TextField, Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { CldImage } from "next-cloudinary";
-
-const nameRegex = /^[a-zA-Z]{4,30}(?: [a-zA-Z]+){0,5}$/;
-const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+import { emailRegex, nameRegex, passwordRegex } from "@/utils/data";
 
 const SignUp = (): JSX.Element => {
   const [nameMes, setNameMes] = useState<String>("");
@@ -111,14 +106,30 @@ const SignUp = (): JSX.Element => {
         }}
       />
       <div className="w-100 h-screen flex flex-col justify-around items-center relative">
-        <CldImage
-          className="absolute h-screen object-cover z-[-1]"
-          width={1920}
-          height={1080}
-          src="Background/f1qvgywzo4ke5amkn46n"
-          sizes="100vw"
-          alt="background"
-        />
+      <div className="night_bg">
+          <div className="night">
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+          </div>
+        </div>
         <Image
           className="w-[160px] cursor-pointer"
           src={require("@/assets/images/Logo/XPLORE_logo.png")}

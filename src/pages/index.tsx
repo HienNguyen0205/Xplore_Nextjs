@@ -1,68 +1,18 @@
 import React from 'react'
-import styles from '@/styles/Home.module.scss'
 import db from '@/utils/database'
+import dynamic from 'next/dynamic'
 import { tourStatistic, tourSchedule } from '@/models'
-import { Carousel, TourList } from '@/components'
 import { Public, AttachMoney, Hotel, SentimentSatisfiedAlt, DirectionsBus, Luggage, Forum } from '@mui/icons-material'
 import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax'
-import { countryDetail, statistic, featureItem, tourDef, tourStatisticDef } from '@/utils/types'
+import { tourDef, tourStatisticDef } from '@/utils/types'
 import { CldImage } from 'next-cloudinary';
+import { courouselData, hotelDescription } from '@/utils/data'
+import { Carousel } from '@/components'
+const TourList = dynamic(() => import('@/components/TourList'))
+const Statistic = dynamic(() => import('@/components/Statistic'))
+const FeatureItem = dynamic(() => import('@/components/FeatureItem'))
 
-const courouselData: countryDetail[] = [
-    {
-        country: 'Chile',
-        destination: 'Torres del Paine National Park',
-        source: 'Carousel/csujhbh4tnrpk4x4zwa9'
-    },
-    {
-        country: 'Croatia',
-        destination: 'Plitvice Lakes National Park',
-        source: 'Carousel/xypvtfthd0it63de18xr'
-    },
-    {
-        country: 'New Zealand',
-        destination: 'Lake Tekapo',
-        source: 'Carousel/x7shbpwiqgsenft9qkbl'
-    },
-    {
-        country: 'Japan',
-        destination: 'Fuji Mount',
-        source: 'Carousel/misg8ecxyy4nziyspoc1'
-    },
-    {
-        country: 'Viet Nam',
-        destination: 'Ha Long Bay',
-        source: 'Carousel/r0v3owiletideu0lurcn'
-    },
-]
-
-const hotelDescription = [
-    'Epitomize excellence in service, providing a meticulously curated and luxurious experience for guests.',
-    'Defined by exceptional attention to detail, personalized care, and an unwavering commitment to exceeding customer expectations',
-    "Ensures that customers receive the most competitive prices available, backed by a commitment to match or beat any competitor's offer."
-]
-
-const Statistic = (props: statistic): JSX.Element => {
-    return (
-        <div className='flex flex-col align-middle text-center'>
-            {props.icon}
-            <div className='text-black text-center text-5xl font-bold'>{props.quantity}</div>
-            <p className='text-red-500 text-center text-xl'>{props.name}</p>
-        </div>
-    )
-}
-
-const FeatureItem = (props: featureItem): JSX.Element => {
-    return (
-        <div className={styles.feature_item}>
-            <div className={styles.feature_item_icon}>{props.icon}</div>
-            <h1 className='pt-16 font-bold text-2xl text-center'>{props.title}</h1>
-            <p className='py-4 text-center text-xl'>{props.description}</p>
-        </div>
-    )
-}
-
-const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}): JSX.Element => {
+const Home = (props : {tourList: tourDef[], tourStatistic : tourStatisticDef}) => {
 
     const { tourList, tourStatistic } = props
     

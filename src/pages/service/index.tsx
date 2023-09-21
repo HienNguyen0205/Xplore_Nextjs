@@ -1,11 +1,10 @@
 import React from "react";
 import db from "@/utils/database";
-import { TourList, FindTour } from "@/components";
-import { tourSchedule } from "@/models";
-import { tourDef } from "@/utils/types";
 import styles from "@/styles/Sevices.module.scss";
 import Meta from "@/components/Layout/meta";
-import "dayjs/locale/en-gb";
+import { tourSchedule } from "@/models";
+import { tourDef } from "@/utils/types";
+import { TourList, FindTour } from "@/components";
 
 const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
 

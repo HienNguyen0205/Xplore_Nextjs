@@ -1,4 +1,5 @@
 import { AlertColor } from '@mui/material';
+import { ReactNode } from 'react';
 
 export interface countryDetail {
     country: string,
@@ -154,7 +155,11 @@ export interface tourDetailStore extends tourDetailDef {
 }
 
 export interface tourPurchaseProps{
-    userData: UserDef
+    userData: UserDef,
+}
+
+export interface confirmInfoProps extends tourPurchaseProps {
+    setPaymentStep: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface purchaseMessDef {
@@ -163,4 +168,32 @@ export interface purchaseMessDef {
     cvvCode?: string,
     country?: string,
     postalCode?: string,
+}
+
+export interface carouselProps {
+    content: {country: string, destination: string, source: string}[]
+    duration?: number,
+}
+
+export interface layoutProps {
+    meta: MetaProps,
+    children: ReactNode
+}
+
+export interface inputPaymentDef{
+    cardNumberRef: React.RefObject<HTMLInputElement>,
+    cvvCodeRef: React.RefObject<HTMLInputElement>,
+    countryRef: React.RefObject<HTMLOptionElement>,
+    postalCodeRef: React.RefObject<HTMLInputElement>,
+    setErrorMess: React.Dispatch<React.SetStateAction<purchaseMessDef>>
+}
+
+export interface makePaymentProps extends tourPurchaseProps{
+    setPaymentStep: React.Dispatch<React.SetStateAction<number>>,
+}
+
+export interface purchaseTourDef extends inputPaymentDef, makePaymentProps {
+    paymentMethod: string,
+    tourDetail: tourDetailStore,
+    handleReset: any
 }

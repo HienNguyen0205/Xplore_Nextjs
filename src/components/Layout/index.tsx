@@ -1,16 +1,12 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import { MetaProps } from "@/utils/types";
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import Header from '../Header';
-import Footer from '../Footer';
-import Meta from './meta'
-import LoadingSkeleton from './loading'
-
-interface layoutProps {
-    meta: MetaProps,
-    children: ReactNode
-}
+import { layoutProps } from '@/utils/types';
+import { Header } from '@/components'
+import dynamic from 'next/dynamic';
+import Meta from '@/components/Layout/meta'
+const Footer = dynamic(() => import('@/components/Footer'))
+const LoadingSkeleton = dynamic(() => import('@/components/Layout/loading'))
 
 const nonHeaderRoute = ['/_error','/sign-in','/sign-up']
 

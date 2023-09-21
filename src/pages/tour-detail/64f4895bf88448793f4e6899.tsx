@@ -468,6 +468,7 @@ export default TourDetail;
 export const getServerSideProps: GetServerSideProps<
   tourDetailProps | { notFound: boolean }
 > = async (context) => {
+  
   const { _id } = context.query;
   const ObjectId = mongoose.Types.ObjectId;
 

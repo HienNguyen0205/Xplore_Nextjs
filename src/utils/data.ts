@@ -1,3 +1,5 @@
+import { countryDetail, galleryGroupProps } from "./types";
+
 export const steps = ["Confirm information", "Payments", "Complete"];
 
 export const country_list = [
@@ -191,3 +193,68 @@ export const country_list = [
 export const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
 
 export const cvvCodeRegex = /^[0-9]{3,4}$/;
+
+export const courouselData: countryDetail[] = [
+  {
+      country: 'Chile',
+      destination: 'Torres del Paine National Park',
+      source: 'Carousel/csujhbh4tnrpk4x4zwa9'
+  },
+  {
+      country: 'Croatia',
+      destination: 'Plitvice Lakes National Park',
+      source: 'Carousel/xypvtfthd0it63de18xr'
+  },
+  {
+      country: 'New Zealand',
+      destination: 'Lake Tekapo',
+      source: 'Carousel/x7shbpwiqgsenft9qkbl'
+  },
+  {
+      country: 'Japan',
+      destination: 'Fuji Mount',
+      source: 'Carousel/misg8ecxyy4nziyspoc1'
+  },
+  {
+      country: 'Viet Nam',
+      destination: 'Ha Long Bay',
+      source: 'Carousel/r0v3owiletideu0lurcn'
+  },
+]
+
+export const hotelDescription = [
+  'Epitomize excellence in service, providing a meticulously curated and luxurious experience for guests.',
+  'Defined by exceptional attention to detail, personalized care, and an unwavering commitment to exceeding customer expectations',
+  "Ensures that customers receive the most competitive prices available, backed by a commitment to match or beat any competitor's offer."
+]
+
+export const defaultMetaProps = {
+  title: "Xplore",
+  description: "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
+  robots: 'all'
+}
+
+export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+export const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+export const nameRegex = /^[a-zA-Z]{4,30}(?: [a-zA-Z]+){0,5}$/;
+
+export const galleryGroupImg: galleryGroupProps[] = [
+  {
+    imgSrc: "Background/nlqfojwt9wbh0yuw5yzk",
+    region: "Asia",
+  },
+  {
+    imgSrc: "Background/fx6i7rnmq7mkzpmgxfzr",
+    region: "Africa",
+  },
+  {
+    imgSrc: "Background/wczkt2urytrrgkjgbcqx",
+    region: "Europe",
+  },
+  {
+    imgSrc: "Background/szidyar7fphtisskl7ci",
+    region: "Americas",
+  },
+];

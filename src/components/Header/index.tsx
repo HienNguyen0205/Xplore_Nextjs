@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '../Button'
+import Button from '@/components/Button'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '@/styles/Header.module.scss'
