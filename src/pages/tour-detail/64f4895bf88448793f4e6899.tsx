@@ -12,12 +12,7 @@ import type { GetServerSideProps } from "next";
 import { useAppDispatch } from "@/hooks";
 import { setRouteSelected } from "@/redux/reducers/routeSelected";
 import { TourOptions } from "@/components";
-
-const ratingTag = (rating: number): string => {
-  if (rating >= 4) return "Excellent";
-  else if (rating >= 3) return "Great";
-  else return "Good";
-};
+import { ratingTag } from "@/utils/function";
 
 const TourDetail = (props: tourDetailProps) => {
 
@@ -59,11 +54,11 @@ const TourDetail = (props: tourDetailProps) => {
             <div className="flex justify-between items-center h-[60px] px-3 bg-zinc-300">
               <div className="flex items-center">
                 <div className="flex items-center mr-5">
-                  <Image className="mr-1" src={require('@/assets/images/Icon/location.svg')} alt="location" height={24} width={24}/>
+                  <Image className="mr-2" src={require('@/assets/images/Icon/location.svg')} alt="location" height={24} width={24}/>
                   Ho Chi Minh
                 </div>
                 <div className="flex items-center mr-5">
-                  <Image className="mr-1" src={require('@/assets/images/Icon/location.svg')} alt="location" height={24} width={24}/>
+                  <Image className="mr-2" src={require('@/assets/images/Icon/clock.svg')} alt="clock" height={24} width={24}/>
                   4 Days
                 </div>
                 <div className="flex items-center mr-5">
@@ -75,7 +70,7 @@ const TourDetail = (props: tourDetailProps) => {
               <div className="flex items-center">
                 <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
                   <p>{routeSelected.rating}</p>
-                  <Image className="mr-1" src={require('@/assets/images/Icon/star.svg')} alt="star" height={24} width={24}/>
+                  <Image className="ml-1" src={require('@/assets/images/Icon/star.svg')} alt="star" height={24} width={24}/>
                 </div>
                 <p className="mx-2">|</p>
                 <span className="text-emerald-500">

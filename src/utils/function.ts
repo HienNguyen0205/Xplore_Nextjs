@@ -72,8 +72,7 @@ export const purchaseTour = (props: purchaseTourDef) => {
     userData,
     tourDetail,
     setPaymentStep,
-    setErrorMess,
-    handleReset
+    setErrorMess
   } = props;
 
   if (validateInput({cardNumberRef, cvvCodeRef, countryRef, postalCodeRef, setErrorMess})) {
@@ -91,11 +90,16 @@ export const purchaseTour = (props: purchaseTourDef) => {
       .then((res) => {
         if (res.data.status === "success") {
           setPaymentStep(2);
-          handleReset()
           toast.success(res.data.message);
         } else {
           toast.error(res.data.message);
         }
       });
   }
+};
+
+export const ratingTag = (rating: number): string => {
+  if (rating >= 4) return "Excellent";
+  else if (rating >= 3) return "Great";
+  else return "Good";
 };

@@ -9,6 +9,7 @@ const Footer = dynamic(() => import('@/components/Footer'))
 const LoadingSkeleton = dynamic(() => import('@/components/Layout/loading'))
 
 const nonHeaderRoute = ['/_error','/sign-in','/sign-up']
+const nonFooterRoute = ['/_error','/sign-in','/sign-up','/history']
 
 const Layout = ({
     meta, children
@@ -57,7 +58,7 @@ const Layout = ({
             <div className="w-full">
                 {children}
             </div>
-            {!nonHeaderRoute.includes(router.pathname) && <Footer/>}
+            {!nonFooterRoute.includes(router.pathname) && <Footer/>}
         </div>
     )
 }

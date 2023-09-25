@@ -1,5 +1,6 @@
 import { AlertColor } from '@mui/material';
 import { ReactNode } from 'react';
+import { Dayjs } from 'dayjs';
 
 export interface countryDetail {
     country: string,
@@ -195,5 +196,33 @@ export interface makePaymentProps extends tourPurchaseProps{
 export interface purchaseTourDef extends inputPaymentDef, makePaymentProps {
     paymentMethod: string,
     tourDetail: tourDetailStore,
-    handleReset: any
+}
+
+export interface buttonProps {
+    content: string,
+    bgColor: string,
+    textColor?: string,
+    link?: string,
+    style?: object,
+    onClick?: () => void
+}
+
+export interface history{
+    tourId: string,
+    tourName: string,
+    email: string,
+    quantity: number,
+    time: string,
+    paymentMethod: string,
+    status: string,
+    total: number
+}
+
+export interface historyProps {
+    history: history[]
+}
+
+export interface historyParams {
+    from: Dayjs | null,
+    to: Dayjs | null,
 }

@@ -15,12 +15,11 @@ import { purchaseMessDef, makePaymentProps } from "@/utils/types";
 import { country_list } from "@/utils/data";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { purchaseTour } from "@/utils/function";
-import { resetData } from "@/redux/reducers/routeSelected";
 
 const MakePayment = (props: makePaymentProps) => {
   const { setPaymentStep, userData } = props;
 
-  const [paymentMethod, setPaymentMethod] = useState<string>("visa");
+  const [paymentMethod, setPaymentMethod] = useState<string>("Visa");
   const [expireDate, setExpireDate] = useState<Dayjs | null>(dayjs());
   const [errorMess, setErrorMess] = useState<purchaseMessDef>({
     cardNumber: "",
@@ -53,7 +52,7 @@ const MakePayment = (props: makePaymentProps) => {
                 ? { borderColor: "rgb(59 130 246)" }
                 : { borderColor: "rgb(107 114 128)" }
             }
-            onClick={() => setPaymentMethod("visa")}
+            onClick={() => setPaymentMethod("Visa")}
           >
             <Image
               src={require("@/assets/images/Icon/visa.svg")}
@@ -71,7 +70,7 @@ const MakePayment = (props: makePaymentProps) => {
                 ? { borderColor: "rgb(59 130 246)" }
                 : { borderColor: "rgb(107 114 128)" }
             }
-            onClick={() => setPaymentMethod("paypal")}
+            onClick={() => setPaymentMethod("Paypal")}
           >
             <Image
               src={require("@/assets/images/Icon/paypal.svg")}
@@ -183,9 +182,6 @@ const MakePayment = (props: makePaymentProps) => {
                 tourDetail,
                 setPaymentStep,
                 setErrorMess,
-                handleReset: () => {
-                  dispath(resetData());
-                }
               })
             }
           >

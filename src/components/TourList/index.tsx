@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/TourList.module.scss";
 import dayjs from "dayjs";
-import { SelectChangeEvent, Pagination, Button } from "@mui/material";
+import { Pagination, Button } from "@mui/material";
 import { tourDef, tourListProps } from "@/utils/types";
 import { TourItem } from '@/components'
 
@@ -55,10 +55,6 @@ const TourList = ({
     setIndex(value - 1);
   };
 
-  const handleSortType = (e: SelectChangeEvent) => {
-    setSortType(e.target.value as string);
-  };
-
   return (
     <div className="flex flex-col items-center">
       {tourHeader && (
@@ -77,13 +73,13 @@ const TourList = ({
       {sortBar && (
         <div className="container bg-slate-300 rounded-md flex justify-between items-center my-3">
           <span className="flex flex-1 justify-center">Sort by:</span>
-          <Button sx={{ flex: 1 }} onClick={() => setSortType("destination")}>
+          <Button sx={sortType === 'destination' ? { color: '#EC53B0', flex: 1 } : { flex: 1}} onClick={() => setSortType("destination")}>
             Name
           </Button>
-          <Button sx={{ flex: 1 }} onClick={() => setSortType("date.from")}>
+          <Button sx={sortType === 'date' ? { color: '#EC53B0', flex: 1 } : { flex: 1}} onClick={() => setSortType("date")}>
             Date
           </Button>
-          <Button sx={{ flex: 1 }} onClick={() => setSortType("price")}>
+          <Button sx={sortType === 'price' ? { color: '#EC53B0', flex: 1 } : { flex: 1}} onClick={() => setSortType("price")}>
             Price
           </Button>
         </div>

@@ -1,12 +1,10 @@
 import nodemailer from "nodemailer";
 import db from "@/utils/database";
-import mongoose from "mongoose";
 import dayjs from "dayjs";
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { visaRegex, cvvCodeRegex } from "@/utils/data";
-import { tourSchedule, user, bookHistory } from "@/models";
-
-const ObjectId = mongoose.Types.ObjectId;
+import { tourSchedule, bookHistory } from "@/models";
 
 const validateInput = (
   cardNumber: string,
@@ -36,6 +34,8 @@ const Payment = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  const ObjectId = mongoose.Types.ObjectId
+
   const {
     cardNumber,
     cvvCode,
@@ -61,7 +61,7 @@ const Payment = async (req: NextApiRequest, res: NextApiResponse) => {
       const routeDetail = JSON.parse(
         JSON.stringify(await tourSchedule.findById({ _id }))
       );
-      const booked = await bookHistory.countDocuments({ 'tour._id': _id })
+      const booked = await bookHistory.countDocuments({ _id })
       const mailOptions = {
         from: process.env.NODEMAILER_EMAIL,
         to: email,
@@ -72,17 +72,29 @@ const Payment = async (req: NextApiRequest, res: NextApiResponse) => {
       };
       const check = booked + quantity
       if (routeDetail.status && check <= routeDetail.slot) {
-        const userDetails = await user.findOne({ email });
         await bookHistory.create({
-          tour: routeDetail,
-          userId: userDetails._id,
-          quantity
+          tourId: new ObjectId(_id),
+          tourName: routeDetail.destination + '-' + routeDetail.route,
+          email,
+          quantity,
+          paymentMethod,
+          total: (routeDetail.price * quantity).toFixed(2),
+          status: 'Success'
         })
         transporter.sendMail(mailOptions);
         res
           .status(200)
           .json({ status: "success", message: 'Purchase complete!' });
       } else {
+        await bookHistory.create({
+          tourId: new ObjectId(_id),
+          tourName: routeDetail.destination + ' - ' + routeDetail.route,
+          email,
+          quantity,
+          paymentMethod,
+          total: (routeDetail.price * quantity).toFixed(2),
+          status: 'Fail'
+        })
         res.status(200).json({ status: "fail", message: "Purchase failed" });
       }
     } catch (e) {

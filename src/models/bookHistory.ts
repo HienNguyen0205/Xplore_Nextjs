@@ -1,12 +1,16 @@
 import mongoose, { Schema, model, models } from "mongoose";
-import { tourScheduleSchema } from './tourSchedule'
 
 const bookHistorySchema = new Schema({
-    tour: tourScheduleSchema,
-    userId: mongoose.Types.ObjectId,
+    tourId: mongoose.Types.ObjectId,
+    tourName: String,
+    email: String,
     quantity: Number,
+    time: { type: Date, default: Date.now() },
+    status: String,
+    paymentMethod: String,
+    total: Number,
 })
 
-const bookHistory = models.bookhistory || model('bookhistory', bookHistorySchema);
+const bookHistory = models.bookhistories || model('bookhistories', bookHistorySchema);
 
 export default bookHistory

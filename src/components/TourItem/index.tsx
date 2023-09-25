@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { tourDef } from "@/utils/types";
 import { useRouter } from "next/router";
 import { CldImage } from "next-cloudinary";
+import { ratingTag } from "@/utils/function";
 
 const TourItem = ({
   data,
@@ -15,11 +16,7 @@ const TourItem = ({
 }): JSX.Element => {
   const router = useRouter();
 
-  const ratingTag = (rating: number): string => {
-    if (rating >= 4) return "Excellent";
-    else if (rating >= 3) return "Great";
-    else return "Good";
-  };
+  
 
   const handleClick = () => {
     router.push(`/tour-detail/${data.routeId}?_id=${data._id}`);
@@ -41,7 +38,7 @@ const TourItem = ({
         <div className="flex items-center my-2">
           <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
             <p>{data.rating}</p>
-            <Image className="mr-1" src={require('@/assets/images/Icon/star.svg')} alt='star' height={24} width={24}/>
+            <Image className="ml-1" src={require('@/assets/images/Icon/star.svg')} alt='star' height={24} width={24}/>
           </div>
           <p className="text-lg mx-2">|</p>
           <span className="text-emerald-500 text-lg">
@@ -49,11 +46,11 @@ const TourItem = ({
           </span>
         </div>
         <div className="flex justify-between items-center my-2">
-          <p>
+          <p className="flex items-center">
             <Image className="mr-1" src={require('@/assets/images/Icon/location.svg')} alt='location' height={24} width={24}/>
             {data.destination}
           </p>
-          <p>
+          <p className="flex items-center">
             <Image className="mr-1" src={require('@/assets/images/Icon/clock.svg')} alt='clock' height={24} width={24}/>
             {data.time} days
           </p>

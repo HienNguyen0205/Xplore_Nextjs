@@ -1,4 +1,3 @@
-'use client'
 import React, { useState } from "react";
 import dayjs from "dayjs";
 import { TextField, Autocomplete } from "@mui/material";

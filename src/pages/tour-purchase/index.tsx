@@ -55,7 +55,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
             >
               <Image src={require('@/assets/images/Icon/tick.svg')} alt='tick' height={80} width={80}/>
               <p className="text-2xl font-semibold text-lime-600">Purchase successfully!</p>
-              <Button variant="contained" className="mt-3">Check history</Button>
+              <Button sx={{ marginTop: '18px' }} variant="contained">Check history</Button>
             </div>
           )}
         </div>

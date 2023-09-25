@@ -1,3 +1,4 @@
 import routeDetail from "./routeSelected";
+import { apiSlice } from "./apiSlice";
 
-export { routeDetail }
+export { routeDetail, apiSlice }

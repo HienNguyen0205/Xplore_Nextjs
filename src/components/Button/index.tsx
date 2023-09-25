@@ -2,17 +2,9 @@
 import React from "react"
 import Link from "next/link"
 import styles from '@/styles/Button.module.scss'
+import { buttonProps } from "@/utils/types"
 
-interface buttonProps {
-    content: string,
-    bgColor: string,
-    textColor?: string,
-    link?: string,
-    style?: object,
-    onClick?: () => void
-}
-
-const Button = ({content, bgColor, textColor = 'white', link, onClick, style}: buttonProps): JSX.Element => {
+const Button = ({content, bgColor, textColor = 'white', link, onClick, style}: buttonProps) => {
 
     const btnStyle = {color: textColor, backgroundColor: bgColor}
 

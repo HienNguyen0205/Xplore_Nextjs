@@ -15,6 +15,10 @@ const Header = (): JSX.Element => {
         router.push("/");
     };
 
+    const handleClick = (path: string) => {
+        router.push('/' + path)
+    }
+
     return (
         <header className='flex justify-center fixed top-0 left-0 w-full h-20 z-10 opacity-[.85]' 
             style={{backgroundColor: 'black'}}>
@@ -38,15 +42,15 @@ const Header = (): JSX.Element => {
                 {status === 'authenticated' ? <div className={styles.avatar_container}>
                     <Image className={styles.avatar} src={require('@/assets/images/User/unknowUser.jpg')} alt='user-img'/>
                     <div className={styles.avatar_dropdown}>
-                        <div className={styles.dropdown_item}>
+                        <div className={styles.dropdown_item} onClick={() => handleClick('profile')}>
                             <Image src={require('@/assets/images/Icon/user.svg')} alt='user' height={24} width={24}/>
                             <span className={styles.dropdown_text}>Profile</span>
                         </div>
-                        <div className={styles.dropdown_item}>
+                        <div className={styles.dropdown_item} onClick={() => handleClick('history')}>
                             <Image src={require('@/assets/images/Icon/clock-rewind.svg')} alt='clock-rewind' height={24} width={24}/>
                             <span className={styles.dropdown_text}>History</span>
                         </div>
-                        <div className={styles.dropdown_item}>
+                        <div className={styles.dropdown_item} onClick={() => handleClick('setting')}>
                             <Image src={require('@/assets/images/Icon/gear.svg')} alt='gear' height={24} width={24}/>
                             <span className={styles.dropdown_text}>Setting</span>
                         </div>

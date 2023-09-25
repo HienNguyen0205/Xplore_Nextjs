@@ -7,8 +7,8 @@ const nextConfig = {
   },
   transpilePackages: ["@mui/system", "@mui/material",'@/components'],
   experimental: {
-    optimizePackageImports: ['@mui/material']
-  }
+    optimizePackageImports: ['@mui/material','@/components']
+  },
 }
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
