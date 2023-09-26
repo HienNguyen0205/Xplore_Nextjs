@@ -5,7 +5,6 @@ const nextConfig = {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  transpilePackages: ["@mui/system", "@mui/material",'@/components'],
   experimental: {
     optimizePackageImports: ['@mui/material','@/components']
   },

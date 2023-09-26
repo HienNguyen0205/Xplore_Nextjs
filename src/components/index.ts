@@ -14,6 +14,7 @@ import InfoCard from "./InfoCard";
 import TourItem from "./TourItem";
 import ConfirmInfo from "./ConfirmInfo";
 import MakePayment from "./MakePayMent";
+import HistoryDetail from "./HistoryDetail";
 
 export {
   Button,
@@ -31,5 +32,6 @@ export {
   InfoCard,
   TourItem,
   ConfirmInfo,
-  MakePayment
+  MakePayment,
+  HistoryDetail
 };

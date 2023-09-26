@@ -1,10 +1,10 @@
 import React from "react";
 import db from "@/utils/database";
-import styles from "@/styles/Sevices.module.scss";
 import Meta from "@/components/Layout/meta";
 import { tourSchedule } from "@/models";
 import { tourDef } from "@/utils/types";
 import { TourList, FindTour } from "@/components";
+import { CldImage } from "next-cloudinary";
 
 const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
 
@@ -17,9 +17,16 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
           title: "Xplore | Services",
         }}
       />
-      <div className={styles.search_container}>
-        <div className="container flex flex-col justify-center">
-          <h1 className="text-shadow mb-12">
+      <div className='h-screen flex justify-center relative'>
+        <CldImage
+          className="h-full w-full bg-cover"
+          width={1800}
+          height={500}
+          src="Background/jdb1mtfxticuf3nrbixt"
+          alt="Search_bg"
+        />
+        <div className="container flex flex-col justify-center absolute top-1/3">
+          <h1 className="text-shadow mb-12 text-5xl font-bold text-white">
             Discover and Enjoy Your New Places and Exprience.
           </h1>
           <FindTour bg="light" />

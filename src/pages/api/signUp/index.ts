@@ -20,7 +20,7 @@ const checkUser = async (email: string) => {
 const saveUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if(req.method !== 'POST'){
-        res.status(405).send({ message: 'Only POST requests allowed' })
+        res.status(405).send({code: 2, message: 'Only POST requests allowed' })
         return
     }
 
@@ -28,7 +28,7 @@ const saveUser = async (req: NextApiRequest, res: NextApiResponse) => {
     
     try{
         if(await checkUser(email as string)){
-            res.status(200).json({message: 'Account already exists', status: 'error'})
+            res.status(200).json({code: 3,message: 'Account already exists', status: 'error'})
         }else{
             const hashPass = await hash(password as string, 10)
             user.insertMany({
@@ -37,11 +37,11 @@ const saveUser = async (req: NextApiRequest, res: NextApiResponse) => {
                 password: hashPass,
                 tel: tel,
             })
-            res.status(200).json({message: 'Created account successfully', status: 'success'})
+            res.status(200).json({code: 0, message: 'Created account successfully', status: 'success'})
         } 
     }
     catch(e){
-        res.status(500).json({message: 'Error'})
+        res.status(500).json({code: 1, message: 'Server Error'})
     }
 }
 

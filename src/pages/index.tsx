@@ -27,7 +27,8 @@ const Home = (props: {
         <ParallaxBannerLayer speed={-30}>
           <CldImage
             className="select-none"
-            fill
+            width={1920}
+            height={1080}
             src="Background/jclfs1prsslvs3tbsqym"
             alt="bg"
           />
@@ -93,7 +94,8 @@ const Home = (props: {
         <ParallaxBannerLayer speed={-30}>
           <CldImage
             className="select-none"
-            fill
+            width={1920}
+            height={1080}
             src="Background/rhz30vbiznmght1vwrsg"
             alt="bg"
           />

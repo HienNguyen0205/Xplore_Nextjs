@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import Meta from "@/components/Layout/meta";
 import dayjs, { Dayjs } from "dayjs";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useTrail, animated } from "@react-spring/web"
+import { useTrail, animated, config } from "@react-spring/web"
 import { useGetHistoryQuery } from "@/redux/reducers/apiSlice";
+import { history } from "@/utils/types";
+const HistoryDetail = dynamic(() => import('@/components/HistoryDetail'))
 
 const History = () => {
 
     const [from, setFrom] = useState<Dayjs | null>(dayjs(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)))
     const [to, setTo] = useState<Dayjs | null>(dayjs(new Date()))
+    const [open, setOpen] = useState<boolean>(false)
+    const [tour, setTour] = useState<history>()
 
     const { data } = useGetHistoryQuery({from, to})
 
@@ -22,11 +27,16 @@ const History = () => {
             opacity: 1,
             y: 0
         },
-        config: { mass: 5, tension: 2000, friction: 200 },
+        config: config.molasses,
     })
 
+    const handleClick = (tour: history) => {
+        setTour(tour)
+        setOpen(true)
+    }
+
     return (
-        <div className="bg-slate-100 flex justify-center">
+        <div className="bg-slate-100 flex justify-center relative h-screen">
             <Meta
                 props={{
                     title: "Xplore | History",
@@ -52,7 +62,7 @@ const History = () => {
                 <div className="h-[65vh] py-3 overflow-y-auto">
                     {data ? data.history.map((item, index) => {
                         return (
-                            <animated.div key={index} style={historyItemStyle[index]} className="flex py-1 px-6 my-1 rounded-md bg-slate-300 text-lg cursor-pointer">
+                            <animated.div key={index} style={historyItemStyle[index]} className="flex items-center py-1 px-6 my-1 rounded-md bg-slate-300 text-lg cursor-pointer" onClick={() => handleClick(item)}>
                                 <p className="flex-[2]">{item.tourName}</p>
                                 <p className="flex-1">{dayjs(item.time).format('DD/MM/YYYY')}</p>
                                 <p className="flex-1">{item.paymentMethod}</p>
@@ -66,6 +76,10 @@ const History = () => {
                     }) : <p></p>}
                 </div>
             </div>
+            {open && <>
+                <div className="absolute inset-0 z-10 bg-[rgba(148,163,184,0.5)]" onClick={() => setOpen(false)}></div>
+                <HistoryDetail open setOpen={setOpen} tour={tour}/>
+            </>}
         </div>
     )
 }

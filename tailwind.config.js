@@ -8,7 +8,11 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        '1': '0px 0px 12px 4px rgba(0,0,0,0.75)'
+      }
+    },
   },
   plugins: [
     plugin(function({ matchUtilities, theme }) {

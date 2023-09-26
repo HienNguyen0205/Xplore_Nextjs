@@ -226,3 +226,13 @@ export interface historyParams {
     from: Dayjs | null,
     to: Dayjs | null,
 }
+
+export interface historyDetailProps {
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    tour: history | undefined,
+}
+
+export interface tourDetailData {
+    tourDetail: tourDef
+}

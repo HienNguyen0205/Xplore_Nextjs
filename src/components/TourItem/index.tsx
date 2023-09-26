@@ -16,8 +16,6 @@ const TourItem = ({
 }): JSX.Element => {
   const router = useRouter();
 
-  
-
   const handleClick = () => {
     router.push(`/tour-detail/${data.routeId}?_id=${data._id}`);
   };
