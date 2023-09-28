@@ -52,7 +52,7 @@ const Carousel = ({content, duration = 6000}: carouselProps) => {
             <div id={styles.carousel} ref={ref}>
                 {content.map((item, imgIndex) => (
                     <div key={imgIndex} className={styles.carousel_item}>
-                        <CldImage className='select-none' width={1920} height={1080} src={item.source} alt='carousel_img'/>
+                        <CldImage className='select-none' fill src={item.source} alt='carousel_img'/>
                         <div className='absolute bottom-8 w-full flex flex-col items-center'>
                             <h1 id={`${index === imgIndex ? styles.carousel_heading1 : ''}`} className={styles.carousel_heading1}>{item.country}</h1>
                             <h2 id={`${index === imgIndex ? styles.carousel_heading2 : ''}`} className={styles.carousel_heading2}>{item.destination}</h2>
