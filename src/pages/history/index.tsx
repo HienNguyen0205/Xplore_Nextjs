@@ -78,7 +78,7 @@ const History = () => {
             </div>
             {open && <>
                 <div className="absolute inset-0 z-10 bg-[rgba(148,163,184,0.5)]" onClick={() => setOpen(false)}></div>
-                <HistoryDetail open setOpen={setOpen} tour={tour}/>
+                <HistoryDetail setOpen={setOpen} tour={tour}/>
             </>}
         </div>
     )

@@ -228,7 +228,6 @@ export interface historyParams {
 }
 
 export interface historyDetailProps {
-    open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
     tour: history | undefined,
 }

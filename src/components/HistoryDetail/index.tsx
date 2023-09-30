@@ -1,33 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import dayjs from "dayjs";
-import {
-  animated,
-  config,
-  useSpring,
-} from "@react-spring/web";
+import { animated, config, useSpring } from "@react-spring/web";
 import { historyDetailProps } from "@/utils/types";
 import { TextField } from "@mui/material";
 import { useGetTourByIdQuery } from "@/redux/reducers/apiSlice";
 
 const HistoryDetail = (props: historyDetailProps) => {
-  const { open, setOpen, tour } = props;
+  const { setOpen, tour } = props;
 
-  const { data } = useGetTourByIdQuery(tour?.tourId as string);
+  const { data, isSuccess } = useGetTourByIdQuery(tour?.tourId as string);
 
   const modelStyle = useSpring({
-    from: {
-      opacity: 0,
-      width: "20%",
-    },
-    to: {
-      opacity: 1,
-      width: "40%",
-    },
-    config: config.molasses,
-  });
-
-  const inputStyle = useSpring({
     from: {
       opacity: 0,
     },
@@ -42,13 +26,13 @@ const HistoryDetail = (props: historyDetailProps) => {
   return (
     <animated.div
       style={modelStyle}
-      className="absolute inset-0 m-auto z-20 h-fit bg-slate-300 rounded-lg shadow-1 p-3"
+      className="absolute inset-0 m-auto w-[clamp(40%,360px,60%)] z-20 h-fit bg-slate-300 rounded-lg shadow-1 p-3"
     >
       <div className="flex justify-end mb-3">
         <Image
           className="cursor-pointer"
           src={require("@/assets/images/Icon/cross.svg")}
-          alt=""
+          alt="close-btn"
           height={32}
           width={32}
           onClick={() => setOpen(false)}
@@ -59,12 +43,12 @@ const HistoryDetail = (props: historyDetailProps) => {
       </h1>
       <div className="grid grid-cols-2 grid-rows-3 gap-2">
         <TextFieldAnimate
-          style={inputStyle}
+          style={modelStyle}
           sx={{
             gridArea: "1 / 1 / 2 / 3",
             ".Mui-disabled": {
               color: "black",
-              WebkitTextFillColor: "black",
+              WebkitTextFillColor: "black !important",
             },
           }}
           label="Tour name"
@@ -72,7 +56,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           disabled
         />
         <TextFieldAnimate
-            style={inputStyle}
+          style={modelStyle}
           sx={{
             gridArea: "2 / 1 / 3 / 2",
             ".Mui-disabled": {
@@ -85,7 +69,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           disabled
         />
         <TextFieldAnimate
-        style={inputStyle}
+          style={modelStyle}
           sx={{
             gridArea: "2 / 2 / 3 / 3",
             ".Mui-disabled": {
@@ -98,7 +82,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           disabled
         />
         <TextFieldAnimate
-        style={inputStyle}
+          style={modelStyle}
           sx={{
             gridArea: "3 / 1 / 4 / 2",
             ".Mui-disabled": {
@@ -111,7 +95,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           disabled
         />
         <TextFieldAnimate
-        style={inputStyle}
+          style={modelStyle}
           sx={{
             gridArea: "3 / 2 / 4 / 3",
             ".Mui-disabled": {
@@ -120,7 +104,7 @@ const HistoryDetail = (props: historyDetailProps) => {
             },
           }}
           label="Departure"
-          value={data?.tourDetail?.departure}
+          value={isSuccess ? data?.tourDetail?.departure : ''}
           disabled
         />
       </div>

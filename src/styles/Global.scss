@@ -5,6 +5,7 @@
 body {
   padding-right: 0 !important;
   overflow: auto !important;
+  scroll-behavior: smooth;
 }
 
 .Toastify__toast-container--top-right {

@@ -17,15 +17,16 @@ const GalleryImgList = (props: galleryImgListProps) => {
       >
         {imgList.map((item, index) => {
           return (
-            <CldImage
-              key={index}
-              className="cursor-pointer"
-              width={1920}
-              height={1080}
-              src={item}
-              alt="gallery_img"
-              fillBackground
-            />
+            <div key={index} className="cursor-pointer overflow-hidden group">
+              <CldImage
+                className="transition group-hover:scale-110"
+                width={1920}
+                height={1080}
+                src={item}
+                alt="gallery_img"
+                fillBackground
+              />
+            </div>
           );
         })}
       </LightGallery>
