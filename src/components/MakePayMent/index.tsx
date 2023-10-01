@@ -13,7 +13,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import { purchaseMessDef, makePaymentProps } from "@/utils/types";
 import { country_list } from "@/utils/data";
-import { useAppSelector, useAppDispatch } from "@/hooks";
+import { useAppSelector } from "@/hooks";
 import { purchaseTour } from "@/utils/function";
 
 const MakePayment = (props: makePaymentProps) => {
@@ -29,8 +29,6 @@ const MakePayment = (props: makePaymentProps) => {
   });
 
   const tourDetail = useAppSelector((state) => state.routeDetail.value);
-
-  const dispath = useAppDispatch()
 
   const cardNumberRef = useRef<HTMLInputElement>(null);
   const cvvCodeRef = useRef<HTMLInputElement>(null);
@@ -139,18 +137,32 @@ const MakePayment = (props: makePaymentProps) => {
         <div className="w-full">
           <h1 className="text-xl font-medium mb-3">Order Summary</h1>
           <TextField
-            sx={{ margin: "12px 0" }}
+            sx={{
+              margin: "12px 0",
+              ".Mui-disabled": {
+                color: "black",
+                WebkitTextFillColor: "black !important",
+              },
+            }}
             label="Subtotal"
             value={(tourDetail.price * (tourDetail.quantity as number)).toFixed(
               2
             )}
             fullWidth
+            disabled
           />
           <TextField
             label="Surcharge"
             defaultValue={"$0"}
-            sx={{ margin: "12px 0" }}
+            sx={{
+              margin: "12px 0",
+              ".Mui-disabled": {
+                color: "black",
+                WebkitTextFillColor: "black !important",
+              },
+            }}
             fullWidth
+            disabled
           />
           <p className="text-2xl font-medium text-end my-2">
             <span className="mr-3">Total price:</span>

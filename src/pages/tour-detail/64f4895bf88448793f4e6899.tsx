@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
-import Image from 'next/image'
-import { Box, Tab } from "@mui/material";
+import Image from "next/image";
+import { Tab } from "@mui/material";
 import { CldImage } from "next-cloudinary";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
@@ -15,7 +15,6 @@ import { TourOptions } from "@/components";
 import { ratingTag } from "@/utils/function";
 
 const TourDetail = (props: tourDetailProps) => {
-
   const { routeSelected, routeData } = props;
 
   const [tabIndex, setTabIndex] = useState<string>("1");
@@ -49,30 +48,59 @@ const TourDetail = (props: tourDetailProps) => {
               width={710}
               height={406}
               src="Tour/Singapore/c8f9gemtdcbicvxtkidp"
-              alt=""
+              alt="Singapore"
             />
             <div className="flex justify-between items-center h-[60px] px-3 bg-zinc-300">
               <div className="flex items-center">
                 <div className="flex items-center mr-5">
-                  <Image className="mr-2" src={require('@/assets/images/Icon/location.svg')} alt="location" height={24} width={24}/>
+                  <Image
+                    className="mr-2"
+                    src={require("@/assets/images/Icon/location.svg")}
+                    alt="location"
+                    height={24}
+                    width={24}
+                  />
                   Ho Chi Minh
                 </div>
                 <div className="flex items-center mr-5">
-                  <Image className="mr-2" src={require('@/assets/images/Icon/clock.svg')} alt="clock" height={24} width={24}/>
+                  <Image
+                    className="mr-2"
+                    src={require("@/assets/images/Icon/clock.svg")}
+                    alt="clock"
+                    height={24}
+                    width={24}
+                  />
                   4 Days
                 </div>
                 <div className="flex items-center mr-5">
                   Transportation:
-                  <Image className="mr-1 ml-3" src={require('@/assets/images/Icon/plane.svg')} alt="plane" height={24} width={24}/>
-                  <Image className="mr-3 ml-1" src={require('@/assets/images/Icon/bus.svg')} alt="bus" height={24} width={24}/>
+                  <Image
+                    className="mr-1 ml-3"
+                    src={require("@/assets/images/Icon/plane.svg")}
+                    alt="plane"
+                    height={24}
+                    width={24}
+                  />
+                  <Image
+                    className="mr-3 ml-1"
+                    src={require("@/assets/images/Icon/bus.svg")}
+                    alt="bus"
+                    height={24}
+                    width={24}
+                  />
                 </div>
               </div>
               <div className="flex items-center">
                 <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
                   <p>{routeSelected.rating}</p>
-                  <Image className="ml-1" src={require('@/assets/images/Icon/star.svg')} alt="star" height={24} width={24}/>
+                  <Image
+                    className="ml-1"
+                    src={require("@/assets/images/Icon/star.svg")}
+                    alt="star"
+                    height={24}
+                    width={24}
+                  />
                 </div>
-                <p className="mx-2">|</p>
                 <span className="text-emerald-500">
                   {ratingTag(routeSelected.rating)}
                 </span>
@@ -80,7 +108,13 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Image className="mr-2" src={require('@/assets/images/Icon/info.svg')} alt="info" height={24} width={24}/>
+                <Image
+                  className="mr-2"
+                  src={require("@/assets/images/Icon/info.svg")}
+                  alt="info"
+                  height={24}
+                  width={24}
+                />
                 Tour Introduction
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -101,7 +135,13 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Image className="mr-2" src={require('@/assets/images/Icon/map.svg')} alt="map" height={24} width={24}/>
+                <Image
+                  className="mr-2"
+                  src={require("@/assets/images/Icon/map.svg")}
+                  alt="map"
+                  height={24}
+                  width={24}
+                />
                 Tour Schedule
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -273,7 +313,13 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Image className="mr-2" src={require('@/assets/images/Icon/visa-card.svg')} alt="visa-card" height={24} width={24}/>
+                <Image
+                  className="mr-2"
+                  src={require("@/assets/images/Icon/visa-card.svg")}
+                  alt="visa-card"
+                  height={24}
+                  width={24}
+                />
                 Visa Infomation
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -285,7 +331,13 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
             <div className="my-8">
               <h1 className="text-2xl font-medium flex items-center">
-                <Image className="mr-2" src={require('@/assets/images/Icon/tourguild.svg')} alt="tourguild" height={24} width={24}/>
+                <Image
+                  className="mr-2"
+                  src={require("@/assets/images/Icon/tourguild.svg")}
+                  alt="tourguild"
+                  height={24}
+                  width={24}
+                />
                 Tour Guild
               </h1>
               <hr className="border-black mt-3 mb-2" />
@@ -300,138 +352,135 @@ const TourDetail = (props: tourDetailProps) => {
               </p>
             </div>
             <div className="my-8">
-              <Box sx={{ width: "100%", typography: "body1" }}>
-                <TabContext value={tabIndex}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <TabList
-                      onChange={handleChange}
-                      aria-label="lab API tabs example"
-                    >
-                      <Tab label="Price include" value="1" />
-                      <Tab label="Price not include" value="2" />
-                      <Tab label="Surcharge" value="3" />
-                      <Tab label="Cancel / Change" value="4" />
-                      <Tab label="Notes" value="5" />
-                    </TabList>
-                  </Box>
-                  <TabPanel value="1">
-                    <p>
-                      - Round trip air tickets SGN - SIN - SGN (Including 20kg
-                      checked baggage and 07kg carry-on baggage).
-                    </p>
-                    <p>- Airport security fee, airport tax of 2 countries.</p>
-                    <p>
-                      - Air-conditioned vehicle transport throughout the route.
-                    </p>
-                    <p>- Tickets to visit as program.</p>
-                    <p>- Standard 3 - 4* hotel (2-3 people/room).</p>
-                    <p>- Serving mineral water throughout the tour.</p>
-                    <p>- Meals according to the program.</p>
-                    <p>
-                      - Tour leader and local tour guide serve throughout the
-                      route according to the program.
-                    </p>
-                    <p>- Travel insurance.</p>
-                  </TabPanel>
-                  <TabPanel value="2">
-                    <p>
-                      - Surcharge for single room 3,600,000VND (for guests who
-                      request to sleep 1 person/room).
-                    </p>
-                    <p>- Personal costs. Excess baggage allowance.</p>
-                    <p>- Transportation outside the program + Night shows.</p>
-                    <p>- Vietnam re-entry visa applies to foreign visitors.</p>
-                    <p>- Tips for tour guide and driver: 15 USD/person/tour</p>
-                    <p>
-                      - Surcharge for guests with foreign nationality or
-                      overseas Vietnamese guests with non-Vietnamese names:
-                      $20/guest
-                    </p>
-                  </TabPanel>
-                  <TabPanel value="3">
-                    <p>- Single room surcharge: 3,600,000 VND/person/tour.</p>
-                  </TabPanel>
-                  <TabPanel value="4">
-                    <p className="indent-4">
-                      Terms of tour registration: Please pay a deposit of 50%
-                      when registering the tour, and the remaining payment
-                      before 10 days of departure.
-                    </p>
-                    <p className="indent-4">
-                      If you cancel the tour, you pay the following tour
-                      cancellation fees:
-                    </p>
-                    <p>
-                      - Cancellation of tour after registration will incur a
-                      penalty of 50% of the deposit.
-                    </p>
-                    <p>
-                      - Cancel tour 10 days in advance, penalty fee = 70% of
-                      total tour price. (Calculated based on working days).
-                    </p>
-                    <p className="indent-4">
-                      After the above time, penalty fee = 100% of total program
-                      value. (Based on working days)
-                    </p>
-                    <p>
-                      - The cancellation of the trip must be notified directly
-                      to the Company in writing or via email, phone message and
-                      must be confirmed by the Company. Cancellations by phone
-                      are not accepted.
-                    </p>
-                    <p className="indent-4">
-                      Holidays are non-refundable and non-cancellable.
-                    </p>
-                  </TabPanel>
-                  <TabPanel value="5">
-                    <h3 className="text-lg font-semibold underline mb-2">
-                      CONDITIONS & PASSPORT WHEN REGISTERING FOR TOUR:
-                    </h3>
-                    <p>
-                      - Passport must have 6 months remaining from the date of
-                      return from the tour.
-                    </p>
-                    <p>
-                      - Passport ensures the following factors: the image is not
-                      damaged, blurred, complete information, even though the
-                      expiry date is still valid, if the image is blurred, it is
-                      still not allowed to enter or exit.
-                    </p>
-                    <p>
-                      - You are not allowed to exit or enter the country and
-                      abroad, the company will not be responsible and will not
-                      refund other related costs.
-                    </p>
-                    <p>
-                      - Foreign nationals / overseas Vietnamese, please check
-                      the visitor&apos;s visa to Vietnam multiple times or once,
-                      Customers make a re-entry visa, bring 2 4x6 photos on
-                      tour, and bring visa to Vietnam when entering and leaving
-                      the country.
-                    </p>
-                    <p>
-                      - When registering for a tour, please provide personal
-                      information on your passport: Exact full name, date of
-                      issue, passport expiration date, contact phone number,
-                      contact address...
-                    </p>
-                    <h3 className="text-lg font-semibold underline mb-2">
-                      Notes:
-                    </h3>
-                    <p>
-                      - If you require a single room, please pay the additional
-                      fee.
-                    </p>
-                    <p>
-                      - The order of attractions and trip itinerary may change
-                      depending on the actual situation but still ensures all
-                      the attractions as at the beginning. The hotel name will
-                      be officially confirmed on the group meeting day, 1 day
-                      before departure.
-                    </p>
-                  </TabPanel>
-                </TabContext>
-              </Box>
+              <TabContext value={tabIndex}>
+                <div style={{ borderBottom: '1px' }}>
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="lab API tabs example"
+                  >
+                    <Tab label="Price include" value="1" />
+                    <Tab label="Price not include" value="2" />
+                    <Tab label="Surcharge" value="3" />
+                    <Tab label="Cancel / Change" value="4" />
+                    <Tab label="Notes" value="5" />
+                  </TabList>
+                </div>
+                <TabPanel value="1">
+                  <p>
+                    - Round trip air tickets SGN - SIN - SGN (Including 20kg
+                    checked baggage and 07kg carry-on baggage).
+                  </p>
+                  <p>- Airport security fee, airport tax of 2 countries.</p>
+                  <p>
+                    - Air-conditioned vehicle transport throughout the route.
+                  </p>
+                  <p>- Tickets to visit as program.</p>
+                  <p>- Standard 3 - 4* hotel (2-3 people/room).</p>
+                  <p>- Serving mineral water throughout the tour.</p>
+                  <p>- Meals according to the program.</p>
+                  <p>
+                    - Tour leader and local tour guide serve throughout the
+                    route according to the program.
+                  </p>
+                  <p>- Travel insurance.</p>
+                </TabPanel>
+                <TabPanel value="2">
+                  <p>
+                    - Surcharge for single room 3,600,000VND (for guests who
+                    request to sleep 1 person/room).
+                  </p>
+                  <p>- Personal costs. Excess baggage allowance.</p>
+                  <p>- Transportation outside the program + Night shows.</p>
+                  <p>- Vietnam re-entry visa applies to foreign visitors.</p>
+                  <p>- Tips for tour guide and driver: 15 USD/person/tour</p>
+                  <p>
+                    - Surcharge for guests with foreign nationality or overseas
+                    Vietnamese guests with non-Vietnamese names: $20/guest
+                  </p>
+                </TabPanel>
+                <TabPanel value="3">
+                  <p>- Single room surcharge: 3,600,000 VND/person/tour.</p>
+                </TabPanel>
+                <TabPanel value="4">
+                  <p className="indent-4">
+                    Terms of tour registration: Please pay a deposit of 50% when
+                    registering the tour, and the remaining payment before 10
+                    days of departure.
+                  </p>
+                  <p className="indent-4">
+                    If you cancel the tour, you pay the following tour
+                    cancellation fees:
+                  </p>
+                  <p>
+                    - Cancellation of tour after registration will incur a
+                    penalty of 50% of the deposit.
+                  </p>
+                  <p>
+                    - Cancel tour 10 days in advance, penalty fee = 70% of total
+                    tour price. (Calculated based on working days).
+                  </p>
+                  <p className="indent-4">
+                    After the above time, penalty fee = 100% of total program
+                    value. (Based on working days)
+                  </p>
+                  <p>
+                    - The cancellation of the trip must be notified directly to
+                    the Company in writing or via email, phone message and must
+                    be confirmed by the Company. Cancellations by phone are not
+                    accepted.
+                  </p>
+                  <p className="indent-4">
+                    Holidays are non-refundable and non-cancellable.
+                  </p>
+                </TabPanel>
+                <TabPanel value="5">
+                  <h3 className="text-lg font-semibold underline mb-2">
+                    CONDITIONS & PASSPORT WHEN REGISTERING FOR TOUR:
+                  </h3>
+                  <p>
+                    - Passport must have 6 months remaining from the date of
+                    return from the tour.
+                  </p>
+                  <p>
+                    - Passport ensures the following factors: the image is not
+                    damaged, blurred, complete information, even though the
+                    expiry date is still valid, if the image is blurred, it is
+                    still not allowed to enter or exit.
+                  </p>
+                  <p>
+                    - You are not allowed to exit or enter the country and
+                    abroad, the company will not be responsible and will not
+                    refund other related costs.
+                  </p>
+                  <p>
+                    - Foreign nationals / overseas Vietnamese, please check the
+                    visitor&apos;s visa to Vietnam multiple times or once,
+                    Customers make a re-entry visa, bring 2 4x6 photos on tour,
+                    and bring visa to Vietnam when entering and leaving the
+                    country.
+                  </p>
+                  <p>
+                    - When registering for a tour, please provide personal
+                    information on your passport: Exact full name, date of
+                    issue, passport expiration date, contact phone number,
+                    contact address...
+                  </p>
+                  <h3 className="text-lg font-semibold underline mb-2">
+                    Notes:
+                  </h3>
+                  <p>
+                    - If you require a single room, please pay the additional
+                    fee.
+                  </p>
+                  <p>
+                    - The order of attractions and trip itinerary may change
+                    depending on the actual situation but still ensures all the
+                    attractions as at the beginning. The hotel name will be
+                    officially confirmed on the group meeting day, 1 day before
+                    departure.
+                  </p>
+                </TabPanel>
+              </TabContext>
             </div>
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
@@ -448,16 +497,19 @@ export default TourDetail;
 export const getServerSideProps: GetServerSideProps<
   tourDetailProps | { notFound: boolean }
 > = async (context) => {
-  
   const { _id } = context.query;
   const ObjectId = mongoose.Types.ObjectId;
 
   try {
     await db();
-    const routeData = await tourSchedule.find({
-      status: true,
-      routeId: new ObjectId("64f4895bf88448793f4e6899"),
-    }, '_id departure route destination date date price rating', { limit: 4 })
+    const routeData = await tourSchedule.find(
+      {
+        status: true,
+        routeId: new ObjectId("64f4895bf88448793f4e6899"),
+      },
+      "_id departure route destination date date price rating",
+      { limit: 4 }
+    );
     const routeSelected = routeData.find((route) => route._id == _id);
     return {
       props: {

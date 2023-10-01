@@ -15,9 +15,6 @@ const Tour = (props : tourPageProps) => {
       <Meta
         props={{
           title: `Xplore | Tour`,
-          description:
-            "Xplore is your ultimate travel guide for discovering new destinations and planning your next adventure.",
-          robots: 'noindex'
         }}
       />
       <div className="flex justify-center">

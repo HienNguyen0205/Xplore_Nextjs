@@ -3,16 +3,15 @@ import dayjs from "dayjs";
 import { tourOptionsProps, tourDetailDef } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setRouteSelected, setQuantity } from "@/redux/reducers/routeSelected";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, InputAdornment } from "@mui/material";
 import { useRouter } from "next/router";
 
 const TourOptions = (props: tourOptionsProps) => {
-
   const { routeData } = props;
 
   const routeDetail = useAppSelector((state) => state.routeDetail.value);
 
-  const router = useRouter()
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -29,12 +28,12 @@ const TourOptions = (props: tourOptionsProps) => {
   };
 
   const handleBookBtn = () => {
-    router.push('/tour-purchase')
-  }
+    router.push("/tour-purchase");
+  };
 
   return (
     <div className="sticky top-[100px] rounded-lg border-2 border-emerald-600 p-4">
-      <h1 className="text-2xl font-medium mb-1 text-blue-800">
+      <h1 className="text-[28px] font-medium mb-1 text-blue-800">
         Departure schedule & prices
       </h1>
       <p className="text-xl mt-4 mb-2">Select departure date:</p>
@@ -56,30 +55,32 @@ const TourOptions = (props: tourOptionsProps) => {
           );
         })}
       </div>
-      <div className="flex items-center my-8">
-        <h1 className="text-xl flex-1">Quantity:</h1>
-        <h1 className="text-2xl flex-1 text-yellow-800">
-          ${routeDetail.price} &times;
-        </h1>
-        <div className="flex-1">
-          <TextField
-            type="number"
-            fullWidth
-            size="small"
-            inputProps={{ min: 1, max: 20 }}
-            onChange={handleChangeQuantity}
-            value={routeDetail.quantity}
-          />
-        </div>
+      <div className="my-6">
+        <TextField
+          type="number"
+          fullWidth
+          size="small"
+          label="Quantity"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">${routeDetail.price} ×</InputAdornment>
+          }}
+          inputProps={{ min: 1, max: 20 }}
+          onChange={handleChangeQuantity}
+          value={routeDetail.quantity}
+        />
       </div>
-      <div className="flex justify-between items-center my-8">
-        <h1 className="text-xl">Total price:</h1>
+      <div className="flex justify-between items-end my-6">
+        <p className="text-xl">Total price</p>
         <p className="text-3xl font-semibold text-yellow-800">
           ${((routeDetail.quantity as number) * routeDetail.price).toFixed(2)}
         </p>
       </div>
       <div className="flex justify-end">
-        <Button sx={{ width: "50%" }} variant="contained" onClick={handleBookBtn}>
+        <Button
+          sx={{ width: "50%" }}
+          variant="contained"
+          onClick={handleBookBtn}
+        >
           Book
         </Button>
       </div>
@@ -87,4 +88,4 @@ const TourOptions = (props: tourOptionsProps) => {
   );
 };
 
-export default TourOptions
+export default TourOptions;

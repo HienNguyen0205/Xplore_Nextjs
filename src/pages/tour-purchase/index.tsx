@@ -1,31 +1,29 @@
 import React, { useState } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
-import dynamic from 'next/dynamic'
-import Image from 'next/image';
-import {
-  Box,
-  Stepper,
-  StepLabel,
-  Step,
-  Button,
-} from "@mui/material";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { Stepper, StepLabel, Step, Button } from "@mui/material";
 import { user } from "@/models";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { GetServerSideProps } from "next";
-import {
-  tourPurchaseProps,
-  pageNotFound,
-} from "@/utils/types";
+import { tourPurchaseProps, pageNotFound } from "@/utils/types";
 import { steps } from "@/utils/data";
 import { ConfirmInfo } from "@/components";
-const MakePayment = dynamic(() => import('@/components/MakePayMent'))
+import { useRouter } from "next/router";
+const MakePayment = dynamic(() => import("@/components/MakePayMent"));
 
 const TourPurchase = (props: tourPurchaseProps) => {
   const { userData } = props;
 
   const [paymentStep, setPaymentStep] = useState<number>(0);
+
+  const router = useRouter()
+
+  const goToHistory = () => {
+    router.push('/history');
+  }
 
   return (
     <div className="bg-slate-200 flex justify-center">
@@ -37,7 +35,7 @@ const TourPurchase = (props: tourPurchaseProps) => {
       />
       <div className="container mt-[100px] mb-8">
         <div className="h-[80vh] min-h-[560px] border-2 rounded-lg border-blue-600 py-8 px-16">
-          <Box sx={{ width: "100%", marginBottom: "32px" }}>
+          <div className="mb-8">
             <Stepper activeStep={paymentStep} alternativeLabel>
               {steps.map((label) => (
                 <Step key={label}>
@@ -45,17 +43,30 @@ const TourPurchase = (props: tourPurchaseProps) => {
                 </Step>
               ))}
             </Stepper>
-          </Box>
-          {paymentStep === 0 && <ConfirmInfo userData={userData} setPaymentStep={setPaymentStep}/>}
-          {paymentStep === 1 && <MakePayment userData={userData} setPaymentStep={setPaymentStep}/>}
+          </div>
+          {paymentStep === 0 && (
+            <ConfirmInfo userData={userData} setPaymentStep={setPaymentStep} />
+          )}
+          {paymentStep === 1 && (
+            <MakePayment userData={userData} setPaymentStep={setPaymentStep} />
+          )}
           {paymentStep === 2 && (
             <div
               className="flex flex-col justify-center items-center"
               style={{ animation: "fadeIn .3s ease-in" }}
             >
-              <Image src={require('@/assets/images/Icon/tick.svg')} alt='tick' height={80} width={80}/>
-              <p className="text-2xl font-semibold text-lime-600">Purchase successfully!</p>
-              <Button sx={{ marginTop: '18px' }} variant="contained">Check history</Button>
+              <Image
+                src={require("@/assets/images/Icon/tick.svg")}
+                alt="tick"
+                height={80}
+                width={80}
+              />
+              <p className="text-2xl font-semibold text-lime-600">
+                Purchase successfully!
+              </p>
+              <Button sx={{ marginTop: "18px" }} variant="contained" onClick={goToHistory}>
+                Check history
+              </Button>
             </div>
           )}
         </div>
