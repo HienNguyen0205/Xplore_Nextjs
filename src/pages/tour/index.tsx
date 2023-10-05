@@ -3,7 +3,7 @@ import Meta from "@/components/Layout/meta";
 import db from '@/utils/database'
 import type { GetServerSideProps } from "next";
 import { tourSchedule } from '@/models';
-import { tourPageProps , tourDef } from '@/utils/types';
+import { tourPageProps , tourDef, pageNotFound } from '@/utils/types';
 import { FindTour, TourList } from "@/components";
 
 const Tour = (props : tourPageProps) => {
@@ -29,7 +29,7 @@ const Tour = (props : tourPageProps) => {
 
 export default Tour;
 
-export const getServerSideProps : GetServerSideProps<tourPageProps | { notFound : boolean }> = async (context) => {
+export const getServerSideProps : GetServerSideProps<tourPageProps | pageNotFound> = async (context) => {
   
   const { destination, departure, checkIn } = context.query
 
@@ -39,7 +39,7 @@ export const getServerSideProps : GetServerSideProps<tourPageProps | { notFound 
       destination,
       departure,
       'date.from' : { $gte: new Date(checkIn as string) }
-    }, '-userRegisterId')
+    })
     return {
       props: {
         tourList: JSON.parse(JSON.stringify(tourScheduleList)),

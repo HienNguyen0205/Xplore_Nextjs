@@ -18,6 +18,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
           <ParallaxProvider scrollAxis='vertical'>
             <ToastContainer
+              position='bottom-right'
               autoClose={4000}
               limit={3}
               theme="dark"

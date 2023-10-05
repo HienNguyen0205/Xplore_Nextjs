@@ -6,7 +6,7 @@ const nextConfig = {
     defaultLocale: 'en',
   },
   experimental: {
-    optimizePackageImports: ['@mui/material','@/components']
+    optimizePackageImports: ['@mui/material','@/components','@/models']
   },
 }
 

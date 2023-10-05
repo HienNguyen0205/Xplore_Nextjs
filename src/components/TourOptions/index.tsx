@@ -62,7 +62,7 @@ const TourOptions = (props: tourOptionsProps) => {
           size="small"
           label="Quantity"
           InputProps={{
-            startAdornment: <InputAdornment position="start">${routeDetail.price} ×</InputAdornment>
+            startAdornment: <InputAdornment sx={{color: 'red'}} position="start">${routeDetail.price} ×</InputAdornment>,
           }}
           inputProps={{ min: 1, max: 20 }}
           onChange={handleChangeQuantity}

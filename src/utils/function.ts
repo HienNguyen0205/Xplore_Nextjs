@@ -1,7 +1,14 @@
 import axios from "axios";
-import { visaRegex, cvvCodeRegex } from "@/utils/data";
-import { inputPaymentDef, purchaseTourDef } from "./types";
+import { visaRegex, cvvCodeRegex, nameRegex, telRegex } from "@/utils/data";
+import {
+  inputPaymentDef,
+  purchaseTourDef,
+  changeUserDef,
+  UserDef,
+} from "./types";
 import { toast } from "react-toastify";
+import { signIn } from "next-auth/react";
+import { CldUploadWidgetResults } from "next-cloudinary";
 
 const validateInput = (props: inputPaymentDef) => {
   const { cardNumberRef, cvvCodeRef, countryRef, postalCodeRef, setErrorMess } =
@@ -72,10 +79,18 @@ export const purchaseTour = (props: purchaseTourDef) => {
     userData,
     tourDetail,
     setPaymentStep,
-    setErrorMess
+    setErrorMess,
   } = props;
 
-  if (validateInput({cardNumberRef, cvvCodeRef, countryRef, postalCodeRef, setErrorMess})) {
+  if (
+    validateInput({
+      cardNumberRef,
+      cvvCodeRef,
+      countryRef,
+      postalCodeRef,
+      setErrorMess,
+    })
+  ) {
     axios
       .post("/api/payment", {
         cardNumber: cardNumberRef.current?.value.trim(),
@@ -103,3 +118,69 @@ export const ratingTag = (rating: number): string => {
   else if (rating >= 3) return "Great";
   else return "Good";
 };
+
+const checkUserInfo = (props: UserDef) => {
+  const { fullName, tel } = props;
+  if (!nameRegex.test(fullName) || !telRegex.test(tel as string)) {
+    return false;
+  }else{
+    return true;
+  }
+};
+
+export const changeUserInfo = (props: changeUserDef) => {
+  const { nameRef, telRef, day, month, year } = props;
+  const fullName = nameRef.current?.value?.trim() as string;
+  const tel = telRef.current?.value?.trim() as string;
+  if (checkUserInfo({ fullName, tel })) {
+    axios
+      .post("/api/user/change-user-info", {
+        fullName,
+        tel,
+        day,
+        month,
+        year,
+      })
+      .then((res) => {
+        if (res.data.code === 0) {
+          toast.success(res.data.message);
+        } else {
+          toast.error(res.data.message);
+        }
+      });
+  }
+};
+
+export const signUp = (props: UserDef) => {
+  const { fullName, email, password } = props;
+  axios
+    .post("/api/signUp", {
+      fullName,
+      email,
+      password,
+    })
+    .then((res) => {
+      if (res.data.code === 0) {
+        toast.success("Register successful!");
+        signIn();
+      } else {
+        toast.error("Register fail!");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+export const handleUpdateAvatar = (result: CldUploadWidgetResults, setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>) => {
+  const avatarResult = result?.info as { public_id: string }
+  axios.post('/api/user/change-avatar', { avatar: avatarResult.public_id })
+  .then(res => {
+    if(res.data.code === 0){
+      setAvatar(avatarResult.public_id)
+      toast.success(res.data.message);
+    }else{
+      toast.error(res.data.message);
+    }
+  })
+}

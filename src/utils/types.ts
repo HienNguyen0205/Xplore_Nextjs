@@ -70,9 +70,13 @@ export interface toastProps {
 
 export interface UserDef {
     fullName: string,
-    email: string,
+    email?: string,
     password?: string,
-    tel: string,
+    avatar?: string,
+    tel?: string,
+    day?: string,
+    month?: string,
+    year?: string,
 }
 
 export interface tourDate {
@@ -234,4 +238,16 @@ export interface historyDetailProps {
 
 export interface tourDetailData {
     tourDetail: tourDef
+}
+
+export interface profilePageProps {
+    userDetails: UserDef
+}
+
+export interface changeUserDef {
+    nameRef: React.RefObject<HTMLInputElement>,
+    telRef: React.RefObject<HTMLInputElement>,
+    day: string,
+    month: string,
+    year: string
 }

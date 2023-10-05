@@ -24,18 +24,17 @@ const saveUser = async (req: NextApiRequest, res: NextApiResponse) => {
         return
     }
 
-    const { name, email, password, tel } = req.body
+    const { fullName, email, password, tel } = req.body
     
     try{
         if(await checkUser(email as string)){
             res.status(200).json({code: 3,message: 'Account already exists', status: 'error'})
         }else{
             const hashPass = await hash(password as string, 10)
-            user.insertMany({
-                fullname: name,
-                email: email,
+            user.create({
+                fullName,
+                email,
                 password: hashPass,
-                tel: tel,
             })
             res.status(200).json({code: 0, message: 'Created account successfully', status: 'success'})
         } 

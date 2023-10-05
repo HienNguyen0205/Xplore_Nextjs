@@ -258,3 +258,24 @@ export const galleryGroupImg: galleryGroupProps[] = [
     region: "Americas",
   },
 ];
+
+export const days = [
+  "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
+]
+
+export const months = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+const currentYear = new Date().getFullYear();
+const startYear = 1900;
+export const years: string[] = [];
+
+for (let year = currentYear; year > startYear; year--) {
+  years.push(year.toString());
+}
+
+export const telRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/

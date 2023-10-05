@@ -4,8 +4,12 @@ const userSchema = new Schema({
     email: String,
     password: String,
     fullName: String,
-    tel: String,
+    avatar: String,
+    tel: { default: '', type: String},
+    day: { default: '', type: String},
+    month: { default: '', type: String},
+    year: { default: '', type: String},
 })
 
-const user = models.user || model('user', userSchema)
+const user = models.users || model('users', userSchema)
 export default user

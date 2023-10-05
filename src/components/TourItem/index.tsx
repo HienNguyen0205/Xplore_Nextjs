@@ -22,13 +22,15 @@ const TourItem = ({
 
   return (
     <div className={styles.tour_item} onClick={handleClick}>
-      <CldImage
-        className="rounded-t-lg"
-        width={360}
-        height={225}
-        src={data.image}
-        alt="tour_img"
-      />
+      <div className="overflow-hidden group">
+        <CldImage
+          className="rounded-t-lg transition group-hover:scale-110"
+          width={360}
+          height={225}
+          src={data.image}
+          alt="tour_img"
+        />
+      </div>
       <div className="p-2">
         <h1 className="font-bold text-lg h-[56px]">
           {data.destination} - {data.route}

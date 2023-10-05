@@ -2,12 +2,11 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Meta from "@/components/Layout/meta";
-import axios from "axios";
 import { TextField, Button } from "@mui/material";
 import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { emailRegex, nameRegex, passwordRegex } from "@/utils/data";
+import { signUp } from "@/utils/function";
 
 const SignUp = (): JSX.Element => {
   const [nameMes, setNameMes] = useState<String>("");
@@ -41,16 +40,16 @@ const SignUp = (): JSX.Element => {
   };
 
   const validate = () => {
-    const name = nameRef.current?.value.trim();
-    const email = emailRef.current?.value.trim();
-    const password = passRef.current?.value.trim();
+    const fullName = nameRef.current?.value.trim() as string;
+    const email = emailRef.current?.value.trim() as string;
+    const password = passRef.current?.value.trim() as string;
     const confirmPass = confirmPassRef.current?.value.trim();
     let flag = true;
     resetErrMes();
-    if (name === "") {
+    if (fullName === "") {
       flag = false;
       setNameMes("Please enter your name");
-    } else if (!nameRegex.test(name as string)) {
+    } else if (!nameRegex.test(fullName as string)) {
       flag = false;
       setNameMes("Invalid name");
     }
@@ -76,24 +75,7 @@ const SignUp = (): JSX.Element => {
       setConfirmPassMes("Wrong confirm password");
     }
     if (flag) {
-      axios
-        .post("/api/signUp", {
-          name: name,
-          email: email,
-          password: password,
-          tel: "",
-        })
-        .then((res) => {
-          if (res.data.status === "success") {
-            toast.success("Register successful!");
-            signIn();
-          } else {
-            toast.error("Register fail!");
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      signUp({fullName, email, password})
     }
   };
 
