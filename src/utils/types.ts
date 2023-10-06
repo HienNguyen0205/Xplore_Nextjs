@@ -251,3 +251,8 @@ export interface changeUserDef {
     month: string,
     year: string
 }
+
+export interface mesResponse {
+    code: number,
+    message: string
+}

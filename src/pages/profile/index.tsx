@@ -1,6 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Meta from "@/components/Layout/meta";
-import Image from "next/image";
 import db from "@/utils/database";
 import {
   TextField,
@@ -18,6 +17,8 @@ import { user } from "@/models";
 import { profilePageProps, pageNotFound } from "@/utils/types";
 import { changeUserInfo, handleUpdateAvatar } from "@/utils/function";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
+import { useChangeAvatarMutation } from "@/redux/reducers/apiSlice";
+import { toast } from "react-toastify";
 
 const Profile = (props: profilePageProps) => {
   const { userDetails } = props;
@@ -32,9 +33,18 @@ const Profile = (props: profilePageProps) => {
     userDetails.year ? userDetails.year : ""
   );
   const [avatar, setAvatar] = useState<string | undefined>(userDetails.avatar)
+  const [changeAvatar, { data }] = useChangeAvatarMutation()
 
   const nameRef = useRef<HTMLInputElement>(null);
   const telRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if(data?.code === 0){
+      toast.success(data.message)
+    }else{
+      toast.error(data?.message)
+    }
+  }, [data])
 
   return (
     <div className="bg-slate-100 flex justify-center h-screen">
@@ -48,25 +58,16 @@ const Profile = (props: profilePageProps) => {
           className="flex flex-col items-center"
           style={{ gridArea: "1 / 1 / 2 / 2" }}
         >
-          {avatar ? (
-            <CldImage
+          <CldImage
               className="border-4 border-blue-400 rounded-full aspect-square"
-              src={avatar}
+              src={avatar ? avatar : 'User/zz1jef0uotz2qjpelgbh'}
               alt="avatar"
               width={200}
               height={200}
-            />
-          ) : (
-            <Image
-              className="border-4 border-blue-400 rounded-full"
-              src={require("@/assets/images/User/unknowUser.jpg")}
-              alt="user"
-              priority
-            />
-          )}
+          />
           <CldUploadWidget
             uploadPreset="ffyupzl6"
-            onSuccess={(result) => handleUpdateAvatar(result, setAvatar)}
+            onSuccess={result => handleUpdateAvatar(result, changeAvatar, setAvatar)}
           >
             {({ open }) => {
               const handleOnClick = (

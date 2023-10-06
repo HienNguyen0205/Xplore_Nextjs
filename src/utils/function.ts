@@ -172,15 +172,8 @@ export const signUp = (props: UserDef) => {
     });
 };
 
-export const handleUpdateAvatar = (result: CldUploadWidgetResults, setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>) => {
+export const handleUpdateAvatar = async (result: CldUploadWidgetResults, handleChange: any, reRender: React.Dispatch<React.SetStateAction<string | undefined>>) => {
   const avatarResult = result?.info as { public_id: string }
-  axios.post('/api/user/change-avatar', { avatar: avatarResult.public_id })
-  .then(res => {
-    if(res.data.code === 0){
-      setAvatar(avatarResult.public_id)
-      toast.success(res.data.message);
-    }else{
-      toast.error(res.data.message);
-    }
-  })
+  handleChange(avatarResult.public_id)
+  reRender(avatarResult.public_id)
 }

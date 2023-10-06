@@ -9,7 +9,7 @@ const Footer = dynamic(() => import('@/components/Footer'))
 const LoadingSkeleton = dynamic(() => import('@/components/Layout/loading'))
 
 const nonHeaderRoute = ['/_error','/sign-in','/sign-up']
-const nonFooterRoute = ['/_error','/sign-in','/sign-up','/history']
+const nonFooterRoute = ['/_error','/sign-in','/sign-up','/history','/profile']
 
 const Layout = ({
     meta, children
@@ -46,6 +46,7 @@ const Layout = ({
     if (loading || router.isFallback) {
         return (
           <div className="h-screen w-screen flex flex-col justify-center items-center bg-slate-400">
+            <Meta props={{ title: 'Xplore | Loading...'}} />
             <LoadingSkeleton />
           </div>
         );
