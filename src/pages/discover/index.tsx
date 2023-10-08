@@ -27,6 +27,7 @@ const Discover = (props: discoverDef) => {
           height={500}
           src="Background/husbetx1d0ipqosvnksy"
           alt="galleryBg"
+          priority
         />
         <p className="absolute text-center bottom-[30%] text-white font-bold w-full text-5xl">
           Discover

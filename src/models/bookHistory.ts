@@ -9,6 +9,7 @@ const bookHistorySchema = new Schema({
     status: String,
     paymentMethod: String,
     total: Number,
+    slot: Number,
 })
 
 const bookHistory = models.bookhistories || model('bookhistories', bookHistorySchema);

@@ -24,6 +24,7 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
           height={500}
           src="Background/jdb1mtfxticuf3nrbixt"
           alt="Search_bg"
+          priority
         />
         <div className="container flex flex-col justify-center absolute top-1/3">
           <h1 className="text-shadow mb-12 text-5xl font-bold text-white">

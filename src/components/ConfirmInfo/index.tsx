@@ -21,7 +21,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             margin: "12px 0",
             ".Mui-disabled": {
               color: "black",
-              WebkitTextFillColor: "black",
+              WebkitTextFillColor: "black!important",
             },
           }}
           label="Full name"
@@ -35,7 +35,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             margin: "12px 0",
             ".Mui-disabled": {
               color: "black",
-              WebkitTextFillColor: "black",
+              WebkitTextFillColor: "black!important",
             },
           }}
           label="Email"
@@ -49,7 +49,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             margin: "12px 0",
             ".Mui-disabled": {
               color: "black",
-              WebkitTextFillColor: "black",
+              WebkitTextFillColor: "black!important",
             },
           }}
           label="Phone number"

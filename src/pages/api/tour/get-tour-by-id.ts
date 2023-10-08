@@ -6,6 +6,7 @@ import { tourSchedule } from "@/models";
 const getTourById = async (req: NextApiRequest, res: NextApiResponse) => {
     if(req.method !== 'GET'){
         res.status(405).json({code: 2, message: 'Only GET requests allowed' })
+        return
     }
 
     const { id } = req.query

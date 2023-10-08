@@ -1,29 +1,45 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { historyProps, historyParams, tourDetailData, mesResponse } from "@/utils/types";
+import {
+  historyProps,
+  historyParams,
+  tourDetailData,
+  mesResponse,
+  tourSlotData,
+} from "@/utils/types";
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
-  tagTypes: ['avatar'],
+  tagTypes: ["avatar"],
   endpoints: (builder) => ({
     getHistory: builder.query<historyProps, historyParams>({
-      query: ({from, to}) => `/history?from=${from?.toISOString()}&to=${to?.toISOString()}`,
+      query: ({ from, to }) =>
+        `/history?from=${from?.toISOString()}&to=${to?.toISOString()}`,
     }),
     getTourById: builder.query<tourDetailData, string>({
-      query: id => `/tour/get-tour-by-id?id=${id}`,
+      query: (id) => `/tour/get-tour-by-id?id=${id}`,
     }),
-    getAvatar: builder.query<{avatar: string}, void>({
+    getAvatar: builder.query<{ avatar: string }, void>({
       query: () => `/user/get-avatar`,
-      providesTags: ['avatar']
+      providesTags: ["avatar"],
     }),
-    changeAvatar: builder.mutation<{code: number, message: string}, string>({
-      query: avatar => ({
-        url: '/user/change-avatar',
-        method: 'POST',
-        body: { avatar }
+    getTourSlot: builder.query<tourSlotData, string>({
+      query: (id) => `/tour/get-tour-slot?id=${id}`,
+    }),
+    changeAvatar: builder.mutation<mesResponse, string>({
+      query: (avatar) => ({
+        url: "/user/change-avatar",
+        method: "POST",
+        body: { avatar },
       }),
-      invalidatesTags: ['avatar']
-    })
+      invalidatesTags: ["avatar"],
+    }),
   }),
 });
 
-export const { useGetHistoryQuery, useGetTourByIdQuery, useGetAvatarQuery, useChangeAvatarMutation } = apiSlice;
+export const {
+  useGetHistoryQuery,
+  useGetTourByIdQuery,
+  useGetAvatarQuery,
+  useChangeAvatarMutation,
+  useGetTourSlotQuery,
+} = apiSlice;

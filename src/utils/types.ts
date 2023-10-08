@@ -256,3 +256,15 @@ export interface mesResponse {
     code: number,
     message: string
 }
+
+export interface tourItemProps {
+    data: tourDef,
+    showDate: boolean,
+    isInWishlist?: boolean
+}
+
+export interface tourSlotData {
+    code: number,
+    avaiSlot?: number,
+    message?: string
+}

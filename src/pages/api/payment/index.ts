@@ -30,7 +30,7 @@ const validateInput = (
 
 const Payment = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
-    res.status(405).json({ message: "Only POST requests allowed" });
+    res.status(405).json({code: 2, message: "Only POST requests allowed" });
     return;
   }
 
@@ -79,12 +79,13 @@ const Payment = async (req: NextApiRequest, res: NextApiResponse) => {
           quantity,
           paymentMethod,
           total: (routeDetail.price * quantity).toFixed(2),
+          slot: routeDetail.slot,
           status: 'Success'
         })
         transporter.sendMail(mailOptions);
         res
           .status(200)
-          .json({ status: "success", message: 'Purchase complete!' });
+          .json({code: 0, status: "success", message: 'Purchase complete!' });
       } else {
         await bookHistory.create({
           tourId: new ObjectId(_id),
@@ -93,12 +94,13 @@ const Payment = async (req: NextApiRequest, res: NextApiResponse) => {
           quantity,
           paymentMethod,
           total: (routeDetail.price * quantity).toFixed(2),
+          slot: routeDetail.slot,
           status: 'Fail'
         })
-        res.status(200).json({ status: "fail", message: "Purchase failed" });
+        res.status(200).json({code: 3, status: "fail", message: "Purchase failed" });
       }
     } catch (e) {
-      res.status(500).json({ message: e });
+      res.status(500).json({code: 1, message: 'Server error' });
     }
   }
 };

@@ -49,6 +49,7 @@ const TourDetail = (props: tourDetailProps) => {
               height={406}
               src="Tour/Singapore/c8f9gemtdcbicvxtkidp"
               alt="Singapore"
+              priority
             />
             <div className="flex justify-between items-center h-[60px] px-3 bg-zinc-300">
               <div className="flex items-center">
@@ -352,6 +353,17 @@ const TourDetail = (props: tourDetailProps) => {
               </p>
             </div>
             <div className="my-8">
+            <h1 className="text-2xl font-medium flex items-center">
+                <Image
+                  className="mr-2"
+                  src={require("@/assets/images/Icon/cash.svg")}
+                  alt="cash"
+                  height={24}
+                  width={24}
+                />
+                Expected cost
+              </h1>
+              <hr className="border-black mt-3 mb-2" />
               <TabContext value={tabIndex}>
                 <div style={{ borderBottom: '1px' }}>
                   <TabList
@@ -507,7 +519,7 @@ export const getServerSideProps: GetServerSideProps<
         status: true,
         routeId: new ObjectId("64f4895bf88448793f4e6899"),
       },
-      "_id departure route destination date date price rating",
+      "_id departure route destination date price rating",
       { limit: 4 }
     );
     const routeSelected = routeData.find((route) => route._id == _id);
