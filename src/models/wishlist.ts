@@ -1,8 +1,11 @@
-import mongoose, { Schema, model, models } from "mongoose"
+import { Schema, model, models } from "mongoose"
 
 const wishlistSchema = new Schema({
     userEmail: String,
-    routeId: mongoose.Types.ObjectId,
+    tour: {
+        type: Schema.Types.ObjectId,
+        ref: 'tourschedules'
+    },
 })
 
 const wishlists = models.wishlists || model('wishlists', wishlistSchema)

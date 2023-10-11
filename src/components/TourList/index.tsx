@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/TourList.module.scss";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 import { Pagination, Button } from "@mui/material";
 import { tourDef, tourListProps } from "@/utils/types";
 import { TourItem } from '@/components'
+import { useGetWishlistQuery, useSetWishlistMutation } from "@/redux/reducers/apiSlice";
 
 const TourList = ({
-  data,
+  tour,
   pagination = false,
   tourHeader = true,
   sortBar = false,
@@ -16,11 +18,14 @@ const TourList = ({
   titleContent = "",
 }: tourListProps): JSX.Element => {
   const [index, setIndex] = useState<number>(0);
-  const [tourData, setTourData] = useState<tourDef[]>(data);
+  const [tourData, setTourData] = useState<tourDef[]>(tour);
   const [tourList, setTourList] = useState<tourDef[]>(
-    isLimit ? data.slice(0, 8) : data
+    isLimit ? tour.slice(0, 8) : tour
   );
   const [sortType, setSortType] = useState<string>("destination");
+  const { data } = useGetWishlistQuery()
+
+  const [updateWishlist, { data: wishlistData }] = useSetWishlistMutation()
 
   useEffect(() => {
     if (sortType === "destination") {
@@ -47,6 +52,12 @@ const TourList = ({
       setTourList(list);
     }
   }, [index, tourData, isLimit]);
+
+  useEffect(() => {
+    if(wishlistData?.code === 0){
+      toast.success(wishlistData?.message)
+    }
+  }, [wishlistData])
 
   const handlePagination = (
     e: React.ChangeEvent<unknown>,
@@ -87,7 +98,7 @@ const TourList = ({
       {tourList.length !== 0 ? (
         <div className="container grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mb-5">
           {tourList.map((item, index) => {
-            return <TourItem key={index} data={item} showDate={showDate} />;
+            return <TourItem key={index} data={item} showDate={showDate} isInWishlist={data?.wishlist.includes(item._id)} changeWishlist={updateWishlist}/>;
           })}
         </div>
       ) : (
@@ -103,7 +114,7 @@ const TourList = ({
           size="large"
           variant="outlined"
           shape="rounded"
-          count={Math.ceil(data.length / 8)}
+          count={Math.ceil(tour.length / 8)}
           onChange={handlePagination}
         />
       )}

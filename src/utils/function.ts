@@ -123,7 +123,7 @@ const checkUserInfo = (props: UserDef) => {
   const { fullName, tel } = props;
   if (!nameRegex.test(fullName) || !telRegex.test(tel as string)) {
     return false;
-  }else{
+  } else {
     return true;
   }
 };
@@ -172,8 +172,12 @@ export const signUp = (props: UserDef) => {
     });
 };
 
-export const handleUpdateAvatar = async (result: CldUploadWidgetResults, handleChange: any, reRender: React.Dispatch<React.SetStateAction<string | undefined>>) => {
-  const avatarResult = result?.info as { public_id: string }
-  handleChange(avatarResult.public_id)
-  reRender(avatarResult.public_id)
-}
+export const handleUpdateAvatar = async (
+  result: CldUploadWidgetResults,
+  handleChange: any,
+  reRender: React.Dispatch<React.SetStateAction<string | undefined>>
+) => {
+  const avatarResult = result?.info as { public_id: string };
+  handleChange(avatarResult.public_id);
+  reRender(avatarResult.public_id);
+};

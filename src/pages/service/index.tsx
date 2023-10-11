@@ -34,7 +34,7 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
         </div>
       </div>
       <div className="w-full flex-col flex items-center pb-5 pt-10">
-        {tourList.map((tours, index) => <TourList key={index} data={tours} pagination title titleContent={tours[0].region + ' Tour'} />)}
+        {tourList.map((tours, index) => <TourList key={index} tour={tours} pagination title titleContent={tours[0].region + ' Tour'} />)}
       </div>
     </div>
   );

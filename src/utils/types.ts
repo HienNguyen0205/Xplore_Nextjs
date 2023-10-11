@@ -39,7 +39,7 @@ export interface tourDef {
 }
 
 export interface tourListProps{
-    data: tourDef[],
+    tour: tourDef[],
     key?: number,
     pagination?: boolean,
     tourHeader?: boolean,
@@ -260,11 +260,16 @@ export interface mesResponse {
 export interface tourItemProps {
     data: tourDef,
     showDate: boolean,
-    isInWishlist?: boolean
+    isInWishlist?: boolean,
+    changeWishlist?: any,
 }
 
 export interface tourSlotData {
     code: number,
     avaiSlot?: number,
     message?: string
+}
+
+export interface wishlistProps {
+    wishlist: tourDef[]
 }

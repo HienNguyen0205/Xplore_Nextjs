@@ -9,7 +9,7 @@ import {
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
-  tagTypes: ["avatar"],
+  tagTypes: ["avatar",'wishlist'],
   endpoints: (builder) => ({
     getHistory: builder.query<historyProps, historyParams>({
       query: ({ from, to }) =>
@@ -25,6 +25,10 @@ export const apiSlice = createApi({
     getTourSlot: builder.query<tourSlotData, string>({
       query: (id) => `/tour/get-tour-slot?id=${id}`,
     }),
+    getWishlist: builder.query<{wishlist: string[]}, void>({
+      query: () => `/tour/get-wishlist`,
+      providesTags: ["wishlist"],
+    }),
     changeAvatar: builder.mutation<mesResponse, string>({
       query: (avatar) => ({
         url: "/user/change-avatar",
@@ -33,6 +37,14 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["avatar"],
     }),
+    setWishlist: builder.mutation<mesResponse, string>({
+      query: id => ({
+        url: "/tour/set-wishlist",
+        method: "POST",
+        body: { id }
+      }),
+      invalidatesTags: ["wishlist"]
+    })
   }),
 });
 
@@ -42,4 +54,6 @@ export const {
   useGetAvatarQuery,
   useChangeAvatarMutation,
   useGetTourSlotQuery,
+  useGetWishlistQuery,
+  useSetWishlistMutation,
 } = apiSlice;

@@ -17,7 +17,7 @@ const GalleryImgList = (props: galleryImgListProps) => {
       >
         {imgList.map((item, index) => {
           return (
-            <div key={index} className="cursor-pointer overflow-hidden group">
+            <div key={index} data-src={item} className="cursor-pointer overflow-hidden group">
               <CldImage
                 className="transition group-hover:scale-110"
                 width={1920}

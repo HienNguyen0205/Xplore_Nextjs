@@ -7,12 +7,17 @@ import { useRouter } from "next/router";
 import { CldImage } from "next-cloudinary";
 import { ratingTag } from "@/utils/function";
 
-const TourItem = ({ data, showDate, isInWishlist }: tourItemProps) => {
+const TourItem = ({ data, showDate, isInWishlist, changeWishlist }: tourItemProps) => {
   const router = useRouter();
 
   const handleClick = () => {
     router.push(`/tour-detail/${data.routeId}?_id=${data._id}`);
   };
+
+  const handleChangeWishlist = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    e.stopPropagation()
+    changeWishlist(data._id)
+  }
 
   return (
     <div className={styles.tour_item} onClick={handleClick}>
@@ -31,6 +36,7 @@ const TourItem = ({ data, showDate, isInWishlist }: tourItemProps) => {
             alt="heart-active"
             height={24}
             width={24}
+            onClick={e => handleChangeWishlist(e)}
           />
         ) : (
           <Image
@@ -39,6 +45,7 @@ const TourItem = ({ data, showDate, isInWishlist }: tourItemProps) => {
             alt="heart-empty"
             height={24}
             width={24}
+            onClick={e => handleChangeWishlist(e)}
           />
         )}
       </div>

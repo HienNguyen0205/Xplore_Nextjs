@@ -93,7 +93,7 @@ const Header = (): JSX.Element => {
               </div>
               <div
                 className={styles.dropdown_item}
-                onClick={() => changePath("setting")}
+                onClick={() => changePath("wishlist")}
               >
                 <Image
                   src={require("@/assets/images/Icon/list.svg")}

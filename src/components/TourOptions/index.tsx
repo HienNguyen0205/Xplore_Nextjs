@@ -12,7 +12,6 @@ import {
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import { apiSlice } from "@/redux/reducers/apiSlice";
-import TourDetail from "@/pages/tour-detail/64f4895bf88448793f4e6899";
 
 const TourOptions = (props: tourOptionsProps) => {
   const { routeData } = props;
@@ -26,7 +25,7 @@ const TourOptions = (props: tourOptionsProps) => {
 
   useEffect(() => {
     if (!!routeDetail._id) {
-      dispatch(setQuantity(0));
+      dispatch(setQuantity(1));
       trigger(routeDetail._id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,13 +45,11 @@ const TourOptions = (props: tourOptionsProps) => {
   };
 
   const handleChangeQuantity = (type: string) => {
-    if(Number(data?.avaiSlot) > Number(routeDetail.quantity)) {
-      if(type === '+'){
-        dispatch(increaseQuantity())
-      }
-      if(type === '-'){
-        dispatch(decreaseQuantity())
-      }
+    if(type === '+' && Number(data?.avaiSlot) > Number(routeDetail.quantity)){
+      dispatch(increaseQuantity())
+    }
+    if(type === '-'){
+      dispatch(decreaseQuantity())
     }
   }
 

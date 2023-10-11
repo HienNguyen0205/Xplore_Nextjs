@@ -21,7 +21,7 @@ const Home = (props: {
     <div className="bg-slate-200">
       <Carousel content={courouselData} />
       <div className="w-full flex-col flex items-center pb-5">
-        <TourList data={tourList} titleContent="Destination" />
+        <TourList tour={tourList} titleContent="Destination" />
       </div>
       <ParallaxBanner className="aspect-[2/1]" style={{ height: "600px" }}>
         <ParallaxBannerLayer speed={-30}>

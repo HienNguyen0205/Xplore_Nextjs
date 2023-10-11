@@ -18,7 +18,8 @@ const Footer = (): JSX.Element => {
           <Image
             src={require("../../assets/images/Logo/XPLORE_logo_dark.png")}
             className="h-12 mr-3 w-fit mb-4 sm:mb-0 cursor-pointer"
-            alt=""
+            alt="logo"
+            priority
             onClick={returnHome}
           />
           <ul className="flex flex-wrap items-center mb-6 text-sm sm:mb-0">
