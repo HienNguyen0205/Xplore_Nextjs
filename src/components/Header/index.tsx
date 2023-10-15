@@ -5,11 +5,16 @@ import Image from "next/image";
 import styles from "@/styles/Header.module.scss";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useGetAvatarQuery } from "@/redux/reducers/apiSlice";
 import { CldImage } from "next-cloudinary";
+import { useQuery } from "@tanstack/react-query";
+import { getAvatar } from "@/utils/query";
 
 const Header = (): JSX.Element => {
-  const { data } = useGetAvatarQuery();
+
+  const { data } = useQuery({
+    queryKey: ['avatar'],
+    queryFn: getAvatar
+  })
 
   const router = useRouter();
   const { status } = useSession();

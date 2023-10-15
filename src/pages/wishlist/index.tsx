@@ -18,7 +18,7 @@ const WishList = (props: wishlistProps) => {
                 robots: 'none'
             }}/>
             <div className="container mt-[100px] min-h-[380px]">
-                <TourList tour={wishlist} tourHeader={false} isLimit={false}/>
+                <TourList tour={wishlist} tourHeader={false} isLimit={false} isOnlyWishlist/>
             </div>
         </div>
     )

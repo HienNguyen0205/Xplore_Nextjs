@@ -17,7 +17,7 @@ const Layout = ({
 
     const router = useRouter()
     const { status } = useSession()
-
+    
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import {
@@ -17,8 +17,9 @@ import { user } from "@/models";
 import { profilePageProps, pageNotFound } from "@/utils/types";
 import { changeUserInfo, handleUpdateAvatar } from "@/utils/function";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
-import { useChangeAvatarMutation } from "@/redux/reducers/apiSlice";
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
+import { changeAvatar } from "@/utils/query";
 
 const Profile = (props: profilePageProps) => {
   const { userDetails } = props;
@@ -33,18 +34,20 @@ const Profile = (props: profilePageProps) => {
     userDetails.year ? userDetails.year : ""
   );
   const [avatar, setAvatar] = useState<string | undefined>(userDetails.avatar)
-  const [changeAvatar, { data }] = useChangeAvatarMutation()
+
+  const updateAvatar = useMutation({
+    mutationFn: (avatar: string) => changeAvatar(avatar),
+    onSuccess: (data) => {
+      if(data.code === 0){
+        toast.success(data.message);
+      }else{
+        toast.error(data.message);
+      }
+    }
+  })
 
   const nameRef = useRef<HTMLInputElement>(null);
   const telRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if(data?.code === 0){
-      toast.success(data.message)
-    }else{
-      toast.error(data?.message)
-    }
-  }, [data])
 
   return (
     <div className="bg-slate-100 flex justify-center h-screen">
@@ -64,10 +67,11 @@ const Profile = (props: profilePageProps) => {
               alt="avatar"
               width={200}
               height={200}
+              priority
           />
           <CldUploadWidget
             uploadPreset="ffyupzl6"
-            onSuccess={result => handleUpdateAvatar(result, changeAvatar, setAvatar)}
+            onSuccess={result => handleUpdateAvatar(result, updateAvatar, setAvatar)}
           >
             {({ open }) => {
               const handleOnClick = (

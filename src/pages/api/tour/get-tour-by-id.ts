@@ -18,6 +18,8 @@ const getTourById = async (req: NextApiRequest, res: NextApiResponse) => {
         const tourDetail = await tourSchedule.findOne({
             _id: new ObjectId(id as string)
         })
+        .populate('wishlist')
+        .populate('schedule')
         res.status(200).json({code: 0, tourDetail})
     }catch(err){
         res.status(500).json({code: 1, message: 'Server Error'})

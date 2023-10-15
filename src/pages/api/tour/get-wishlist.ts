@@ -11,13 +11,18 @@ const getWishlist = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const session = await getServerSession(req, res, authOptions)
+    const { showTour } = req.query
 
     try{
         await db()
         let wishlist = await wishlists.find({
             userEmail: session?.user?.email,
-        })
-        wishlist = wishlist.map(item => item.tour)
+        }).populate('tour')
+        if(showTour){
+            wishlist = wishlist.map(item => item.tour._id)
+        }else{
+            wishlist = wishlist.map(item => item.tour)
+        }
         res.status(200).json({code: 0, wishlist})
     }catch(e){
         res.status(500).json({code: 1, message: 'Server error'})

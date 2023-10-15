@@ -5,16 +5,17 @@ import { SessionProvider } from 'next-auth/react'
 import { ToastContainer } from 'react-toastify'
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Provider } from 'react-redux'
-import store from '@/redux/store'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import '@/styles/Global.scss'
 import 'react-toastify/dist/ReactToastify.css';
 import "dayjs/locale/en-gb";
 
+const client = new QueryClient()
+
 export default function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <Provider store={store}>
+      <QueryClientProvider client={client}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
           <ParallaxProvider scrollAxis='vertical'>
             <ToastContainer
@@ -28,7 +29,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
             </Layout>
           </ParallaxProvider>
         </LocalizationProvider>
-      </Provider>
+      </QueryClientProvider>
     </SessionProvider>
   )
 }

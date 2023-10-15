@@ -3,8 +3,9 @@ import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import mongoose from "mongoose";
 import { Stepper, StepLabel, Step, Button } from "@mui/material";
-import { user } from "@/models";
+import { user, schedule } from "@/models";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { GetServerSideProps } from "next";
@@ -15,7 +16,9 @@ import { useRouter } from "next/router";
 const MakePayment = dynamic(() => import("@/components/MakePayMent"));
 
 const TourPurchase = (props: tourPurchaseProps) => {
-  const { userData } = props;
+  const { userData, tourData, quantity } = props;
+
+  console.log(tourData)
 
   const [paymentStep, setPaymentStep] = useState<number>(0);
 
@@ -45,10 +48,10 @@ const TourPurchase = (props: tourPurchaseProps) => {
             </Stepper>
           </div>
           {paymentStep === 0 && (
-            <ConfirmInfo userData={userData} setPaymentStep={setPaymentStep} />
+            <ConfirmInfo userData={userData} tourData={tourData} quantity={quantity} setPaymentStep={setPaymentStep} />
           )}
           {paymentStep === 1 && (
-            <MakePayment userData={userData} setPaymentStep={setPaymentStep} />
+            <MakePayment userData={userData} tourData={tourData} quantity={quantity} setPaymentStep={setPaymentStep} />
           )}
           {paymentStep === 2 && (
             <div
@@ -81,6 +84,8 @@ export const getServerSideProps: GetServerSideProps<
   tourPurchaseProps | pageNotFound
 > = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
+  const { id, quantity } = context.query
+  const ObjectId = mongoose.Types.ObjectId
 
   try {
     await db();
@@ -88,8 +93,15 @@ export const getServerSideProps: GetServerSideProps<
       { email: session?.user?.email },
       "email tel fullName"
     );
+    const tourData = await schedule.findById(new ObjectId(id as string), 'date tour')
+    .populate({
+      path: 'tour',
+      select: 'departure route destination price'
+    })
     return {
       props: {
+        tourData: JSON.parse(JSON.stringify(tourData)),
+        quantity: Number(quantity),
         userData: JSON.parse(JSON.stringify(userData)),
       },
     };

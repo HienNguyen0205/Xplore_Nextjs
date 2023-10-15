@@ -11,13 +11,14 @@ import {
   MenuItem,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { purchaseMessDef, makePaymentProps } from "@/utils/types";
+import { purchaseMessDef, makePaymentProps, tourDetailDef } from "@/utils/types";
 import { country_list } from "@/utils/data";
-import { useAppSelector } from "@/hooks";
 import { purchaseTour } from "@/utils/function";
 
 const MakePayment = (props: makePaymentProps) => {
-  const { setPaymentStep, userData } = props;
+  const { setPaymentStep, userData, tourData, quantity } = props;
+
+  const tour = tourData.tour as tourDetailDef;
 
   const [paymentMethod, setPaymentMethod] = useState<string>("Visa");
   const [expireDate, setExpireDate] = useState<Dayjs | null>(dayjs());
@@ -27,8 +28,6 @@ const MakePayment = (props: makePaymentProps) => {
     country: "",
     postalCode: "",
   });
-
-  const tourDetail = useAppSelector((state) => state.routeDetail.value);
 
   const cardNumberRef = useRef<HTMLInputElement>(null);
   const cvvCodeRef = useRef<HTMLInputElement>(null);
@@ -145,7 +144,7 @@ const MakePayment = (props: makePaymentProps) => {
               },
             }}
             label="Subtotal"
-            value={(tourDetail.price * (tourDetail.quantity as number)).toFixed(
+            value={(tour.price * quantity).toFixed(
               2
             )}
             fullWidth
@@ -167,7 +166,7 @@ const MakePayment = (props: makePaymentProps) => {
           <p className="text-2xl font-medium text-end my-2">
             <span className="mr-3">Total price:</span>
             <span className="text-blue-500">
-              ${(tourDetail.price * (tourDetail.quantity as number)).toFixed(2)}
+              ${(tour.price * quantity as number).toFixed(2)}
             </span>
           </p>
         </div>
@@ -191,7 +190,8 @@ const MakePayment = (props: makePaymentProps) => {
                 postalCodeRef,
                 paymentMethod,
                 userData,
-                tourDetail,
+                tourData,
+                quantity,
                 setPaymentStep,
                 setErrorMess,
               })

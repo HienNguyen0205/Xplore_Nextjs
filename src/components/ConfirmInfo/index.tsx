@@ -1,13 +1,12 @@
 import React from "react";
 import dayjs from "dayjs";
 import { TextField, Button } from "@mui/material";
-import { useAppSelector } from "@/hooks";
-import { confirmInfoProps } from "@/utils/types";
+import { confirmInfoProps, tourDetailDef } from "@/utils/types";
 
 const ConfirmInfo = (props: confirmInfoProps) => {
-  const { userData, setPaymentStep } = props;
+  const { userData, tourData, quantity, setPaymentStep} = props;
 
-  const tourDetail = useAppSelector((state) => state.routeDetail.value);
+  const tour = tourData.tour as tourDetailDef
 
   return (
     <div
@@ -75,7 +74,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             fullWidth
             size="small"
             disabled
-            value={tourDetail.destination + " - " + tourDetail.route}
+            value={tour.destination + " - " + tour.route}
           />
           <TextField
             sx={{
@@ -90,7 +89,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             fullWidth
             size="small"
             disabled
-            value={tourDetail.departure}
+            value={tour.departure}
           />
           <TextField
             sx={{
@@ -105,7 +104,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             size="small"
             fullWidth
             disabled
-            value={dayjs(tourDetail.date.from).format("DD-MM-YYYY")}
+            value={dayjs(tourData.date.from).format("DD-MM-YYYY")}
           />
           <TextField
             sx={{
@@ -120,7 +119,7 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             size="small"
             fullWidth
             disabled
-            value={tourDetail.quantity}
+            value={quantity}
           />
           <TextField
             sx={{
@@ -135,13 +134,13 @@ const ConfirmInfo = (props: confirmInfoProps) => {
             size="small"
             fullWidth
             disabled
-            value={"$" + tourDetail.price}
+            value={"$" + tour.price}
           />
         </div>
         <p className="text-2xl font-medium text-end my-2">
           <span className="mr-3">Total price:</span>
           <span className="text-blue-500">
-            ${(tourDetail.price * (tourDetail.quantity as number)).toFixed(2)}
+            ${(tour.price * quantity).toFixed(2)}
           </span>
         </p>
         <div className="flex justify-end">

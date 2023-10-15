@@ -77,7 +77,8 @@ export const purchaseTour = (props: purchaseTourDef) => {
     postalCodeRef,
     paymentMethod,
     userData,
-    tourDetail,
+    tourData,
+    quantity,
     setPaymentStep,
     setErrorMess,
   } = props;
@@ -99,8 +100,8 @@ export const purchaseTour = (props: purchaseTourDef) => {
         postalCode: postalCodeRef.current?.value.trim(),
         paymentMethod: paymentMethod,
         email: userData.email,
-        quantity: tourDetail.quantity,
-        _id: tourDetail._id,
+        quantity,
+        id: tourData._id,
       })
       .then((res) => {
         if (res.data.status === "success") {
@@ -178,6 +179,8 @@ export const handleUpdateAvatar = async (
   reRender: React.Dispatch<React.SetStateAction<string | undefined>>
 ) => {
   const avatarResult = result?.info as { public_id: string };
-  handleChange(avatarResult.public_id);
+  handleChange.mutate({
+    avatar: avatarResult.public_id
+  });
   reRender(avatarResult.public_id);
 };

@@ -20,7 +20,7 @@ const Tour = (props : tourPageProps) => {
       <div className="flex justify-center">
         <div className='container mt-24'>
           <FindTour bg='dark' defaultValue={defaultValue}/>
-          <TourList tour={tourList} pagination tourHeader={false} sortBar isLimit={false} showDate/>
+          <TourList tour={tourList} pagination tourHeader={false} sortBar isLimit={false}/>
         </div>
       </div>
     </div>

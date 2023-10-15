@@ -1,55 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { tourOptionsProps, tourDetailDef } from "@/utils/types";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import {
-  setRouteSelected,
-  setQuantity,
-  increaseQuantity,
-  decreaseQuantity,
-} from "@/redux/reducers/routeSelected";
+import { tourOptionsProps } from "@/utils/types";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
-import { apiSlice } from "@/redux/reducers/apiSlice";
+import { useQuery } from "@tanstack/react-query";
+import { getTourSlot } from "@/utils/query";
 
 const TourOptions = (props: tourOptionsProps) => {
   const { routeData } = props;
 
-  const routeDetail = useAppSelector((state) => state.routeDetail.value);
-  const [trigger, { data }] = apiSlice.endpoints.getTourSlot.useLazyQuery();
+  const [schedule, setSchedule] = useState(routeData.schedule[0])
+  const [quantity, setQuantity] = useState<number>(1)
+
+  const { data } = useQuery({
+    queryKey: ['slot', schedule._id],
+    queryFn: () => getTourSlot(schedule._id)
+  })
 
   const router = useRouter();
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!!routeDetail._id) {
-      dispatch(setQuantity(1));
-      trigger(routeDetail._id);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [routeDetail._id]);
-
-  const changeRouteDate = (_id: string) => {
-    trigger(_id);
-    dispatch(
-      setRouteSelected(
-        routeData.find((route) => route._id == _id) as tourDetailDef
-      )
-    );
-  };
-
   const handleBookBtn = () => {
-    router.push("/tour-purchase");
+    router.push(`/tour-purchase?id=${schedule._id}&quantity=${quantity}`)
   };
 
   const handleChangeQuantity = (type: string) => {
-    if(type === '+' && Number(data?.avaiSlot) > Number(routeDetail.quantity)){
-      dispatch(increaseQuantity())
+    if(type === '+' && (data.avaiSlot > quantity)){
+      setQuantity(prev => prev + 1)
     }
     if(type === '-'){
-      dispatch(decreaseQuantity())
+      setQuantity(prev => prev - 1)
     }
   }
 
@@ -60,17 +40,17 @@ const TourOptions = (props: tourOptionsProps) => {
       </h1>
       <p className="text-xl mt-4 mb-2">Select departure date:</p>
       <div className="grid grid-cols-4 grid-rows-1 gap-2 my-4">
-        {routeData.map((route, index) => {
+        {routeData.schedule.map((route, index) => {
           return (
             <div
               className="flex justify-center py-3 px-1 rounded-lg border-[2px] cursor-pointer"
               key={index}
               style={
-                route._id == routeDetail._id
+                route._id == schedule._id
                   ? { borderColor: "rgb(37,99,235)" }
                   : { borderColor: "rgb(0,0,0)" }
               }
-              onClick={() => changeRouteDate(route._id)}
+              onClick={() => setSchedule(routeData.schedule[index])}
             >
               {dayjs(route.date.from).format("DD/MM")}
             </div>
@@ -92,7 +72,7 @@ const TourOptions = (props: tourOptionsProps) => {
             style={{ borderColor: "rgb(37,99,235)" }}
             className="flex justify-center items-center border-2 min-w-[40px] min-h-[48px] rounded text-lg mx-6"
           >
-            {routeDetail.quantity}
+            {quantity}
           </div>
           <Image
             className="cursor-pointer"
@@ -107,7 +87,7 @@ const TourOptions = (props: tourOptionsProps) => {
       <div className="flex justify-between items-center my-6">
         <p className="text-xl">Tour price</p>
         <p className="text-3xl font-semibold text-yellow-800">
-          ${routeDetail.price}
+          ${routeData.price}
         </p>
       </div>
       <div className="flex justify-end">

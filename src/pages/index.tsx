@@ -148,23 +148,7 @@ export default Home;
 export const getStaticProps = async () => {
   try {
     await db();
-    let tourData = await tourSchedule.aggregate([
-      {
-        $match: {
-          status: true,
-        },
-      },
-      {
-        $group: {
-          _id: "$routeId",
-          tourData: { $push: "$$ROOT" },
-        },
-      },
-      {
-        $limit: 8,
-      },
-    ]);
-    tourData = tourData.map((tour) => tour.tourData[0]);
+    let tourData = await tourSchedule.find().sort('-rating').limit(8)
     const tourStatisticData = await tourStatistic.findOne();
     return {
       props: {

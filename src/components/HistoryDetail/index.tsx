@@ -4,12 +4,9 @@ import dayjs from "dayjs";
 import { animated, config, useSpring } from "@react-spring/web";
 import { historyDetailProps } from "@/utils/types";
 import { TextField } from "@mui/material";
-import { useGetTourByIdQuery } from "@/redux/reducers/apiSlice";
 
 const HistoryDetail = (props: historyDetailProps) => {
-  const { setOpen, tour } = props;
-
-  const { data, isSuccess } = useGetTourByIdQuery(tour?.tourId as string);
+  const { setOpen, history } = props;
 
   const modelStyle = useSpring({
     from: {
@@ -52,7 +49,7 @@ const HistoryDetail = (props: historyDetailProps) => {
             },
           }}
           label="Tour name"
-          value={tour?.tourName}
+          value={history?.tour.destination + ' | ' + history?.tour.route}
           disabled
         />
         <TextFieldAnimate
@@ -65,7 +62,7 @@ const HistoryDetail = (props: historyDetailProps) => {
             },
           }}
           label="Departure date"
-          value={dayjs(data?.tourDetail?.date.from).format("DD/MM/YYYY")}
+          value={dayjs(history?.schedule.date.from).format("DD/MM/YYYY")}
           disabled
         />
         <TextFieldAnimate
@@ -78,7 +75,7 @@ const HistoryDetail = (props: historyDetailProps) => {
             },
           }}
           label="Return date"
-          value={dayjs(data?.tourDetail?.date.to).format("DD/MM/YYYY")}
+          value={dayjs(history?.schedule.date.to).format("DD/MM/YYYY")}
           disabled
         />
         <TextFieldAnimate
@@ -91,7 +88,7 @@ const HistoryDetail = (props: historyDetailProps) => {
             },
           }}
           label="Quantity"
-          value={tour?.quantity}
+          value={history?.quantity}
           disabled
         />
         <TextFieldAnimate
@@ -104,7 +101,7 @@ const HistoryDetail = (props: historyDetailProps) => {
             },
           }}
           label="Departure"
-          value={isSuccess ? data?.tourDetail?.departure : ''}
+          value={history?.tour.departure}
           disabled
         />
       </div>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/TourList.module.scss";
-import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import { Pagination, Button } from "@mui/material";
 import { tourDef, tourListProps } from "@/utils/types";
 import { TourItem } from '@/components'
-import { useGetWishlistQuery, useSetWishlistMutation } from "@/redux/reducers/apiSlice";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getWishlist, setWishlist } from "@/utils/query";
 
 const TourList = ({
   tour,
@@ -13,30 +13,37 @@ const TourList = ({
   tourHeader = true,
   sortBar = false,
   isLimit = true,
-  showDate = false,
   title = false,
   titleContent = "",
-}: tourListProps): JSX.Element => {
+  isOnlyWishlist = false,
+}: tourListProps) => {
   const [index, setIndex] = useState<number>(0);
   const [tourData, setTourData] = useState<tourDef[]>(tour);
   const [tourList, setTourList] = useState<tourDef[]>(
     isLimit ? tour.slice(0, 8) : tour
   );
   const [sortType, setSortType] = useState<string>("destination");
-  const { data } = useGetWishlistQuery()
 
-  const [updateWishlist, { data: wishlistData }] = useSetWishlistMutation()
+  const queryClient = useQueryClient()
+
+  const { data } = useQuery({
+    queryKey: ['wishlist'],
+    queryFn: () => getWishlist(false),
+  })
+
+  const updateWishlist = useMutation({
+    mutationFn: (id: string) => setWishlist(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['wishlist']
+      })
+    }
+  })
 
   useEffect(() => {
     if (sortType === "destination") {
       setTourData((data) =>
         data.sort((a, b) => (a.destination > b.destination ? 1 : -1))
-      );
-    } else if (sortType === "date") {
-      setTourData((data) =>
-        data.sort((a, b) =>
-          dayjs(a.date.from).isAfter(dayjs(b.date.from)) ? 1 : -1
-        )
       );
     } else if (sortType === "price") {
       setTourData((data) => data.sort((a, b) => a.price - b.price));
@@ -54,10 +61,11 @@ const TourList = ({
   }, [index, tourData, isLimit]);
 
   useEffect(() => {
-    if(wishlistData?.code === 0){
-      toast.success(wishlistData?.message)
+    if(updateWishlist.isSuccess){
+      toast.success(updateWishlist.data.message)
     }
-  }, [wishlistData])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateWishlist.isSuccess])
 
   const handlePagination = (
     e: React.ChangeEvent<unknown>,
@@ -98,7 +106,10 @@ const TourList = ({
       {tourList.length !== 0 ? (
         <div className="container grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mb-5">
           {tourList.map((item, index) => {
-            return <TourItem key={index} data={item} showDate={showDate} isInWishlist={data?.wishlist.includes(item._id)} changeWishlist={updateWishlist}/>;
+            if(isOnlyWishlist && data?.wishlist.includes(item._id)){
+              return <TourItem key={index} data={item} isInWishlist={true} changeWishlist={updateWishlist}/>;
+            }
+            return <TourItem key={index} data={item} isInWishlist={data?.wishlist.includes(item._id)} changeWishlist={updateWishlist}/>;
           })}
         </div>
       ) : (

@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 
 const getHistory = async (req: NextApiRequest, res: NextApiResponse) => {
     if(req.method !== 'GET'){
-        res.status(405).json({ message: 'Only GET requests allowed'})
+        res.status(405).json({ code: 2, message: 'Only GET requests allowed'})
         return
     }
 
@@ -22,10 +22,16 @@ const getHistory = async (req: NextApiRequest, res: NextApiResponse) => {
                 $gte: new Date(from as string),
                 $lte: new Date(to as string),
             }
+        }).populate({
+            path: 'schedule',
+            select: 'date',
+        }).populate({
+            path: 'tour',
+            select: 'departure route price destination',
         })
-        res.status(200).json({ history })
+        res.status(200).json({ code: 0, history })
     }catch(err){
-        res.status(500).json({ message: 'Server error' })
+        res.status(500).json({ code: 1, message: 'Server error' })
     }
 }
 

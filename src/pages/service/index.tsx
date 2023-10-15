@@ -2,13 +2,13 @@ import React from "react";
 import db from "@/utils/database";
 import Meta from "@/components/Layout/meta";
 import { tourSchedule } from "@/models";
-import { tourDef } from "@/utils/types";
+import { serviceProps } from "@/utils/types";
 import { TourList, FindTour } from "@/components";
 import { CldImage } from "next-cloudinary";
 
-const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
+const Services = (props: serviceProps) => {
 
-  const { tourList } = props;
+  const { tourData } = props;
 
   return (
     <div className="bg-slate-200">
@@ -34,7 +34,7 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
         </div>
       </div>
       <div className="w-full flex-col flex items-center pb-5 pt-10">
-        {tourList.map((tours, index) => <TourList key={index} tour={tours} pagination title titleContent={tours[0].region + ' Tour'} />)}
+        {tourData.map((tours, index) => <TourList key={index} tour={tours.tourList} pagination title titleContent={tours._id + ' Tour'} />)}
       </div>
     </div>
   );
@@ -42,51 +42,23 @@ const Services = (props: { tourList: tourDef[][] }): JSX.Element => {
 
 export default Services;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   try {
     await db();
-    let tourData = await tourSchedule.aggregate([
-      {
-        $match: {
-          status: true,
-        },
-      },
-      {
-        $group: {
-          _id: "$routeId",
-          tourId: { $first: "$_id" },
-          image: { $first: "$image" },
-          route: { $first: "$route" },
-          price: { $first: "$price" },
-          rating: { $first: "$rating" },
-          time: { $first: "$time" },
-          destination: { $first: "$destination" },
-          region: { $first: "$region" },
-        },
-      },
+    const tourData = await tourSchedule.aggregate([
       {
         $group: {
           _id: '$region',
-          tourRegion: { $push: '$$ROOT'}
+          tourList: {
+            $push: '$$ROOT'
+          }
         }
       }
     ]);
-    tourData = tourData.map(tour => tour.tourRegion)
-    tourData = tourData.map(tour => {
-      tour.map((item: { routeId: any; _id: any; tourId: any; }) => {
-        item.routeId = item._id
-        delete item._id
-        item._id = item.tourId
-        delete item.tourId
-        return item
-      })
-      return tour
-    })
     return {
       props: {
-        tourList: JSON.parse(JSON.stringify(tourData)),
+        tourData: JSON.parse(JSON.stringify(tourData)),
       },
-      revalidate: 10,
     };
   } catch (err) {
     console.error(err);

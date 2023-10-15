@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
@@ -8,23 +8,13 @@ import { CldImage } from "next-cloudinary";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
 import { tourDetailProps } from "@/utils/types";
-import type { GetServerSideProps } from "next";
-import { useAppDispatch } from "@/hooks";
-import { setRouteSelected } from "@/redux/reducers/routeSelected";
 import { TourOptions } from "@/components";
 import { ratingTag } from "@/utils/function";
 
 const TourDetail = (props: tourDetailProps) => {
-  const { routeSelected, routeData } = props;
+  const { tourData } = props;
 
   const [tabIndex, setTabIndex] = useState<string>("1");
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(setRouteSelected(routeSelected));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
@@ -93,7 +83,7 @@ const TourDetail = (props: tourDetailProps) => {
               </div>
               <div className="flex items-center">
                 <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
-                  <p>{routeSelected.rating}</p>
+                  <p>{tourData.rating}</p>
                   <Image
                     className="ml-1"
                     src={require("@/assets/images/Icon/star.svg")}
@@ -103,7 +93,7 @@ const TourDetail = (props: tourDetailProps) => {
                   />
                 </div>
                 <span className="text-emerald-500">
-                  {ratingTag(routeSelected.rating)}
+                  {ratingTag(tourData.rating)}
                 </span>
               </div>
             </div>
@@ -496,7 +486,7 @@ const TourDetail = (props: tourDetailProps) => {
             </div>
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            <TourOptions routeData={routeData} />
+            <TourOptions routeData={tourData} />
           </div>
         </div>
       </div>
@@ -506,27 +496,31 @@ const TourDetail = (props: tourDetailProps) => {
 
 export default TourDetail;
 
-export const getServerSideProps: GetServerSideProps<
-  tourDetailProps | { notFound: boolean }
-> = async (context) => {
-  const { _id } = context.query;
+export const getServerSideProps = async () => {
+
   const ObjectId = mongoose.Types.ObjectId;
 
   try {
     await db();
-    const routeData = await tourSchedule.find(
+    const tourData = await tourSchedule.findOne(
       {
-        status: true,
-        routeId: new ObjectId("64f4895bf88448793f4e6899"),
+        _id: new ObjectId("64c675ea7016c12127968f68"),
       },
-      "_id departure route destination date price rating",
-      { limit: 4 }
-    );
-    const routeSelected = routeData.find((route) => route._id == _id);
+      '-wishlist'
+    ).populate({
+      path: 'schedule',
+      select: 'date',
+      match: {
+        status: true,
+      },
+      options: {
+        limit: 4,
+        sort: 'date.from'
+      }
+    })
     return {
       props: {
-        routeSelected: JSON.parse(JSON.stringify(routeSelected)),
-        routeData: JSON.parse(JSON.stringify(routeData)),
+        tourData: JSON.parse(JSON.stringify(tourData)),
       },
     };
   } catch (e) {

@@ -28,14 +28,8 @@ export interface tourDef {
     time: number,
     rating: number,
     route: string,
-    status: boolean,
-    date: {
-        from: string,
-        to: string,
-    },
     departure: string,
     region: string,
-    routeId: string,
 }
 
 export interface tourListProps{
@@ -45,9 +39,9 @@ export interface tourListProps{
     tourHeader?: boolean,
     sortBar?: boolean,
     isLimit?: boolean,
-    showDate?: boolean,
     title?: boolean,
     titleContent?: string,
+    isOnlyWishlist?: boolean,
 }
 
 export interface tourStatisticDef {
@@ -133,33 +127,39 @@ export interface infoCardProps{
 
 export interface tourDetailDef {
     _id: string,
-    date: {
-        from: string,
-        to: string,
-    },
     price: number,
     rating: number,
     departure: string,
     route: string,
     destination: string,
+    wishlist: Array<string> | null,
+    schedule: Array<tourScheduleDef>,
+}
+
+export interface tourScheduleDef {
+    _id: string,
+    slot: number,
+    date: {
+        from: string,
+        to: string,
+    },
+    status: boolean,
+    tour: string | tourDetailDef,
 }
 
 export interface tourDetailProps {
-    routeSelected: tourDetailDef,
-    routeData: tourDetailDef[]
+    tourData: tourDetailDef
 }
 
 export interface tourOptionsProps {
-    routeData: tourDetailDef[]
+    routeData: tourDetailDef
 }
 
 export interface routeDataDef extends tourOptionsProps{}
 
-export interface tourDetailStore extends tourDetailDef {
-    quantity?: number,
-}
-
 export interface tourPurchaseProps{
+    quantity: number
+    tourData: tourScheduleDef
     userData: UserDef,
 }
 
@@ -199,7 +199,6 @@ export interface makePaymentProps extends tourPurchaseProps{
 
 export interface purchaseTourDef extends inputPaymentDef, makePaymentProps {
     paymentMethod: string,
-    tourDetail: tourDetailStore,
 }
 
 export interface buttonProps {
@@ -212,14 +211,14 @@ export interface buttonProps {
 }
 
 export interface history{
-    tourId: string,
-    tourName: string,
     email: string,
     quantity: number,
     time: string,
     paymentMethod: string,
     status: string,
-    total: number
+    total: number,
+    schedule: tourScheduleDef
+    tour: tourDetailDef
 }
 
 export interface historyProps {
@@ -233,7 +232,7 @@ export interface historyParams {
 
 export interface historyDetailProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    tour: history | undefined,
+    history: history | undefined,
 }
 
 export interface tourDetailData {
@@ -259,7 +258,6 @@ export interface mesResponse {
 
 export interface tourItemProps {
     data: tourDef,
-    showDate: boolean,
     isInWishlist?: boolean,
     changeWishlist?: any,
 }
@@ -272,4 +270,11 @@ export interface tourSlotData {
 
 export interface wishlistProps {
     wishlist: tourDef[]
+}
+
+export interface serviceProps {
+    tourData: [{
+        _id: string,
+        tourList: tourDef[]
+    }]
 }
