@@ -23,6 +23,10 @@ const Header = (): JSX.Element => {
     router.push("/" + path);
   };
 
+  const handlePrefetch = (path: string) => {
+    router.prefetch('/' + path);
+  }
+
   return (
     <header className="flex justify-center fixed top-0 left-0 w-full h-20 z-10 bg-[rgba(0,0,0,.85)]">
       <div className="container flex items-center justify-between">
@@ -75,6 +79,7 @@ const Header = (): JSX.Element => {
               <div
                 className={styles.dropdown_item}
                 onClick={() => changePath("profile")}
+                onMouseEnter={() => handlePrefetch('profile')}
               >
                 <Image
                   src={require("@/assets/images/Icon/user.svg")}
@@ -87,6 +92,7 @@ const Header = (): JSX.Element => {
               <div
                 className={styles.dropdown_item}
                 onClick={() => changePath("history")}
+                onMouseEnter={() => handlePrefetch('history')}
               >
                 <Image
                   src={require("@/assets/images/Icon/clock-rewind.svg")}
@@ -99,6 +105,7 @@ const Header = (): JSX.Element => {
               <div
                 className={styles.dropdown_item}
                 onClick={() => changePath("wishlist")}
+                onMouseEnter={() => handlePrefetch('wishlist')}
               >
                 <Image
                   src={require("@/assets/images/Icon/list.svg")}

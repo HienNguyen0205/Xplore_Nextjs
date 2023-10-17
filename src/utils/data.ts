@@ -223,9 +223,24 @@ export const courouselData: countryDetail[] = [
 ]
 
 export const hotelDescription = [
-  'Epitomize excellence in service, providing a meticulously curated and luxurious experience for guests.',
-  'Defined by exceptional attention to detail, personalized care, and an unwavering commitment to exceeding customer expectations',
-  "Ensures that customers receive the most competitive prices available, backed by a commitment to match or beat any competitor's offer."
+  {
+    title: 'Handlepicked Hotels',
+    description: 'Epitomize excellence in service, providing a meticulously curated and luxurious experience for guests.',
+    icon: require("@/assets/images/Icon/bed.svg"),
+    alt: 'bed'
+  },
+  {
+    title: 'World Class Service',
+    description: 'Defined by exceptional attention to detail, personalized care, and an unwavering commitment to exceeding customer expectations.',
+    icon: require("@/assets/images/Icon/earth.svg"),
+    alt: 'earth'
+  },
+  {
+    title: 'Best Price Guarantee',
+    description: "Ensures that customers receive the most competitive prices available, backed by a commitment to match or beat any competitor's offer.",
+    icon: require("@/assets/images/Icon/dolar.svg"),
+    alt: 'dolar'
+  },
 ]
 
 export const defaultMetaProps = {
@@ -279,3 +294,30 @@ for (let year = currentYear; year > startYear; year--) {
 }
 
 export const telRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/
+
+export const statisticData = [
+  {
+    name: 'Happy customers',
+    data: 'customers',
+    iconSrc: require('@/assets/images/Icon/happy-face.svg'),
+    alt: 'happy-face'
+  },
+  {
+    name: 'Amazing tours',
+    data: 'tourNumber',
+    iconSrc: require('@/assets/images/Icon/bus.svg'),
+    alt: 'bus'
+  },
+  {
+    name: 'Success tours',
+    data: 'successTour',
+    iconSrc: require('@/assets/images/Icon/luggage.svg'),
+    alt: 'luggage'
+  },
+  {
+    name: 'Support case',
+    data: 'supportCases',
+    iconSrc: require('@/assets/images/Icon/message.svg'),
+    alt: 'message'
+  },
+]

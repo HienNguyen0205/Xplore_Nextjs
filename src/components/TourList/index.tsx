@@ -33,7 +33,10 @@ const TourList = ({
 
   const updateWishlist = useMutation({
     mutationFn: (id: string) => setWishlist(id),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if(data.code === 0){
+        toast.success(updateWishlist.data.message)
+      }
       queryClient.invalidateQueries({
         queryKey: ['wishlist']
       })
@@ -59,13 +62,6 @@ const TourList = ({
       setTourList(list);
     }
   }, [index, tourData, isLimit]);
-
-  useEffect(() => {
-    if(updateWishlist.isSuccess){
-      toast.success(updateWishlist.data.message)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateWishlist.isSuccess])
 
   const handlePagination = (
     e: React.ChangeEvent<unknown>,

@@ -1,15 +1,14 @@
 import React from "react";
 import db from "@/utils/database";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { tourStatistic, tourSchedule } from "@/models";
 import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
 import { tourDef, tourStatisticDef } from "@/utils/types";
 import { CldImage } from "next-cloudinary";
-import { courouselData, hotelDescription } from "@/utils/data";
-import { Carousel, TourList } from "@/components";
+import { courouselData } from "@/utils/data";
+import { Carousel, TourFeature, TourList } from "@/components";
 const Statistic = dynamic(() => import("@/components/Statistic"));
-const FeatureItem = dynamic(() => import("@/components/FeatureItem"));
+const FeatureItem = dynamic(() => import("@/components/TourFeature"));
 
 const Home = (props: {
   tourList: tourDef[];
@@ -34,60 +33,7 @@ const Home = (props: {
         </ParallaxBannerLayer>
       </ParallaxBanner>
       <div className="w-full flex justify-center">
-        <div className="container flex justify-around mt-10 mb-14">
-          <Statistic
-            name="Happy customer"
-            quantity={tourStatistic.customers}
-            icon={
-              <Image
-                className="m-auto"
-                src={require("@/assets/images/Icon/happy-face.svg")}
-                alt="happy-face"
-                height={64}
-                width={64}
-              />
-            }
-          />
-          <Statistic
-            name="Amazing tours"
-            quantity={tourStatistic.tourNumber}
-            icon={
-              <Image
-                className="m-auto"
-                src={require("@/assets/images/Icon/bus.svg")}
-                alt="bus"
-                height={64}
-                width={64}
-              />
-            }
-          />
-          <Statistic
-            name="Success tours"
-            quantity={tourStatistic.successTour}
-            icon={
-              <Image
-                className="m-auto"
-                src={require("@/assets/images/Icon/luggage.svg")}
-                alt="luggage"
-                height={64}
-                width={64}
-              />
-            }
-          />
-          <Statistic
-            name="Support case"
-            quantity={tourStatistic.supportCases}
-            icon={
-              <Image
-                className="m-auto"
-                src={require("@/assets/images/Icon/message.svg")}
-                alt="message"
-                height={64}
-                width={64}
-              />
-            }
-          />
-        </div>
+        <Statistic data={tourStatistic}/>
       </div>
       <ParallaxBanner className="aspect-[2/1]" style={{ height: "600px" }}>
         <ParallaxBannerLayer speed={-30}>
@@ -99,44 +45,7 @@ const Home = (props: {
           />
         </ParallaxBannerLayer>
         <div className="w-full flex justify-center h-full">
-          <div className="container grid grid-cols-3 gap-10 h-full items-center">
-            <FeatureItem
-              title="Handlepicked Hotels"
-              description={hotelDescription[0]}
-              icon={
-                <Image
-                  src={require("@/assets/images/Icon/bed.svg")}
-                  alt="bed"
-                  height={32}
-                  width={32}
-                />
-              }
-            />
-            <FeatureItem
-              title="World Class Service"
-              description={hotelDescription[1]}
-              icon={
-                <Image
-                  src={require("@/assets/images/Icon/earth.svg")}
-                  alt="earth"
-                  height={32}
-                  width={32}
-                />
-              }
-            />
-            <FeatureItem
-              title="Best Price Guarantee"
-              description={hotelDescription[2]}
-              icon={
-                <Image
-                  src={require("@/assets/images/Icon/dolar.svg")}
-                  alt="dolar"
-                  height={32}
-                  width={32}
-                />
-              }
-            />
-          </div>
+          <TourFeature/>
         </div>
       </ParallaxBanner>
     </div>

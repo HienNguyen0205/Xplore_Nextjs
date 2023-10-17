@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Meta from "@/components/Layout/meta";
 import dayjs, { Dayjs } from "dayjs";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useTrail, animated, config } from "@react-spring/web"
 import { history } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 import { getHistory } from "@/utils/query";
@@ -16,29 +15,12 @@ const History = () => {
     const [to, setTo] = useState<Dayjs>(dayjs(new Date()))
     const [open, setOpen] = useState<boolean>(false)
     const [index, setIndex] = useState<number>(0)
-    const [history, setHistory] = useState<history[]>()
+    const [history, setHistory] = useState<history[]>([])
 
-    const { data, isSuccess } = useQuery({
+    const { isSuccess } = useQuery({
         queryKey: ['history', from, to],
-        queryFn: () => getHistory(from.toISOString(), to.toISOString())
-    })
-
-    useEffect(() => {
-        if(isSuccess){
-            setHistory(data.history)
-        }
-    }, [isSuccess, data?.history])
-
-    const historyItemStyle = useTrail(history ? history?.length : 10, {
-        from: {
-            opacity: 0.5,
-            y: 25
-        },
-        to: {
-            opacity: 1,
-            y: 0
-        },
-        config: config.molasses,
+        queryFn: () => getHistory(from.toISOString(), to.toISOString()),
+        onSuccess: (data) => setHistory(data.history)
     })
 
     const handleClick = (item: number) => {
@@ -71,9 +53,9 @@ const History = () => {
                     <p className="flex-1">Total</p>
                 </div>
                 <div className="h-[65vh] py-3 overflow-y-auto">
-                    {history && history.length > 0 ? history.map((item, index) => {
+                    {history?.length > 0 ? history.map((item, index) => {
                         return (
-                            <animated.div key={index} style={historyItemStyle[index]} className="flex items-center py-1 px-6 my-1 rounded-md bg-slate-300 text-lg cursor-pointer" onClick={() => handleClick(index)}>
+                            <div key={index} className="flex items-center py-1 px-6 my-1 rounded-md bg-slate-300 text-lg cursor-pointer" onClick={() => handleClick(index)}>
                                 <p className="flex-[2]">{item.tour.destination} | {item.tour.route}</p>
                                 <p className="flex-1">{dayjs(item.time).format('DD/MM/YYYY')}</p>
                                 <p className="flex-1">{item.paymentMethod}</p>
@@ -82,9 +64,9 @@ const History = () => {
                                     {item.status}
                                 </p>
                                 <p className="flex-1">${item.total}</p>
-                            </animated.div>
+                            </div>
                         )
-                    }) : <p className="text-2xl font-semibold text-red-400 my-6 text-center">History is empty</p>}
+                    }) : <p className="text-2xl font-semibold text-red-400 my-6 text-center">{isSuccess ? 'History is empty' : ''}</p>}
                 </div>
             </div>
             {open && <>

@@ -13,13 +13,17 @@ const TourItem = ({ data, isInWishlist, changeWishlist }: tourItemProps) => {
     router.push(`/tour-detail/${data._id}`);
   };
 
+  const handleMouseEnter = () => {
+    router.prefetch(`/tour-detail/${data._id}`)
+  }
+
   const handleChangeWishlist = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     e.stopPropagation()
     changeWishlist.mutate(data._id)
   }
 
   return (
-    <div className={styles.tour_item} onClick={handleClick}>
+    <div className={styles.tour_item} onClick={handleClick} onMouseEnter={handleMouseEnter}>
       <div className="relative overflow-hidden group">
         <CldImage
           className="w-full rounded-t-lg transition group-hover:scale-110"

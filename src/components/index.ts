@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import FindTour from "./FindTour";
 import Layout from "./Layout";
 import TourOptions from "./TourOptions";
-import FeatureItem from "./FeatureItem";
+import TourFeature from "./TourFeature";
 import GalleryGroup from "./GalleryGroup";
 import GalleryImgList from "./GalleryImgList";
 import FeedbackMessage from "./FeedbackMessage";
@@ -25,7 +25,7 @@ export {
   FindTour,
   Layout,
   TourOptions,
-  FeatureItem,
+  TourFeature,
   GalleryGroup,
   GalleryImgList,
   FeedbackMessage,

@@ -2,13 +2,15 @@ import React from "react";
 import Meta from "@/components/Layout/meta";
 import db from '@/utils/database'
 import type { GetServerSideProps } from "next";
-import { tourSchedule } from '@/models';
-import { tourPageProps , tourDef, pageNotFound } from '@/utils/types';
+import { schedule } from '@/models';
+import { tourPageProps , pageNotFound } from '@/utils/types';
 import { FindTour, TourList } from "@/components";
 
 const Tour = (props : tourPageProps) => {
 
   const { tourList, defaultValue } = props
+
+  console.log(tourList)
 
   return (
     <div className='bg-slate-200'>
@@ -35,11 +37,16 @@ export const getServerSideProps : GetServerSideProps<tourPageProps | pageNotFoun
 
   try{
     await db()
-    const tourScheduleList : tourDef[] = await tourSchedule.find({
-      destination,
-      departure,
+    let tourScheduleList = await schedule.find({
       'date.from' : { $gte: new Date(checkIn as string) }
+    }).populate({
+      path: 'tour',
+      match: {
+        departure,
+        destination,
+      }
     })
+    tourScheduleList = tourScheduleList.map(item => item.tour)
     return {
       props: {
         tourList: JSON.parse(JSON.stringify(tourScheduleList)),

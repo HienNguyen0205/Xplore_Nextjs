@@ -8,16 +8,8 @@ export interface countryDetail {
     source: string
 }
 
-export interface statistic {
-    name: string,
-    quantity: number,
-    icon: JSX.Element
-}
-
-export interface featureItem {
-    title: string,
-    description: string,
-    icon: JSX.Element
+export interface statisticProps {
+    data: tourStatisticDef
 }
 
 export interface tourDef {
