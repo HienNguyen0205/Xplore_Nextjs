@@ -11,13 +11,15 @@ import { getAvatar } from "@/utils/query";
 
 const Header = (): JSX.Element => {
 
+  const { status } = useSession();
+
   const { data } = useQuery({
     queryKey: ['avatar'],
-    queryFn: getAvatar
+    queryFn: getAvatar,
+    enabled: status === 'authenticated'
   })
 
   const router = useRouter();
-  const { status } = useSession();
 
   const changePath = (path: string) => {
     router.push("/" + path);

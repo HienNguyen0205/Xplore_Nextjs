@@ -10,7 +10,7 @@ const Button = ({content, bgColor, textColor = 'white', link, onClick, style}: b
 
     if(link){
         return (
-            <button className='relative w-full aspect-[5/2] m-4' style={style}>
+            <button className='relative w-full h-[46px] min-w-fit m-4' style={style}>
                 <Link className={styles.custom_btn} href={link} style={btnStyle}>
                     {content}
                 </Link>
@@ -18,7 +18,7 @@ const Button = ({content, bgColor, textColor = 'white', link, onClick, style}: b
         )
     }else{
         return (
-            <button className='relative w-full aspect-[5/2] m-4' style={style} onClick={onClick}>
+            <button className='relative w-full h-[46px] min-w-fit m-4' style={style} onClick={onClick}>
                 <div className={styles.custom_btn} style={btnStyle}>
                     {content}
                 </div>
