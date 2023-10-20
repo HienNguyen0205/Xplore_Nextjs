@@ -31,14 +31,12 @@ const Footer = (): JSX.Element => {
                 src={require("@/assets/images/Icon/google-play.svg")}
                 className="h-12 mr-3 w-fit mb-4 sm:mb-0 cursor-pointer"
                 alt="logo"
-                priority
                 onClick={returnHome}
               />
               <Image
                 src={require("../../assets/images/Icon/app-store.svg")}
                 className="h-12 mr-3 w-fit mb-4 sm:mb-0 cursor-pointer"
                 alt="logo"
-                priority
                 onClick={returnHome}
               />
             </div>

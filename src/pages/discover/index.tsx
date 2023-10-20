@@ -9,7 +9,7 @@ import { galleryimages } from "@/models";
 import { galleryGroupImg } from "@/utils/data";
 import { GalleryGroup, GalleryImgList } from "@/components";
 import "lightgallery/scss/lightgallery.scss";
-import "lightgallery/scss/lg-zoom.scss";
+import "lightgallery/scss/lg-thumbnail.scss";
 
 const Discover = (props: discoverDef) => {
   const { galleryData } = props;
@@ -48,8 +48,8 @@ const Discover = (props: discoverDef) => {
         {galleryData.map((item, index) => (
           <GalleryImgList
             key={index}
-            region={item.region}
-            imgList={item.imageList}
+            region={item._id}
+            imgList={item.imgList}
           />
         ))}
       </div>
@@ -62,7 +62,16 @@ export default Discover;
 export const getStaticProps = async () => {
   try {
     await db();
-    const galleryData = await galleryimages.find();
+    let galleryData = await galleryimages.aggregate([
+      {
+        $group: {
+          _id: '$region',
+          imgList: {
+            $push: '$$ROOT'
+          }
+        }
+      }
+    ]);
     return {
       props: {
         galleryData: JSON.parse(JSON.stringify(galleryData)),

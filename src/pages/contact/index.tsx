@@ -20,6 +20,7 @@ const Contact = () => {
           height={500}
           src="Background/husbetx1d0ipqosvnksy"
           alt="galleryBg"
+          priority
         />
         <p className="absolute bottom-[40%] left-1/4 text-white font-bold w-full text-8xl">
           Contact us

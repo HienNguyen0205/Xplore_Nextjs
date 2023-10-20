@@ -1,6 +1,6 @@
 import React from "react";
 import LightGallery from "lightgallery/react";
-import lgZoom from "lightgallery/plugins/zoom";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
 import { galleryImgListProps } from "@/utils/types";
 import { CldImage } from "next-cloudinary";
 
@@ -13,20 +13,25 @@ const GalleryImgList = (props: galleryImgListProps) => {
       <LightGallery
         elementClassNames="grid md:grid-cols-3 sm:grid-cols-2 gap-4"
         speed={500}
-        plugins={[lgZoom]}
+        plugins={[lgThumbnail]}
       >
         {imgList.map((item, index) => {
           return (
-            <div key={index} data-src={item} className="cursor-pointer overflow-hidden group">
+            <a
+              data-lg-size='1920-1080'
+              key={index}
+              className="cursor-pointer"
+              data-src={item.fullLink}
+              data-sub-html={`<h1>${item.title}</h1><p>${item.description}</p>`}
+            >
               <CldImage
-                className="transition group-hover:scale-110"
                 width={1920}
                 height={1080}
-                src={item}
+                src={item.src}
                 alt="gallery_img"
                 fillBackground
               />
-            </div>
+            </a>
           );
         })}
       </LightGallery>
@@ -34,4 +39,4 @@ const GalleryImgList = (props: galleryImgListProps) => {
   );
 };
 
-export default GalleryImgList
+export default GalleryImgList;
