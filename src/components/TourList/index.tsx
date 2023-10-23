@@ -35,7 +35,7 @@ const TourList = ({
     mutationFn: (id: string) => setWishlist(id),
     onSuccess: (data) => {
       if(data.code === 0){
-        toast.success(updateWishlist.data.message)
+        toast.success(data.message)
       }
       queryClient.invalidateQueries({
         queryKey: ['wishlist']
