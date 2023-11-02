@@ -284,3 +284,14 @@ export interface serviceProps {
     }
   ];
 }
+
+export interface OTPInputProps {
+  step: number,
+  setStep: React.Dispatch<React.SetStateAction<number>>,
+  email: string,
+  sendOTP: () => void,
+}
+
+export interface resetPassProps {
+  email: string,
+}

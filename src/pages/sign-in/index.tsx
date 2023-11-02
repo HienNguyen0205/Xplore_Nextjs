@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { emailRegex, passwordRegex } from "@/utils/data";
 
-const SignIn = (): JSX.Element => {
+const SignIn = () => {
   const [emailMes, setEmailMes] = useState<String>("");
   const [passMes, setPassMes] = useState<String>("");
   const emailRef = useRef<HTMLInputElement>(null);
@@ -75,29 +75,10 @@ const SignIn = (): JSX.Element => {
           robots: "noindex",
         }}
       />
-      <div className="w-100 h-screen flex flex-col justify-around items-center relative">
+      <div className="w-100 h-screen flex flex-col justify-around items-center relative overflow-hidden">
         <div className="night_bg">
           <div className="night">
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
+            {Array.from({length: 20}, (val,index) => index).map(item => <div key={item} className="shooting_star"></div>)}
           </div>
         </div>
         <Image

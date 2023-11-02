@@ -5,21 +5,37 @@ import { tourItemProps } from "@/utils/types";
 import { useRouter } from "next/router";
 import { CldImage } from "next-cloudinary";
 import { ratingTag } from "@/utils/function";
+import { useSession, signIn } from "next-auth/react";
 
 const TourItem = ({ data, isInWishlist, changeWishlist }: tourItemProps) => {
   const router = useRouter();
+  const { status } = useSession()
+
+  const checkAuthen = () => {
+    if(status !== 'authenticated'){
+      signIn()
+      return false
+    }
+    return true
+  }
 
   const handleClick = () => {
-    router.push(`/tour-detail/${data._id}`);
+    if(checkAuthen()){
+      router.push(`/tour-detail/${data._id}`);
+    }
   };
 
   const handleMouseEnter = () => {
-    router.prefetch(`/tour-detail/${data._id}`)
+    if(checkAuthen()){
+      router.prefetch(`/tour-detail/${data._id}`)
+    }
   }
 
   const handleChangeWishlist = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     e.stopPropagation()
-    changeWishlist.mutate(data._id)
+    if(checkAuthen()){
+      changeWishlist.mutate(data._id)
+    }
   }
 
   return (

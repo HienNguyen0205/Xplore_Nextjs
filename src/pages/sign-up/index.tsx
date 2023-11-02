@@ -41,7 +41,7 @@ const SignUp = (): JSX.Element => {
 
   const validate = () => {
     const fullName = nameRef.current?.value.trim() as string;
-    const email = emailRef.current?.value.trim() as string;
+    const email = emailRef.current?.value.trim().toLowerCase() as string;
     const password = passRef.current?.value.trim() as string;
     const confirmPass = confirmPassRef.current?.value.trim();
     let flag = true;
@@ -65,7 +65,7 @@ const SignUp = (): JSX.Element => {
       setPassMes("Please enter your password");
     } else if (!passwordRegex.test(password as string)) {
       flag = false;
-      setPassMes("Invalid password");
+      setPassMes("Minimum eight characters, at least 1 letter and 1 number");
     }
     if (confirmPass === "") {
       flag = false;
@@ -87,29 +87,10 @@ const SignUp = (): JSX.Element => {
           robots: "noindex",
         }}
       />
-      <div className="w-100 h-screen flex flex-col justify-around items-center relative">
+      <div className="w-100 h-screen flex flex-col justify-around items-center relative overflow-hidden">
       <div className="night_bg">
           <div className="night">
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
-            <div className="shooting_star"></div>
+            {Array.from({length: 20}, (val,index) => index).map(item => <div key={item} className="shooting_star"></div>)}
           </div>
         </div>
         <Image

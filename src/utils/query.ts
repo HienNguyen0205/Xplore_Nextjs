@@ -28,4 +28,4 @@ export const setWishlist = async (id: string) => {
 export const changeAvatar = async (body: any) => {
     return axios.post('/api/user/change-avatar', body)
     .then(res => res.data)
-} 
+}

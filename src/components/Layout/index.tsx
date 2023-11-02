@@ -8,8 +8,8 @@ import Meta from '@/components/Layout/meta'
 const Footer = dynamic(() => import('@/components/Footer'))
 const LoadingSkeleton = dynamic(() => import('@/components/Layout/loading'))
 
-const nonHeaderRoute = ['/_error','/sign-in','/sign-up']
-const nonFooterRoute = ['/_error','/sign-in','/sign-up','/history','/profile']
+const nonHeaderRoute = ['/_error','/sign-in','/sign-up','/forgot-password']
+const nonFooterRoute = ['/_error','/sign-in','/sign-up','/history','/profile','/forgot-password']
 
 const Layout = ({
     meta, children

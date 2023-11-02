@@ -15,6 +15,8 @@ import TourItem from "./TourItem";
 import ConfirmInfo from "./ConfirmInfo";
 import MakePayment from "./MakePayMent";
 import HistoryDetail from "./HistoryDetail";
+import OTPInput from "./OTPInput";
+import ResetPass from "./ResetPass";
 
 export {
   Button,
@@ -33,5 +35,7 @@ export {
   TourItem,
   ConfirmInfo,
   MakePayment,
-  HistoryDetail
+  HistoryDetail,
+  OTPInput,
+  ResetPass
 };

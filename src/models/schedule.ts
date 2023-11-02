@@ -15,6 +15,7 @@ const scheduleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'bookhistories',
     }],
+    expireAt: Date
 })
 
 const schedule =
