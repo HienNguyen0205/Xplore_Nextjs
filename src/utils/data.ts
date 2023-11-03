@@ -321,3 +321,26 @@ export const statisticData = [
     alt: 'message'
   },
 ]
+
+export const dropdownAvatarData = [
+  {
+    path: 'profile',
+    iconSrc: require("@/assets/images/Icon/user.svg"),
+    content: 'Profile'
+  },
+  {
+    path: 'history',
+    iconSrc: require("@/assets/images/Icon/clock-rewind.svg"),
+    content: 'History'
+  },
+  {
+    path: 'wishlist',
+    iconSrc: require("@/assets/images/Icon/list.svg"),
+    content: 'Wishlist'
+  },
+  {
+    path: 'change-password',
+    iconSrc: require("@/assets/images/Icon/key.svg"),
+    content: 'Change password'
+  },
+]

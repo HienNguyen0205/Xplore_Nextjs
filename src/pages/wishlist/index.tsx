@@ -18,7 +18,7 @@ const WishList = (props: wishlistProps) => {
                 robots: 'none'
             }}/>
             <div className="container mt-[100px] min-h-[380px]">
-                <h1 className='text-2xl font-bold text-center'>Wishlists</h1> 
+                <h1 className='text-4xl font-bold text-center'>Wishlists</h1> 
                 <TourList tour={wishlist} tourHeader={false} isLimit={false} isOnlyWishlist/>
             </div>
         </div>

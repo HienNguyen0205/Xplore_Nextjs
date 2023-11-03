@@ -295,3 +295,8 @@ export interface OTPInputProps {
 export interface resetPassProps {
   email: string,
 }
+
+export interface avatarDropdownItemProps {
+  changePath: (path: string) => void,
+  handlePrefetch: (path: string) => void
+}

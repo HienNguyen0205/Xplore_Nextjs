@@ -8,16 +8,39 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import { useQuery } from "@tanstack/react-query";
 import { getAvatar } from "@/utils/query";
+import { dropdownAvatarData } from "@/utils/data";
+import { avatarDropdownItemProps } from "@/utils/types";
+
+const AvatarDropdownItem = (props: avatarDropdownItemProps) => {
+  const { changePath, handlePrefetch } = props;
+
+  return (
+    <>
+      {dropdownAvatarData.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className={styles.dropdown_item}
+            onClick={() => changePath(item.path)}
+            onMouseEnter={() => handlePrefetch(item.path)}
+          >
+            <Image src={item.iconSrc} alt="" height={24} width={24} />
+            <span className={styles.dropdown_text}>{item.content}</span>
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
 const Header = (): JSX.Element => {
-
   const { status } = useSession();
 
   const { data } = useQuery({
-    queryKey: ['avatar'],
+    queryKey: ["avatar"],
     queryFn: getAvatar,
-    enabled: status === 'authenticated'
-  })
+    enabled: status === "authenticated",
+  });
 
   const router = useRouter();
 
@@ -26,8 +49,8 @@ const Header = (): JSX.Element => {
   };
 
   const handlePrefetch = (path: string) => {
-    router.prefetch('/' + path);
-  }
+    router.prefetch("/" + path);
+  };
 
   return (
     <header className="flex justify-center fixed top-0 left-0 w-full h-20 z-10 bg-[rgba(0,0,0,.85)]">
@@ -38,6 +61,7 @@ const Header = (): JSX.Element => {
           src={require("@/assets/images/Logo/XPLORE_logo.png")}
           priority
           onClick={() => changePath("")}
+          onMouseEnter={() => handlePrefetch("")}
         />
         <ul
           className="flex justify-center items-center grow-[2]"
@@ -78,45 +102,7 @@ const Header = (): JSX.Element => {
               width={48}
             />
             <div className={styles.avatar_dropdown}>
-              <div
-                className={styles.dropdown_item}
-                onClick={() => changePath("profile")}
-                onMouseEnter={() => handlePrefetch('profile')}
-              >
-                <Image
-                  src={require("@/assets/images/Icon/user.svg")}
-                  alt="user"
-                  height={24}
-                  width={24}
-                />
-                <span className={styles.dropdown_text}>Profile</span>
-              </div>
-              <div
-                className={styles.dropdown_item}
-                onClick={() => changePath("history")}
-                onMouseEnter={() => handlePrefetch('history')}
-              >
-                <Image
-                  src={require("@/assets/images/Icon/clock-rewind.svg")}
-                  alt="clock-rewind"
-                  height={24}
-                  width={24}
-                />
-                <span className={styles.dropdown_text}>History</span>
-              </div>
-              <div
-                className={styles.dropdown_item}
-                onClick={() => changePath("wishlist")}
-                onMouseEnter={() => handlePrefetch('wishlist')}
-              >
-                <Image
-                  src={require("@/assets/images/Icon/list.svg")}
-                  alt="wishlist"
-                  height={24}
-                  width={24}
-                />
-                <span className={styles.dropdown_text}>Wishlist</span>
-              </div>
+              <AvatarDropdownItem changePath={changePath} handlePrefetch={handlePrefetch}/>
               <div
                 className={styles.dropdown_item}
                 onClick={() =>
