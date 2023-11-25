@@ -26,9 +26,7 @@ const TourItem = ({ data, isInWishlist, changeWishlist }: tourItemProps) => {
   };
 
   const handleMouseEnter = () => {
-    if(checkAuthen()){
-      router.prefetch(`/tour-detail/${data._id}`)
-    }
+      router.prefetch(`/tour-detail/${data._id}`
   }
 
   const handleChangeWishlist = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
