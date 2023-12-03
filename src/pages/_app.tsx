@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import { Layout } from '@/components'
 import { SessionProvider } from 'next-auth/react'
-import { ToastContainer } from 'react-toastify'
+import { ToastProvider } from '@/components'
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
@@ -18,15 +18,14 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
       <QueryClientProvider client={client}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
           <ParallaxProvider scrollAxis='vertical'>
-            <ToastContainer
-              position='bottom-right'
-              autoClose={4000}
+            <ToastProvider
+              duration={4000}
               limit={3}
-              theme="dark"
-            />
-            <Layout {...pageProps}>
-              <Component {...pageProps}/>
-            </Layout>
+            >
+              <Layout {...pageProps}>
+                <Component {...pageProps}/>
+              </Layout>
+            </ToastProvider>
           </ParallaxProvider>
         </LocalizationProvider>
       </QueryClientProvider>

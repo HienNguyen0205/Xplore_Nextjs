@@ -1,5 +1,5 @@
 import { AlertColor } from "@mui/material";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Dayjs } from "dayjs";
 
 export interface countryDetail {
@@ -299,4 +299,28 @@ export interface resetPassProps {
 export interface avatarDropdownItemProps {
   changePath: (path: string) => void,
   handlePrefetch: (path: string) => void
+}
+
+export interface toastItemProps extends toastData {
+  duration: number,
+  handleClose: () => void,
+}
+
+export interface toastCOMProps {
+  children: ReactNode,
+  duration: number,
+  limit: number,
+}
+
+export interface toastData {
+  key: string,
+  content: string,
+  status: 'success' | 'error' | 'info',
+}
+
+export interface toastContextProps {
+  success: (content: string) => void,
+  error: (content: string) => void,
+  info: (content: string) => void,
+  handleClose: (key: string) => void
 }

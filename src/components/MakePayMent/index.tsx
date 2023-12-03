@@ -36,7 +36,7 @@ const MakePayment = (props: makePaymentProps) => {
 
   return (
     <div
-      className="grid grid-cols-2 gap-8"
+      className="grid grid-cols-2 gap-8 items-start"
       style={{ animation: "fadeIn .3s ease-in" }}
     >
       <div className="pl-16" style={{ gridArea: "1 / 1 / 2 / 2" }}>

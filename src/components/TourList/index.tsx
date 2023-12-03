@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/TourList.module.scss";
-import { toast } from "react-toastify";
 import { Pagination, Button } from "@mui/material";
 import { tourDef, tourListProps } from "@/utils/types";
 import { TourItem } from '@/components'
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getWishlist, setWishlist } from "@/utils/query";
+import { useToast } from '@/components/Toast'
 
 const TourList = ({
   tour,
@@ -25,6 +25,8 @@ const TourList = ({
   const [sortType, setSortType] = useState<string>("destination");
 
   const queryClient = useQueryClient()
+
+  const toast = useToast()
 
   const { data } = useQuery({
     queryKey: ['wishlist'],

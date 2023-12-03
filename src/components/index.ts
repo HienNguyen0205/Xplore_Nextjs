@@ -17,6 +17,7 @@ import MakePayment from "./MakePayMent";
 import HistoryDetail from "./HistoryDetail";
 import OTPInput from "./OTPInput";
 import ResetPass from "./ResetPass";
+import ToastProvider from "./Toast";
 
 export {
   Button,
@@ -37,5 +38,6 @@ export {
   MakePayment,
   HistoryDetail,
   OTPInput,
-  ResetPass
+  ResetPass,
+  ToastProvider
 };

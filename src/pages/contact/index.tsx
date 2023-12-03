@@ -15,7 +15,7 @@ const Contact = () => {
       />
       <div className="relative overflow-hidden">
         <CldImage
-          className="h-screen bg-cover"
+          className="min-h-[600px] bg-cover"
           width={1800}
           height={500}
           src="Background/husbetx1d0ipqosvnksy"
@@ -26,10 +26,10 @@ const Contact = () => {
           Contact us
         </p>
         <p className="absolute bottom-[30%] left-1/4 text-white font-semibold w-full text-4xl italic">
-          Get intouch
+          Get in touch
         </p>
       </div>
-      <div className="grid grid-cols-4 h-[60vh]">
+      <div className="grid grid-cols-4 min-h-[325px] h-[60vh]">
         <InfoCard
           title="Ho Chi Minh City"
           address="2 Hai Trieu, Ben Nghe, Q.1, Tp.Ho Chi Minh"
