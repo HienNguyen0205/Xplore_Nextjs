@@ -6,7 +6,7 @@ import Meta from "@/components/Layout/meta";
 import { TextField, Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/Toast";
 import { emailRegex, passwordRegex } from "@/utils/data";
 
 const SignIn = () => {
@@ -16,6 +16,8 @@ const SignIn = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
+
+  const toast = useToast()
 
   const returnHome = () => {
     router.push("/");

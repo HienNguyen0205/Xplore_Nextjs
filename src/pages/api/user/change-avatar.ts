@@ -54,7 +54,7 @@ const changeAvatar = async (req: NextApiRequest, res: NextApiResponse) => {
         email: session?.user?.email,
     }, 'avatar')
     if(!!oldAvatar.avatar){
-        handleDeleteImage(oldAvatar.avatar);
+      handleDeleteImage(oldAvatar.avatar);
     }
     await user.findOneAndUpdate(
       {

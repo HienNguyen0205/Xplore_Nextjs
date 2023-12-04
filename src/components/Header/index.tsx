@@ -39,7 +39,6 @@ const Header = (): JSX.Element => {
   const { data } = useQuery({
     queryKey: ["avatar"],
     queryFn: getAvatar,
-    enabled: status === "authenticated",
   });
 
   const router = useRouter();

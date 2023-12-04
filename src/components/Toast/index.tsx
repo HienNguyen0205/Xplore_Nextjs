@@ -1,44 +1,65 @@
-import React, { useState, useEffect, useContext, useRef, useCallback, createContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+  createContext,
+} from "react";
 import Image from "next/image";
-import { toastItemProps, toastCOMProps, toastData, toastContextProps } from "@/utils/types";
+import {
+  toastItemProps,
+  toastCOMProps,
+  toastData,
+  toastContextProps,
+  toastConfig,
+} from "@/utils/types";
 import { generateRandomCode } from "@/utils/function";
-import { animated, useTransition } from "@react-spring/web";
+import { animated, useTransition, useSpring } from "@react-spring/web";
 
-const ToastContext = createContext<toastContextProps | undefined>(undefined)
+const ToastContext = createContext<toastContextProps | undefined>(undefined);
 
 const icon = {
   success: require("@/assets/images/Icon/tick.svg"),
   error: require("@/assets/images/Icon/cross.svg"),
   info: require("@/assets/images/Icon/info.svg"),
-}
+};
 
 const ToastItem = (props: toastItemProps) => {
+  const { content, status, duration, config, handleClose } = props;
 
-    const { content, status, duration, handleClose } = props;
+  const handleTimeOut = useCallback(() => {
+    setTimeout(() => {
+      handleClose();
+    }, duration);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duration]);
 
-    const ref = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        // handleClose()
-      }, duration)
-      const delayCoudown = setTimeout(() => {
-        if(ref.current){
-          ref.current.style.width = '100%'
-        }
-      }, 10)
-      if(ref.current){
-        ref.current.style.transitionDuration = (duration / 1000) + 's'
-      }
-      return () => {
-        clearTimeout(timer)
-        clearTimeout(delayCoudown)
-      }
+  useEffect(() => {
+    if(config?.delay){
+      setTimeout(() => {
+        handleTimeOut()
+      }, config.delay)
+    }else{
+      handleTimeOut()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [duration])
+  }, [duration]);
+
+  const timeBarAni = useSpring({
+    from: {
+      width: '0%',
+    },
+    to: {
+      width: '100%',
+    },
+    config: {
+      duration: duration,
+    }
+  })
 
   return (
-    <div className='relative w-full my-2 bg-current rounded overflow-hidden'>
+    <div className="relative w-full my-2 bg-current rounded overflow-hidden">
       <Image
         className="absolute top-1 right-1 cursor-pointer"
         src={require("@/assets/images/Icon/cross-1.svg")}
@@ -57,97 +78,115 @@ const ToastItem = (props: toastItemProps) => {
         />
         <p className="text-white flex-1">{content}</p>
       </div>
-      <div className="h-[4px] w-0 bg-green-600 transition-all ease-linear" ref={ref}></div>
+      <animated.div
+        className="h-[4px] w-0 bg-green-600"
+        style={timeBarAni}
+      ></animated.div>
     </div>
   );
 };
 
 const ToastProvider: React.FC<toastCOMProps> = ({ children, ...props }) => {
-
-  const [data, setData] = useState<toastData[]>([])
+  const [data, setData] = useState<toastData[]>([]);
 
   const { duration, limit } = props;
 
   const transition = useTransition(data, {
     from: {
       opacity: 0,
-      transform: 'translateX(50%)',
+      transform: "translateX(50%)",
     },
     enter: {
       opacity: 1,
-      transform: 'translateX(0)',
+      transform: "translateX(0)",
     },
     leave: {
       opacity: 0,
     },
     config: {
-      duration: 200
-    }
-  })
+      duration: 200,
+    },
+  });
 
-  const success = useCallback((content: string) => {
-    const status = 'success'
-    const key = generateRandomCode(5)
-    setData(prev => {
-      if(prev.length < limit){
-        return [...prev, { key, content, status }]
-      }else{
-        const temp = [...prev]
-        temp.shift()
-        return [...temp, { key, content, status }]
-      }
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit])
+  const success = useCallback(
+    (content: string, config?: toastConfig) => {
+      const status = "success";
+      const key = generateRandomCode(5);
+      setData((prev) => {
+        if (prev.length < limit) {
+          return [...prev, { key, content, status, config }];
+        } else {
+          const temp = [...prev];
+          temp.shift();
+          return [...temp, { key, content, status, config }];
+        }
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [limit]
+  );
 
-  const error = useCallback((content: string) => {
-    const status = 'error'
-    const key = generateRandomCode(5)
-    setData(prev => {
-      if(prev.length < limit){
-        return [...prev, { key, content, status }]
-      }else{
-        const temp = [...prev]
-        temp.shift()
-        return [...temp, { key, content, status }]
-      }
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit])
+  const error = useCallback(
+    (content: string, config?: toastConfig) => {
+      const status = "error";
+      const key = generateRandomCode(5);
+      setData((prev) => {
+        if (prev.length < limit) {
+          return [...prev, { key, content, status, config }];
+        } else {
+          const temp = [...prev];
+          temp.shift();
+          return [...temp, { key, content, status, config }];
+        }
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [limit]
+  );
 
-  const info = useCallback((content: string) => {
-    const status = 'info'
-    const key = generateRandomCode(5)
-    setData(prev => {
-      if(prev.length < limit){
-        return [...prev, { key, content, status }]
-      }else{
-        const temp = [...prev]
-        temp.shift()
-        return [...temp, { key, content, status }]
-      }
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit])
+  const info = useCallback(
+    (content: string, config?: toastConfig) => {
+      const status = "info";
+      const key = generateRandomCode(5);
+      setData((prev) => {
+        if (prev.length < limit) {
+          return [...prev, { key, content, status, config }];
+        } else {
+          const temp = [...prev];
+          temp.shift();
+          return [...temp, { key, content, status, config }];
+        }
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [limit]
+  );
 
   const handleClose = useCallback((key: string) => {
-    setData(prev => {
-      const index = prev.findIndex(item => item.key === key)
-      if(index !== -1){
-        const temp = [...prev]
-        temp.splice(index, 1)
-        return temp
+    setData((prev) => {
+      const index = prev.findIndex((item) => item.key === key);
+      if (index !== -1) {
+        const temp = [...prev];
+        temp.splice(index, 1);
+        return temp;
       }
-      return prev
-    })
-  }, [])
+      return prev;
+    });
+  }, []);
 
   return (
-    <ToastContext.Provider value={{ success, error, info , handleClose }}>
+    <ToastContext.Provider value={{ success, error, info, handleClose }}>
       <div className="fixed flex flex-col bottom-[1em] right-[1em] w-[320px] z-[999]">
         {transition((style, item) => (
           <animated.div style={style}>
-            <ToastItem key={item.key} content={item.content} status={item.status} duration={duration} handleClose={() => handleClose(item.key)}/>
+            <ToastItem
+              key={item.key}
+              content={item.content}
+              status={item.status}
+              duration={duration}
+              config={item.config}
+              handleClose={() => handleClose(item.key)}
+            />
           </animated.div>
         ))}
       </div>
@@ -161,7 +200,7 @@ export default ToastProvider;
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('Error');
+    throw new Error("Error");
   }
   return context;
 };

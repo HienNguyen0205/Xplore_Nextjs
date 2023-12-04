@@ -9,7 +9,12 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
 import { tourDetailProps } from "@/utils/types";
 import { TourOptions } from "@/components";
-import { ratingTag } from "@/utils/function";
+
+const ratingTag = (rating: number): string => {
+  if (rating >= 4) return "Excellent";
+  else if (rating >= 3) return "Great";
+  else return "Good";
+};
 
 const TourDetail = (props: tourDetailProps) => {
   const { tourData } = props;

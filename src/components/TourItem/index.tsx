@@ -4,8 +4,13 @@ import Image from "next/image";
 import { tourItemProps } from "@/utils/types";
 import { useRouter } from "next/router";
 import { CldImage } from "next-cloudinary";
-import { ratingTag } from "@/utils/function";
 import { useSession, signIn } from "next-auth/react";
+
+const ratingTag = (rating: number): string => {
+  if (rating >= 4) return "Excellent";
+  else if (rating >= 3) return "Great";
+  else return "Good";
+};
 
 const TourItem = ({ data, isInWishlist, changeWishlist }: tourItemProps) => {
   const router = useRouter();

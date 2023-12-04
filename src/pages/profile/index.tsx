@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
+import axios from "axios";
 import {
   TextField,
   Button,
@@ -9,17 +10,26 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { days, months, years } from "@/utils/data";
+import { days, months, years, nameRegex, telRegex } from "@/utils/data";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import type { GetServerSideProps } from "next";
 import { user } from "@/models";
-import { profilePageProps, pageNotFound } from "@/utils/types";
-import { changeUserInfo, handleUpdateAvatar } from "@/utils/function";
+import { profilePageProps, pageNotFound, UserDef } from "@/utils/types";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/Toast";
 import { useMutation } from "@tanstack/react-query";
 import { changeAvatar } from "@/utils/query";
+import { CldUploadWidgetResults } from "next-cloudinary";
+
+const checkUserInfo = (props: UserDef) => {
+  const { fullName, tel } = props;
+  if (!nameRegex.test(fullName) || !telRegex.test(tel as string)) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 const Profile = (props: profilePageProps) => {
   const { userDetails } = props;
@@ -33,18 +43,50 @@ const Profile = (props: profilePageProps) => {
   const [year, setYear] = useState<string>(
     userDetails.year ? userDetails.year : ""
   );
-  const [avatar, setAvatar] = useState<string | undefined>(userDetails.avatar)
+  const [avatar, setAvatar] = useState<string | undefined>(userDetails.avatar);
+
+  console.log(avatar)
+
+  const toast = useToast();
 
   const updateAvatar = useMutation({
     mutationFn: (avatar: string) => changeAvatar(avatar),
     onSuccess: (data) => {
-      if(data.code === 0){
+      if (data.code === 0) {
         toast.success(data.message);
-      }else{
+      } else {
         toast.error(data.message);
       }
+    },
+  });
+
+  const changeUserInfo = () => {
+    const fullName = userDetails.fullName;
+    const tel = userDetails.tel;
+    if (checkUserInfo({ fullName, tel })) {
+      axios
+        .post("/api/user/change-user-info", {
+          fullName,
+          tel,
+          day,
+          month,
+          year,
+        })
+        .then((res) => {
+          if (res.data.code === 0) {
+            toast.success(res.data.message);
+          } else {
+            toast.error(res.data.message);
+          }
+        });
     }
-  })
+  };
+
+  const handleUpdateAvatar = async (result: CldUploadWidgetResults) => {
+    const avatarResult = result?.info as { public_id: string };
+    updateAvatar.mutate(avatarResult.public_id);
+    setAvatar(avatarResult.public_id);
+  };
 
   const nameRef = useRef<HTMLInputElement>(null);
   const telRef = useRef<HTMLInputElement>(null);
@@ -62,16 +104,16 @@ const Profile = (props: profilePageProps) => {
           style={{ gridArea: "1 / 1 / 2 / 2" }}
         >
           <CldImage
-              className="border-4 border-blue-400 rounded-full aspect-square"
-              src={avatar ? avatar : 'User/zz1jef0uotz2qjpelgbh'}
-              alt="avatar"
-              width={200}
-              height={200}
-              priority
+            className="border-4 border-blue-400 rounded-full aspect-square"
+            src={avatar ? avatar : "User/zz1jef0uotz2qjpelgbh"}
+            alt="avatar"
+            width={200}
+            height={200}
+            priority
           />
           <CldUploadWidget
             uploadPreset="ffyupzl6"
-            onSuccess={result => handleUpdateAvatar(result, updateAvatar, setAvatar)}
+            onSuccess={(result) => handleUpdateAvatar(result)}
           >
             {({ open }) => {
               const handleOnClick = (
@@ -180,9 +222,7 @@ const Profile = (props: profilePageProps) => {
           <Button
             sx={{ minWidth: "120px" }}
             variant="contained"
-            onClick={() =>
-              changeUserInfo({ nameRef, telRef, day, month, year })
-            }
+            onClick={changeUserInfo}
           >
             Save
           </Button>

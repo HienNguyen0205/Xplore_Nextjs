@@ -1,4 +1,3 @@
-'use client'
 import React from "react";
 import { galleryGroupProps } from "@/utils/types";
 import { CldImage } from "next-cloudinary";

@@ -3,13 +3,15 @@ import axios from "axios";
 import { animated, useTrail } from "@react-spring/web";
 import { TextField } from "@mui/material";
 import { OTPInputProps } from "@/utils/types";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/Toast";
 
 const AnimatedInput = animated(TextField);
 
 const OTPInput = (props: OTPInputProps) => {
   const { step, setStep, email, sendOTP } = props;
   const otpRef = useRef<Array<HTMLInputElement>>([]);
+
+  const toast = useToast()
 
   const otpInputAnimate = useTrail(6, {
     from: {

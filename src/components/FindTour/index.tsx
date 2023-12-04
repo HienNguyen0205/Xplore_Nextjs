@@ -4,7 +4,7 @@ import { TextField, Autocomplete } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useRouter } from "next/router";
 import { findTourProps } from "@/utils/types";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/Toast";
 import { Button } from "@/components";
 
 const desOptions = [
@@ -34,6 +34,8 @@ const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
   );
 
   const router = useRouter();
+
+  const toast = useToast()
 
   const handleClick = () => {
     if(departure && destination && checkIn){

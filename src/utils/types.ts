@@ -189,20 +189,8 @@ export interface layoutProps {
   children: ReactNode;
 }
 
-export interface inputPaymentDef {
-  cardNumberRef: React.RefObject<HTMLInputElement>;
-  cvvCodeRef: React.RefObject<HTMLInputElement>;
-  countryRef: React.RefObject<HTMLOptionElement>;
-  postalCodeRef: React.RefObject<HTMLInputElement>;
-  setErrorMess: React.Dispatch<React.SetStateAction<purchaseMessDef>>;
-}
-
 export interface makePaymentProps extends tourPurchaseProps {
   setPaymentStep: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export interface purchaseTourDef extends inputPaymentDef, makePaymentProps {
-  paymentMethod: string;
 }
 
 export interface buttonProps {
@@ -245,14 +233,6 @@ export interface tourDetailData {
 
 export interface profilePageProps {
   userDetails: UserDef;
-}
-
-export interface changeUserDef {
-  nameRef: React.RefObject<HTMLInputElement>;
-  telRef: React.RefObject<HTMLInputElement>;
-  day: string;
-  month: string;
-  year: string;
 }
 
 export interface mesResponse {
@@ -316,6 +296,7 @@ export interface toastData {
   key: string,
   content: string,
   status: 'success' | 'error' | 'info',
+  config?: toastConfig
 }
 
 export interface toastContextProps {
@@ -323,4 +304,8 @@ export interface toastContextProps {
   error: (content: string) => void,
   info: (content: string) => void,
   handleClose: (key: string) => void
+}
+
+export interface toastConfig {
+  delay: number
 }

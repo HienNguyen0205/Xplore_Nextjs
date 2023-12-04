@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { TextField, Button } from "@mui/material";
 import { passwordRegex } from "@/utils/data";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/Toast";
 
 const ChangePassword = () => {
   const [passMess, setPassMess] = useState<string>("");
@@ -16,6 +16,8 @@ const ChangePassword = () => {
   const confirmPassRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
+
+  const toast = useToast()
 
   const returnHome = () => {
     router.push("/");

@@ -4,7 +4,7 @@ import { animated, useSpring } from "@react-spring/web";
 import { TextField, Button } from "@mui/material";
 import { passwordRegex } from "@/utils/data";
 import { resetPassProps } from "@/utils/types";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/Toast";
 import { useRouter } from "next/router";
 
 const AnimatedInput = animated(TextField);
@@ -17,6 +17,8 @@ const ResetPass = (props: resetPassProps) => {
 
   const passRef = useRef<HTMLInputElement>(null);
   const confirmPassRef = useRef<HTMLInputElement>(null);
+
+  const toast = useToast()
 
   const router = useRouter()
 

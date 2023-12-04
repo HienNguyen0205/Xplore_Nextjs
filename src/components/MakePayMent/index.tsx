@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import dayjs, { Dayjs } from "dayjs";
+import axios from "axios";
 import {
   TextField,
   FormControl,
@@ -11,14 +12,20 @@ import {
   MenuItem,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { purchaseMessDef, makePaymentProps, tourDetailDef } from "@/utils/types";
-import { country_list } from "@/utils/data";
-import { purchaseTour } from "@/utils/function";
+import {
+  purchaseMessDef,
+  makePaymentProps,
+  tourDetailDef,
+} from "@/utils/types";
+import { country_list, visaRegex, cvvCodeRegex } from "@/utils/data";
+import { useToast } from "@/components/Toast";
 
 const MakePayment = (props: makePaymentProps) => {
   const { setPaymentStep, userData, tourData, quantity } = props;
 
   const tour = tourData.tour as tourDetailDef;
+
+  const toast = useToast();
 
   const [paymentMethod, setPaymentMethod] = useState<string>("Visa");
   const [expireDate, setExpireDate] = useState<Dayjs | null>(dayjs());
@@ -33,6 +40,70 @@ const MakePayment = (props: makePaymentProps) => {
   const cvvCodeRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLOptionElement>(null);
   const postalCodeRef = useRef<HTMLInputElement>(null);
+
+  const setErrorMessage = (field: string, message: string) => {
+    setErrorMess((errorMess) => ({
+      ...errorMess,
+      [field]: message,
+    }));
+  };
+
+  const validateInput = () => {
+    let flag = true;
+    const cardNumber = cardNumberRef.current?.value.trim();
+    const cvvCode = cvvCodeRef.current?.value.trim();
+    const country = countryRef.current?.value.trim();
+    const postalCode = postalCodeRef.current?.value.trim();
+    if (!visaRegex.test(cardNumber as string)) {
+      flag = false;
+      setErrorMessage('cardNumber', "Please enter a valid card number")
+    } else {
+      setErrorMessage('cardNumber', "")
+    }
+    if (!cvvCodeRegex.test(cvvCode as string)) {
+      flag = false;
+      setErrorMessage('cvvCode', "Please enter a valid cvv code")
+    } else {
+      setErrorMessage('cvvCode', "")
+    }
+    if (country === "") {
+      flag = false;
+      setErrorMessage('country', "Please select a country")
+    } else {
+      setErrorMessage('country', "")
+    }
+    if (postalCode === "") {
+      flag = false;
+      setErrorMessage('postalCode', "Please enter a valid postal code")
+    } else {
+      setErrorMessage('postalCode', "")
+    }
+    return flag;
+  };
+
+  const purchaseTour = () => {
+    if (validateInput()) {
+      axios
+        .post("/api/payment", {
+          cardNumber: cardNumberRef.current?.value.trim(),
+          cvvCode: cvvCodeRef.current?.value.trim(),
+          country: countryRef.current?.value.trim(),
+          postalCode: postalCodeRef.current?.value.trim(),
+          paymentMethod: paymentMethod,
+          email: userData.email,
+          quantity,
+          id: tourData._id,
+        })
+        .then((res) => {
+          if (res.data.status === "success") {
+            setPaymentStep(2);
+            toast.success(res.data.message);
+          } else {
+            toast.error(res.data.message);
+          }
+        });
+    }
+  };
 
   return (
     <div
@@ -144,9 +215,7 @@ const MakePayment = (props: makePaymentProps) => {
               },
             }}
             label="Subtotal"
-            value={(tour.price * quantity).toFixed(
-              2
-            )}
+            value={(tour.price * quantity).toFixed(2)}
             fullWidth
             disabled
           />
@@ -166,7 +235,7 @@ const MakePayment = (props: makePaymentProps) => {
           <p className="text-2xl font-medium text-end my-2">
             <span className="mr-3">Total price:</span>
             <span className="text-blue-500">
-              ${(tour.price * quantity as number).toFixed(2)}
+              ${((tour.price * quantity) as number).toFixed(2)}
             </span>
           </p>
         </div>
@@ -182,20 +251,7 @@ const MakePayment = (props: makePaymentProps) => {
           <Button
             variant="contained"
             sx={{ width: "48.5%" }}
-            onClick={() =>
-              purchaseTour({
-                cardNumberRef,
-                cvvCodeRef,
-                countryRef,
-                postalCodeRef,
-                paymentMethod,
-                userData,
-                tourData,
-                quantity,
-                setPaymentStep,
-                setErrorMess,
-              })
-            }
+            onClick={purchaseTour}
           >
             Purchase
           </Button>

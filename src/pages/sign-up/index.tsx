@@ -2,17 +2,23 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Meta from "@/components/Layout/meta";
+import axios from "axios";
 import { TextField, Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { emailRegex, nameRegex, passwordRegex } from "@/utils/data";
-import { signUp } from "@/utils/function";
+import { useToast } from "@/components/Toast";
+import { UserDef } from "@/utils/types";
 
 const SignUp = (): JSX.Element => {
-  const [nameMes, setNameMes] = useState<String>("");
-  const [emailMes, setEmailMes] = useState<String>("");
-  const [passMes, setPassMes] = useState<String>("");
-  const [confirmPassMes, setConfirmPassMes] = useState<String>("");
+
+  const [errorMess, setErrorMess] = useState({
+    nameMess: '',
+    emailMess: '',
+    passMess: '',
+    confirmPassMess: '',
+  })
+
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
@@ -20,24 +26,48 @@ const SignUp = (): JSX.Element => {
 
   const router = useRouter();
 
+  const toast = useToast()
+
+  const signUp = (props: UserDef) => {
+    const { fullName, email, password } = props;
+    axios
+      .post("/api/signUp", {
+        fullName,
+        email,
+        password,
+      })
+      .then((res) => {
+        if (res.data.code === 0) {
+          toast.success("Register successful!");
+          signIn();
+        } else {
+          toast.error("Register fail!");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const returnHome = () => {
     router.push("/");
   };
 
   const resetErrMes = () => {
-    if (nameMes !== "") {
-      setNameMes("");
-    }
-    if (emailMes !== "") {
-      setEmailMes("");
-    }
-    if (passMes !== "") {
-      setPassMes("");
-    }
-    if (confirmPassMes !== "") {
-      setConfirmPassMes("");
-    }
+    setErrorMess({
+      nameMess: '',
+      emailMess: '',
+      passMess: '',
+      confirmPassMess: '',
+    })
   };
+
+  const handleErrMess = (field: string, content: string) => {
+    setErrorMess(prev => ({
+      ...prev,
+      [field]: content,
+    }))
+  }
 
   const validate = () => {
     const fullName = nameRef.current?.value.trim() as string;
@@ -48,31 +78,31 @@ const SignUp = (): JSX.Element => {
     resetErrMes();
     if (fullName === "") {
       flag = false;
-      setNameMes("Please enter your name");
-    } else if (!nameRegex.test(fullName as string)) {
+      handleErrMess('nameMess', "Please enter your name")
+    } else if (fullName.length > 32) {
       flag = false;
-      setNameMes("Invalid name");
+      handleErrMess('nameMess', "Invalid name")
     }
     if (email === "") {
       flag = false;
-      setEmailMes("Please enter your email");
+      handleErrMess('emailMess', "Please enter your email")
     } else if (!emailRegex.test(email as string)) {
       flag = false;
-      setEmailMes("Invalid email");
+      handleErrMess('emailMess', "Invalid email")
     }
     if (password === "") {
       flag = false;
-      setPassMes("Please enter your password");
+      handleErrMess('passMess', "Please enter your password")
     } else if (!passwordRegex.test(password as string)) {
       flag = false;
-      setPassMes("Minimum eight characters, at least 1 letter and 1 number");
+      handleErrMess('passMess', "Minimum eight characters, at least 1 letter and 1 number")
     }
     if (confirmPass === "") {
       flag = false;
-      setConfirmPassMes("Please enter confirm password");
+      handleErrMess('confirmPassMess', "Please enter confirm password")
     } else if (confirmPass !== password) {
       flag = false;
-      setConfirmPassMes("Wrong confirm password");
+      handleErrMess('confirmPassMess', "Wrong confirm password")
     }
     if (flag) {
       signUp({fullName, email, password})
@@ -112,8 +142,8 @@ const SignUp = (): JSX.Element => {
             type="text"
             inputRef={nameRef}
             required
-            error={nameMes !== ""}
-            helperText={nameMes}
+            error={errorMess.nameMess !== ""}
+            helperText={errorMess.nameMess}
           />
           <TextField
             sx={{ margin: "8px 0" }}
@@ -125,8 +155,8 @@ const SignUp = (): JSX.Element => {
             type="email"
             inputRef={emailRef}
             required
-            error={emailMes !== ""}
-            helperText={emailMes}
+            error={errorMess.emailMess !== ""}
+            helperText={errorMess.emailMess}
           />
           <TextField
             sx={{ margin: "8px 0" }}
@@ -137,8 +167,8 @@ const SignUp = (): JSX.Element => {
             type="password"
             inputRef={passRef}
             required
-            error={passMes !== ""}
-            helperText={passMes}
+            error={errorMess.passMess !== ""}
+            helperText={errorMess.passMess}
           />
           <TextField
             sx={{ margin: "8px 0" }}
@@ -148,8 +178,8 @@ const SignUp = (): JSX.Element => {
             type="password"
             inputRef={confirmPassRef}
             required
-            error={confirmPassMes !== ""}
-            helperText={confirmPassMes}
+            error={errorMess.confirmPassMess !== ""}
+            helperText={errorMess.confirmPassMess}
           />
           <Button
             fullWidth

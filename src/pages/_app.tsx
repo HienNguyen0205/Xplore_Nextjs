@@ -7,7 +7,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import '@/styles/Global.scss'
-import 'react-toastify/dist/ReactToastify.css';
 import "dayjs/locale/en-gb";
 
 const client = new QueryClient()

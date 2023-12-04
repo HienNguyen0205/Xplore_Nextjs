@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify'
+import { useToast } from '@/components/Toast'
 import { TextField, TextareaAutosize, Button } from '@mui/material';
 
 const FeedbackMessage = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+
+  const toast = useToast()
 
   const resetFeedbackField = () => {
     if (nameRef.current && emailRef.current && contentRef.current) {

@@ -25,7 +25,7 @@ export const setWishlist = async (id: string) => {
     .then(res => res.data)
 }
 
-export const changeAvatar = async (body: any) => {
-    return axios.post('/api/user/change-avatar', body)
+export const changeAvatar = async (path: string) => {
+    return axios.post('/api/user/change-avatar', {avatar: path})
     .then(res => res.data)
 }
