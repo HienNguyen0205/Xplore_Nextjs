@@ -300,9 +300,9 @@ export interface toastData {
 }
 
 export interface toastContextProps {
-  success: (content: string) => void,
-  error: (content: string) => void,
-  info: (content: string) => void,
+  success: (content: string, config?: toastConfig) => void,
+  error: (content: string, config?: toastConfig) => void,
+  info: (content: string, config?: toastConfig) => void,
   handleClose: (key: string) => void
 }
 

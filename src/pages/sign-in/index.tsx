@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,10 +55,10 @@ const SignIn = () => {
         })
           .then((res) => {
             if (res?.ok) {
-              toast.success("Log in successful!", { delay: 2000 });
+              toast.success("Log in successful!", { delay: 1000 });
               router.push("/");
             } else {
-              toast.error("Log in failed!", { delay: 2000 });
+              toast.error("Log in failed!", { delay: 1000 });
             }
           })
           .catch((err) => {
@@ -161,7 +160,7 @@ const SignIn = () => {
             </Button>
           </div>
           <p className="mt-3 text-right">
-            Don't have an account?
+            Don&apos;t have an account?
             <Link
               className="ml-1 text-sky-500 hover:text-sky-800"
               href="/sign-up"

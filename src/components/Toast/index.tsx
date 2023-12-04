@@ -2,7 +2,6 @@ import React, {
   useState,
   useEffect,
   useContext,
-  useRef,
   useCallback,
   createContext,
 } from "react";
@@ -32,31 +31,25 @@ const ToastItem = (props: toastItemProps) => {
     setTimeout(() => {
       handleClose();
     }, duration);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration]);
 
   useEffect(() => {
-    if(config?.delay){
-      setTimeout(() => {
-        handleTimeOut()
-      }, config.delay)
-    }else{
-      handleTimeOut()
-    }
+    handleTimeOut();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration]);
 
   const timeBarAni = useSpring({
     from: {
-      width: '0%',
+      width: "0%",
     },
     to: {
-      width: '100%',
+      width: "100%",
     },
     config: {
       duration: duration,
-    }
-  })
+    },
+  });
 
   return (
     <div className="relative w-full my-2 bg-current rounded overflow-hidden">
@@ -108,59 +101,59 @@ const ToastProvider: React.FC<toastCOMProps> = ({ children, ...props }) => {
     },
   });
 
+  const delay = (fn: any, duration: number) => {
+    setTimeout(fn, duration);
+  };
+
+  const setToast = (
+    content: string,
+    status: "success" | "error" | "info",
+    config?: toastConfig
+  ) => {
+    const key = generateRandomCode(5);
+    setData((prev) => {
+      if (prev.length < limit) {
+        return [...prev, { key, content, status, config }];
+      } else {
+        const temp = [...prev];
+        temp.shift();
+        return [...temp, { key, content, status, config }];
+      }
+    });
+  };
+
   const success = useCallback(
     (content: string, config?: toastConfig) => {
       const status = "success";
-      const key = generateRandomCode(5);
-      setData((prev) => {
-        if (prev.length < limit) {
-          return [...prev, { key, content, status, config }];
-        } else {
-          const temp = [...prev];
-          temp.shift();
-          return [...temp, { key, content, status, config }];
-        }
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      if (config?.delay) {
+        delay(() => setToast(content, status, config), config.delay);
+      } else {
+        setToast(content, status, config);
+      }
     },
-    [limit]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
-  const error = useCallback(
-    (content: string, config?: toastConfig) => {
-      const status = "error";
-      const key = generateRandomCode(5);
-      setData((prev) => {
-        if (prev.length < limit) {
-          return [...prev, { key, content, status, config }];
-        } else {
-          const temp = [...prev];
-          temp.shift();
-          return [...temp, { key, content, status, config }];
-        }
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [limit]
-  );
+  const error = useCallback((content: string, config?: toastConfig) => {
+    const status = "error";
+    if (config?.delay) {
+      delay(() => setToast(content, status, config), config.delay);
+    } else {
+      setToast(content, status, config);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const info = useCallback(
-    (content: string, config?: toastConfig) => {
-      const status = "info";
-      const key = generateRandomCode(5);
-      setData((prev) => {
-        if (prev.length < limit) {
-          return [...prev, { key, content, status, config }];
-        } else {
-          const temp = [...prev];
-          temp.shift();
-          return [...temp, { key, content, status, config }];
-        }
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [limit]
-  );
+  const info = useCallback((content: string, config?: toastConfig) => {
+    const status = "info";
+    if (config?.delay) {
+      delay(() => setToast(content, status, config), config.delay);
+    } else {
+      setToast(content, status, config);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClose = useCallback((key: string) => {
     setData((prev) => {
