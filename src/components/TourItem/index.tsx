@@ -26,12 +26,14 @@ const TourItem = ({ data, isInWishlist, changeWishlist }: tourItemProps) => {
 
   const handleClick = () => {
     if(checkAuthen()){
-      router.push(`/tour-detail/${data._id}`);
+      router.push(`/tour-detail/64c675ea7016c12127968f68`);
+      // router.push(`/tour-detail/${data._id}`);
     }
   };
 
   const handleMouseEnter = () => {
-      router.prefetch(`/tour-detail/${data._id}`)
+    router.prefetch(`/tour-detail/64c675ea7016c12127968f68`)
+    // router.prefetch(`/tour-detail/${data._id}`)
   }
 
   const handleChangeWishlist = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
