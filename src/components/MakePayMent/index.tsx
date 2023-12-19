@@ -27,7 +27,7 @@ const MakePayment = (props: makePaymentProps) => {
 
   const toast = useToast();
 
-  const [paymentMethod, setPaymentMethod] = useState<string>("Visa");
+  const [paymentMethod, setPaymentMethod] = useState<string>("visa");
   const [expireDate, setExpireDate] = useState<Dayjs | null>(dayjs());
   const [errorMess, setErrorMess] = useState<purchaseMessDef>({
     cardNumber: "",
@@ -120,7 +120,7 @@ const MakePayment = (props: makePaymentProps) => {
                 ? { borderColor: "rgb(59 130 246)" }
                 : { borderColor: "rgb(107 114 128)" }
             }
-            onClick={() => setPaymentMethod("Visa")}
+            onClick={() => setPaymentMethod("visa")}
           >
             <Image
               src={require("@/assets/images/Icon/visa.svg")}
@@ -129,7 +129,7 @@ const MakePayment = (props: makePaymentProps) => {
               width={40}
               priority
             />
-            <p className="text-center">Visa card</p>
+            <p className="text-center select-none">Visa card</p>
           </div>
           <div
             className="min-w-[120px] flex flex-col items-center border-2 rounded-lg py-1 px-2 mx-3 cursor-pointer"
@@ -138,7 +138,7 @@ const MakePayment = (props: makePaymentProps) => {
                 ? { borderColor: "rgb(59 130 246)" }
                 : { borderColor: "rgb(107 114 128)" }
             }
-            onClick={() => setPaymentMethod("Paypal")}
+            onClick={() => setPaymentMethod("paypal")}
           >
             <Image
               src={require("@/assets/images/Icon/paypal.svg")}
@@ -147,7 +147,7 @@ const MakePayment = (props: makePaymentProps) => {
               width={40}
               priority
             />
-            <p className="text-center">Paypal</p>
+            <p className="text-center select-none">Paypal</p>
           </div>
         </div>
         <div className="grid grid-cols-2 grid-rows-3 gap-2 mt-4 items-end">

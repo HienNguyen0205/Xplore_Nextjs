@@ -194,12 +194,15 @@ export interface makePaymentProps extends tourPurchaseProps {
 }
 
 export interface buttonProps {
-  content: string;
-  bgColor: string;
-  textColor?: string;
+  children: ReactNode;
+  color?: "primary" | "secondary" | "error" | "warning" | "info" | "success" | "inherit";
   link?: string;
-  style?: object;
-  onClick?: () => void;
+  sx?: object;
+  disable?: boolean,
+  size?: 'small' | 'medium' | 'large',
+  fullWidth?: boolean,
+  onClick?: () => void,
+  variant?: 'contained' | 'text' | 'outlined',
 }
 
 export interface history {

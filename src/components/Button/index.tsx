@@ -1,29 +1,42 @@
-import React from "react"
-import Link from "next/link"
+import React from "react";
 import styles from '@/styles/Button.module.scss'
-import { buttonProps } from "@/utils/types"
+import { Button } from '@mui/material'
+import { buttonProps } from "@/utils/types";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from "next/router";
 
-const Button = ({content, bgColor, textColor = 'white', link, onClick, style}: buttonProps) => {
-
-    const btnStyle = {color: textColor, backgroundColor: bgColor}
-
-    if(link){
-        return (
-            <button className='relative w-full h-[46px] min-w-fit m-4' style={style}>
-                <Link className={styles.custom_btn} href={link} style={btnStyle}>
-                    {content}
-                </Link>
-            </button>
-        )
-    }else{
-        return (
-            <button className='relative w-full h-[46px] min-w-fit m-4' style={style} onClick={onClick}>
-                <div className={styles.custom_btn} style={btnStyle}>
-                    {content}
-                </div>
-            </button>
-        )
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#2979ff',
+            light: '#448aff',
+            dark: '#2962ff',
+            contrastText: '#fff'
+        },
+        secondary: {
+            main: '#1de9b6',
+            light: '#64ffda',
+            dark: '#00bfa5',
+            contrastText: '#fff'
+        },
     }
+})
+
+const ButtonCOM = (props: buttonProps) => {
+
+    const { children, link, onClick, sx, variant = 'contained', color = 'primary' } = props
+
+    const router = useRouter()
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Button sx={{ position: 'relative', ...sx }} onClick={link ? () => router.push(link) : onClick} variant={variant} color={color}>
+                <div className={styles.custom_btn}>
+                    {children}
+                </div>
+            </Button>
+        </ThemeProvider>
+    )
 }
 
-export default Button
+export default ButtonCOM

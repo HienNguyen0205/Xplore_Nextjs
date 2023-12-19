@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/styles/Header.module.scss";
@@ -10,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAvatar } from "@/utils/query";
 import { dropdownAvatarData } from "@/utils/data";
 import { avatarDropdownItemProps } from "@/utils/types";
+import { Button } from '@/components'
 
 const AvatarDropdownItem = (props: avatarDropdownItemProps) => {
   const { changePath, handlePrefetch } = props;
@@ -120,17 +120,9 @@ const Header = (): JSX.Element => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-1 basis-1/5">
-            <Button
-              content="Sign In"
-              bgColor="#5a66ff"
-              onClick={() => signIn()}
-            />
-            <Button
-              content="Sign Up"
-              bgColor="#008000"
-              onClick={() => router.push("/sign-up")}
-            />
+          <div className="flex justify-around flex-1 basis-1/5 h-[56px]">
+            <Button variant="contained" sx={{ borderRadius: '1rem', flex: '1', margin: '0 4px'}} onClick={() => signIn()}>Sign In</Button>
+            <Button color="secondary" variant="contained" sx={{ borderRadius: '1rem', flex: '1', margin: '0 4px'}} onClick={() => router.push("/sign-up")}>Sign Up</Button>
           </div>
         )}
       </div>

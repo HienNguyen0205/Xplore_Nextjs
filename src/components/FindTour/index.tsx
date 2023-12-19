@@ -5,7 +5,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useRouter } from "next/router";
 import { findTourProps } from "@/utils/types";
 import { useToast } from "@/components/Toast";
-import { Button } from "@/components";
+import { Button } from '@/components'
 
 const desOptions = [
   "Australia",
@@ -86,15 +86,7 @@ const FindTour = ({ bg, defaultValue }: findTourProps): JSX.Element => {
         }}
         disablePast
       />
-      <div className="flex-1 mx-4">
-        <Button
-          style={{ width: '80%', aspectRatio: '7/2' }}
-          content="Search"
-          bgColor="#1a1aff"
-          textColor="white"
-          onClick={handleClick}
-        />
-      </div>
+      <Button variant="contained" sx={{ flex: 1, mx: 2, height: '56px', borderRadius: '1rem' }} onClick={handleClick}>Search</Button>
     </div>
   );
 };
