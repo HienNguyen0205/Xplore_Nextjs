@@ -16,6 +16,8 @@ const Home = (props: {
 }) => {
   const { tourList, tourStatistic } = props;
 
+  console.log(tourList)
+
   return (
     <div className="bg-slate-200">
       <Carousel content={courouselData} />
@@ -57,7 +59,7 @@ export default Home;
 export const getStaticProps = async () => {
   try {
     await db();
-    let tourData = await tourSchedule.find().sort('-rating').limit(8)
+    let tourData = await tourSchedule.find().populate('rating').limit(8)
     const tourStatisticData = await tourStatistic.findOne();
     return {
       props: {

@@ -39,5 +39,5 @@ export {
   HistoryDetail,
   OTPInput,
   ResetPass,
-  ToastProvider
+  ToastProvider,
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import dayjs from "dayjs";
-import { animated, config, useSpring } from "@react-spring/web";
+import { animated, useSpring } from "@react-spring/web";
 import { historyDetailProps } from "@/utils/types";
 import { TextField } from "@mui/material";
 
@@ -11,14 +11,16 @@ const HistoryDetail = (props: historyDetailProps) => {
   const modelStyle = useSpring({
     from: {
       opacity: 0,
+      transform: 'translateY(18px)',
     },
     to: {
       opacity: 1,
+      transform: 'translateY(0)',
     },
-    config: config.molasses,
+    config: {
+      duration: 300
+    },
   });
-
-  const TextFieldAnimate = animated(TextField);
 
   return (
     <animated.div
@@ -39,8 +41,7 @@ const HistoryDetail = (props: historyDetailProps) => {
         History Detail
       </h1>
       <div className="grid grid-cols-2 grid-rows-3 gap-2">
-        <TextFieldAnimate
-          style={modelStyle}
+        <TextField
           sx={{
             gridArea: "1 / 1 / 2 / 3",
             ".Mui-disabled": {
@@ -52,8 +53,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           value={history?.tour.destination + ' | ' + history?.tour.route}
           disabled
         />
-        <TextFieldAnimate
-          style={modelStyle}
+        <TextField
           sx={{
             gridArea: "2 / 1 / 3 / 2",
             ".Mui-disabled": {
@@ -65,8 +65,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           value={dayjs(history?.schedule.date.from).format("DD/MM/YYYY")}
           disabled
         />
-        <TextFieldAnimate
-          style={modelStyle}
+        <TextField
           sx={{
             gridArea: "2 / 2 / 3 / 3",
             ".Mui-disabled": {
@@ -78,8 +77,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           value={dayjs(history?.schedule.date.to).format("DD/MM/YYYY")}
           disabled
         />
-        <TextFieldAnimate
-          style={modelStyle}
+        <TextField
           sx={{
             gridArea: "3 / 1 / 4 / 2",
             ".Mui-disabled": {
@@ -91,8 +89,7 @@ const HistoryDetail = (props: historyDetailProps) => {
           value={history?.quantity}
           disabled
         />
-        <TextFieldAnimate
-          style={modelStyle}
+        <TextField
           sx={{
             gridArea: "3 / 2 / 4 / 3",
             ".Mui-disabled": {

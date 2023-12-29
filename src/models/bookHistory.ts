@@ -15,6 +15,10 @@ const bookHistorySchema = new Schema({
     status: String,
     paymentMethod: String,
     total: Number,
+    isReview: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const bookHistory = models.bookhistories || model('bookhistories', bookHistorySchema);

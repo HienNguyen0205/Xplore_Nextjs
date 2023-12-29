@@ -3,17 +3,26 @@ import Meta from "@/components/Layout/meta";
 import db from "@/utils/database";
 import mongoose from "mongoose";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Tab } from "@mui/material";
 import { CldImage } from "next-cloudinary";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { tourSchedule } from "@/models";
-import { tourDetailProps } from "@/utils/types";
+import { tourDetailProps, reviewDef } from "@/utils/types";
 import { TourOptions } from "@/components";
+const Review = dynamic(() => import("@/components/Review"));
 
-const ratingTag = (rating: number): string => {
-  if (rating >= 4) return "Excellent";
-  else if (rating >= 3) return "Great";
-  else return "Good";
+const calcRating = (rating: reviewDef[]) => {
+  if(rating.length === 0) return { rating: '5.0', tag: "Excellent" }
+  const score = rating.reduce((prev, curr) => prev + curr.rating, 0);
+  const overall = Number((score / rating.length).toFixed(1));
+  let tag = "";
+  if (overall >= 4) tag = "Excellent";
+  else if (overall >= 3) tag = "Good";
+  else if (overall >= 2) tag = "Average";
+  else if (overall >= 1) tag = "Fair";
+  else tag = "Poor";
+  return { rating: overall.toFixed(1), tag };
 };
 
 const TourDetail = (props: tourDetailProps) => {
@@ -33,9 +42,18 @@ const TourDetail = (props: tourDetailProps) => {
         }}
       />
       <div className="container relative mt-[92px]">
-        <h1 className="text-4xl font-medium my-6">
+        <h1 className="text-4xl font-medium mt-6 mb-3">
           Singapore - Merlion Park | Fort Canning
         </h1>
+        <div className="flex justify-start items-center my-4">
+          <div className="rounded py-1 px-2 bg-emerald-500 text-white">
+            {calcRating(tourData.rating).rating}
+          </div>
+          <p className="mx-3 text-xl font-medium">
+            &#183; {calcRating(tourData.rating).tag} &#183;
+          </p>
+          <p className="text-md">{tourData.rating.length} reviews</p>
+        </div>
         <div className="grid grid-cols-3 grid-rows-1 gap-x-8">
           <div style={{ gridArea: "1 / 1 / 2 / 3" }}>
             <CldImage
@@ -85,21 +103,6 @@ const TourDetail = (props: tourDetailProps) => {
                     width={24}
                   />
                 </div>
-              </div>
-              <div className="flex items-center">
-                <div className="flex items-center py-[2px] px-2 rounded-md bg-emerald-500 text-white w-fit me-1">
-                  <p>{tourData.rating}</p>
-                  <Image
-                    className="ml-1"
-                    src={require("@/assets/images/Icon/star.svg")}
-                    alt="star"
-                    height={24}
-                    width={24}
-                  />
-                </div>
-                <span className="text-emerald-500">
-                  {ratingTag(tourData.rating)}
-                </span>
               </div>
             </div>
             <div className="my-8">
@@ -348,7 +351,7 @@ const TourDetail = (props: tourDetailProps) => {
               </p>
             </div>
             <div className="my-8">
-            <h1 className="text-2xl font-medium flex items-center">
+              <h1 className="text-2xl font-medium flex items-center">
                 <Image
                   className="mr-2"
                   src={require("@/assets/images/Icon/cash.svg")}
@@ -360,7 +363,7 @@ const TourDetail = (props: tourDetailProps) => {
               </h1>
               <hr className="border-black mt-3 mb-2" />
               <TabContext value={tabIndex}>
-                <div style={{ borderBottom: '1px' }}>
+                <div style={{ borderBottom: "1px" }}>
                   <TabList
                     onChange={handleChange}
                     aria-label="lab API tabs example"
@@ -489,6 +492,7 @@ const TourDetail = (props: tourDetailProps) => {
                 </TabPanel>
               </TabContext>
             </div>
+            <Review review={tourData.rating} />
           </div>
           <div style={{ gridArea: "1 / 3 / 2 / 4" }}>
             <TourOptions routeData={tourData} />
@@ -502,27 +506,37 @@ const TourDetail = (props: tourDetailProps) => {
 export default TourDetail;
 
 export const getServerSideProps = async () => {
-
   const ObjectId = mongoose.Types.ObjectId;
 
   try {
     await db();
-    const tourData = await tourSchedule.findOne(
-      {
-        _id: new ObjectId("64c675ea7016c12127968f68"),
-      },
-      '-wishlist'
-    ).populate({
-      path: 'schedule',
-      select: 'date',
-      match: {
-        status: true,
-      },
-      options: {
-        limit: 4,
-        sort: 'date.from'
-      }
-    })
+    const tourData = await tourSchedule
+      .findOne(
+        {
+          _id: new ObjectId("64c675ea7016c12127968f68"),
+        },
+        "-wishlist"
+      )
+      .populate([
+        {
+          path: "schedule",
+          select: "date",
+          match: {
+            status: true,
+          },
+          options: {
+            limit: 4,
+            sort: "date.from",
+          },
+        },
+        {
+          path: "rating",
+          populate: {
+            path: "user",
+            select: "avatar fullName",
+          },
+        },
+      ]);
     return {
       props: {
         tourData: JSON.parse(JSON.stringify(tourData)),

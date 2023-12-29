@@ -28,6 +28,8 @@ const TourList = ({
 
   const toast = useToast()
 
+  console.log(tour)
+
   const { data } = useQuery({
     queryKey: ['wishlist'],
     queryFn: () => getWishlist(false),

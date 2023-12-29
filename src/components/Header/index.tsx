@@ -120,7 +120,7 @@ const Header = (): JSX.Element => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-around flex-1 basis-1/5 h-[56px]">
+          <div className="flex justify-around flex-1 basis-1/5 h-[48px]">
             <Button variant="contained" sx={{ borderRadius: '1rem', flex: '1', margin: '0 4px'}} onClick={() => signIn()}>Sign In</Button>
             <Button color="secondary" variant="contained" sx={{ borderRadius: '1rem', flex: '1', margin: '0 4px'}} onClick={() => router.push("/sign-up")}>Sign Up</Button>
           </div>

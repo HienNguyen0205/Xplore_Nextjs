@@ -18,7 +18,7 @@ export interface tourDef {
   price: number;
   destination: string;
   time: number;
-  rating: number;
+  rating: reviewDef[];
   route: string;
   departure: string;
   region: string;
@@ -63,6 +63,7 @@ export interface UserDef {
   day?: string;
   month?: string;
   year?: string;
+  ratingRef?: string[],
 }
 
 export interface tourDate {
@@ -132,12 +133,13 @@ export interface infoCardProps {
 export interface tourDetailDef {
   _id: string;
   price: number;
-  rating: number;
+  rating: Array<reviewDef>;
   departure: string;
   route: string;
   destination: string;
   wishlist: Array<string> | null;
   schedule: Array<tourScheduleDef>;
+
 }
 
 export interface tourScheduleDef {
@@ -214,6 +216,7 @@ export interface history {
   total: number;
   schedule: tourScheduleDef;
   tour: tourDetailDef;
+  isReview: boolean,
 }
 
 export interface historyProps {
@@ -309,6 +312,31 @@ export interface toastContextProps {
   handleClose: (key: string) => void
 }
 
+export interface reviewDef {
+  _id: string,
+  rating: number,
+  comment: string,
+  user: UserDef,
+  tour: string,
+  createdAt: string,
+}
+
 export interface toastConfig {
   delay: number
+}
+
+export interface makeReviewProps {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  tourId: string,
+}
+
+export interface reviewItemProps {
+  user: UserDef,
+  rating: number,
+  comment: string,
+  time: string,
+}
+
+export interface reviewProps {
+  review: Array<reviewDef>,
 }

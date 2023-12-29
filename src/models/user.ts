@@ -9,6 +9,10 @@ const userSchema = new Schema({
     day: { default: '', type: String},
     month: { default: '', type: String},
     year: { default: '', type: String},
+    ratingRef: [{
+        type: Schema.Types.ObjectId,
+        ref: 'tourratings',
+    }]
 })
 
 const user = models.users || model('users', userSchema)

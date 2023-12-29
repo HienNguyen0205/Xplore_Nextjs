@@ -5,14 +5,9 @@ export const tourScheduleSchema = new Schema({
   destination: String,
   departure: String,
   price: { type: Number, min: 0 },
-  rating: { type: Number, min: 0, max: 5 },
   time: Number,
   routeName: String,
   image: String,
-  // comment: [{
-  //   rating: { type: Number, min: 0, max: 5 },
-  //   content: String,
-  // }],
   schedule: [
     {
       type: Schema.Types.ObjectId,
@@ -25,6 +20,12 @@ export const tourScheduleSchema = new Schema({
       ref: "wishlists",
     },
   ],
+  rating: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'tourratings'
+    }
+  ]
 });
 
 const tourSchedule =
