@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/TourList.module.scss";
 import { Pagination, Button } from "@mui/material";
-import { tourDef, tourListProps } from "@/utils/types";
+import { tourDef, tourListProps, reviewDef } from "@/utils/types";
 import { TourItem } from '@/components'
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getWishlist, setWishlist } from "@/utils/query";
 import { useToast } from '@/components/Toast'
+
+const calcRating = (rating: reviewDef[]) => {
+  if(rating.length === 0) return { rating: '5.0', tag: "Excellent" }
+  const score = rating.reduce((prev, curr) => prev + curr.rating, 0);
+  const overall = Number((score / rating.length).toFixed(1));
+  let tag = "";
+  if (overall >= 4) tag = "Excellent";
+  else if (overall >= 3) tag = "Good";
+  else if (overall >= 2) tag = "Average";
+  else if (overall >= 1) tag = "Fair";
+  else tag = "Poor";
+  return { rating: overall.toFixed(1), tag };
+};
 
 const TourList = ({
   tour,
@@ -55,7 +68,7 @@ const TourList = ({
     } else if (sortType === "price") {
       setTourData((data) => data.sort((a, b) => a.price - b.price));
     } else if (sortType === "rating") {
-      setTourData((data) => data.sort((a, b) => a.rating - b.rating));
+      setTourData((data) => data.sort((a, b) => Number(calcRating(a.rating).rating) - Number(calcRating(b.rating).rating)));
     }
   }, [sortType, tourData]);
 
