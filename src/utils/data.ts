@@ -251,7 +251,7 @@ export const defaultMetaProps = {
 
 export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-export const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
 
 export const nameRegex = /^[a-zA-Z]{4,30}(?: [a-zA-Z]+){0,5}$/;
 
